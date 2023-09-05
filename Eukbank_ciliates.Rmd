@@ -1,0 +1,53 @@
+---
+title: "Eukbank_ciliates"
+output: html_document
+date: "2023-05-25"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Load Libraries
+
+library(tidyverse)
+
+```
+
+## Eukbank ciliate OTU Table
+
+Wide to long
+
+```{r}
+# Read in asv table
+asv_wide <- read.table("eukbank_18SV4_asv.subset.nozeros.table",
+                       header = TRUE, 
+                       sep = "\t")
+
+# Get names of first and last column
+colnames(asv_wide %>% select(2, 14735))
+
+# Convert to long table
+asv_long <- gather(asv_wide, sample, abundance, X1:VA133_RNA, factor_key=TRUE)
+```
+
+Read in the metadata file
+Merge metadata (subset) with long file
+X1 eg is not in metadata file. Therefore we set all.x = FALSE, since this means that if there is no match the columns won't be added. 
+
+```{r}
+#Read in metadata file
+metadata <- read.table("eukbank_18SV4_asv.subset.metadata", 
+                       header=TRUE, 
+                       sep= "\t")
+
+# Merge the dataframes based on the sample column
+asv_long_metadata <- merge(asv_long, metadata, by = "sample", all.x = FALSE)
+
+# The asv_long_metadata will contain the metadata columns added to the asv_long dataframe
+
+```
+
+
+
