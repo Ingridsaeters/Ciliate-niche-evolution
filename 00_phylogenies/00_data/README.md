@@ -236,7 +236,7 @@ grep -f outgroup.LongRead.list long_read.28S.otus.fasta | tr -d ">" > outgroup.L
 ```
 ```
 seqkit grep -f outgroup.LongRead28S.list long_read.28S.otus.fasta > outgroup.long_read.28S.fasta
-
+```
 ```
 grep -f outgroup.LongRead.list long_read.18S.otus.fasta | tr -d ">" > outgroup.LongRead18S.list
 ```
