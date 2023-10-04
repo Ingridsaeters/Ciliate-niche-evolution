@@ -31,17 +31,17 @@ Running the script replace_fasta_header.pl created a new fasta file eukbank_cili
 
 We removed sequences that had only NA in their taxonomy string, and saved this to a file called eukbank_ciliate_clean.fasta.
 
-### Extracting the metadata we want
+### Extracting metadata
 
 We wanted to extract the following metadata:
--sample
--latitude
--longitude
--depth
--altitude
--biome
--material
--collection date
+-sample\
+-latitude\
+-longitude\
+-depth\
+-altitude\
+-biome\
+-material\
+-collection date\
 
 We extracted the columns with this information with the following command:
 
@@ -79,21 +79,21 @@ We ran the subset.R script which removes columns with only 0's.
 
 The number of columns after removing 0's was 14735.
 
-### Making an asv table for ciliates with subset of metadata
+### Making an ASV table for ciliates with subset of metadata
 
 The ASV table we have extracted (eukbank_18SV4_asv.subset.table) is in wide format, we want it to be in long format, and also to include the metadata we have extracted. To do so, we ran the Rscript long_asv_metadata.R. 
 
 This made a table (asv_long_metadata) with the following column headers:
--sample
--amplicon
--abundance
--latitude
--longitude
--depth
--altitude
--biome
--material
--collection_date
+-sample\
+-amplicon\
+-abundance\
+-latitude\
+-longitude\
+-depth\
+-altitude\
+-biome\
+-material\
+-collection_date\
 
 We removed the " symbol from the file:
 
@@ -101,11 +101,11 @@ We removed the " symbol from the file:
 cat asv_long_metadata | tr -d '"' > asv_long_metadata
 ```
 
-The script also gave the number of rows for each file:
-asv_wide: 18816
-asv_long: 1016195
-metadata: 13055
-asv_long_metadata: 773967
+The script also gave the number of rows for each file:\
+asv_wide: 18816\
+asv_long: 1016195\
+metadata: 13055\
+asv_long_metadata: 773967\
 
 ### Extracting soil ciliate ASVs
 
@@ -213,8 +213,9 @@ My outgroup will include Dinoflagellates, Apicomplexa, Colpodellidea and Colpone
 I made a list with all EukRibo sequences for my outgroup called outgroup.EukRibo.list. Then I extracted the corresponding fasta sequences using the following commands:
 
 ```
-grep -f outgroup.EukRibo.list 46346_EukRibo-02_full_seqs_2022-07-22.nospace.fas | tr -d ">" > outgroup.EukRibo
-.list1
+grep -f outgroup.EukRibo.list 46346_EukRibo-02_full_seqs_2022-07-22.nospace.fas | tr -d ">" > outgroup.EukRibo.list1
+```
+```
 seqkit grep -f outgroup.EukRibo.list1 46346_EukRibo-02_full_seqs_2022-07-22.nospace.fas > outgroup.EukRibo.fasta
 ```
 
@@ -232,9 +233,14 @@ I made a list with all PacBio sequences for my outgroup called outgroup.LongRead
 
 ```
 grep -f outgroup.LongRead.list long_read.28S.otus.fasta | tr -d ">" > outgroup.LongRead28S.list
+```
+```
 seqkit grep -f outgroup.LongRead28S.list long_read.28S.otus.fasta > outgroup.long_read.28S.fasta
 
+```
 grep -f outgroup.LongRead.list long_read.18S.otus.fasta | tr -d ">" > outgroup.LongRead18S.list
+```
+```
 seqkit grep -f outgroup.LongRead18S.list long_read.18S.otus.fasta > outgroup.long_read.18S.fasta
 ```
 
@@ -245,6 +251,8 @@ We concatinated all 18S files and all 28S files using the following commands:
 ```
 cat EukRibo_unique.formatted.fasta long_read.18S.ciliate.fasta outgroup.EukRibo.formatted.fasta outgroup.long_
 read.18S.fasta > all.18S.fasta
+```
+```
 cat long_read.28S.ciliate.fasta outgroup.28S.fasta > all.28S.fasta
 ```
 
@@ -262,10 +270,12 @@ To further reduce redundancy, the concatenated 18S sequences were clustered with
 
 ```
 conda install -c bioconda vsearch
+```
+```
 vsearch --cluster_fast all.18S.fasta --threads 4 --id 1 --uc 18S.cluster100.uc --centroids 18S.cluster100.fasta
 ```
 
-This gave the following results:
-Clusters: 2671 Size min 1, max 5, avg 1.1
-Singletons: 2552, 90.4% of seqs, 95.5% of clusters
+This gave the following results:\
+Clusters: 2671 Size min 1, max 5, avg 1.1\
+Singletons: 2552, 90.4% of seqs, 95.5% of clusters\
 
