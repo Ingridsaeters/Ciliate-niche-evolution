@@ -33,7 +33,7 @@ We removed sequences that had only NA in their taxonomy string, and saved this t
 
 ### Extracting metadata
 
-We wanted to extract the following metadata:
+We wanted to extract the following metadata:\
 -sample\
 -latitude\
 -longitude\
@@ -41,7 +41,7 @@ We wanted to extract the following metadata:
 -altitude\
 -biome\
 -material\
--collection date\
+-collection date
 
 We extracted the columns with this information with the following command:
 
@@ -83,7 +83,7 @@ The number of columns after removing 0's was 14735.
 
 The ASV table we have extracted (eukbank_18SV4_asv.subset.table) is in wide format, we want it to be in long format, and also to include the metadata we have extracted. To do so, we ran the Rscript long_asv_metadata.R. 
 
-This made a table (asv_long_metadata) with the following column headers:
+This made a table (asv_long_metadata) with the following column headers:\
 -sample\
 -amplicon\
 -abundance\
@@ -93,7 +93,7 @@ This made a table (asv_long_metadata) with the following column headers:
 -altitude\
 -biome\
 -material\
--collection_date\
+-collection_date
 
 We removed the " symbol from the file:
 
