@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#SBATCH --account=nn8118k
+#SBATCH --time=2-0:0:0
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=2
+#SBATCH --mem-per-cpu=3G
+
+
+#Settings
+conda activate bioperl
+
+iqtree -s all.18S28S.replaced.phy -z RAxML_bestTree.all100trees.constrained -te all.18S28S.constrained.70.tree.raxml.bestTree -m GTR+G -n 0 -zb 1000 -zw -au -nt 2
