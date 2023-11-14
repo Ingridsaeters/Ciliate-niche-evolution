@@ -1,13 +1,12 @@
 # Data
-
-In this folder we have the data we used in our analyses. A detailed description on how we extracted the data is given in this README file. 
-
 ## Eukbank
+
+
 ### Extracting ciliate sequences from EukBank
 
 Need to specify where the EukBank data is extracted from. 
 
-In the fasta file from EukBank we only had the amplicon-id and abundance (size) in the headers, not information about taxonomy. So to extract only the ciliate sequences, we had to first extract the ciliate headers from the taxonomy file:
+The EukBank fasta file does not contain information about taxonomy, it only has information about amplicon-id and abundance. To extract ciliate sequences we extracted the ciliate headers from the taxonomy file. 
 
 ```
 grep "Ciliophora" eukbank_18SV4_asv.taxo > Ciliate_taxo

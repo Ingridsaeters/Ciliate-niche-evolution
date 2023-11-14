@@ -1,2 +1,5 @@
-# Ignore all fasta files
+# Ignore all fasta files and all data files
 *.fasta
+*.table
+*_metadata
+*.phy
