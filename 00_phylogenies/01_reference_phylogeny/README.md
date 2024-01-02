@@ -4,7 +4,7 @@
 
 Run MAFFT-L-ins-i on the 18S and 28S sequences. The advantage of L-ins-i is that it can align a set of sequences containing sequences flanking around one alignable domain. Since L-ins-i is very computationally intensive, we ran the jobs with the sbatch scripts 18S.mafft_linsi.sbatch and 28S.mafft_linsi.sbatch, with 20 threads. 
 
-Preliminary analyses have showed that some of the 18S sequences are very long, spanning the 18S gene, and so the alignment for the 18S sequences were taking a very long time. Therefore we did the following steps for the 18S sequences:
+Preliminary analyses have showed that some of the 18S sequences are very long, spanning the 18S gene, and so the alignment for the 18S sequences was taking a very long time. Therefore we did the following steps for the 18S sequences:
 
 1. Align with mafft-auto
 
@@ -85,7 +85,7 @@ diff <(cat all.18S.aligned.trimal99.5.formatted.fasta | grep ">" | sort)  <(cat 
 wc -l differece.list
 ```
 
-This gave an output of 118 sequences with different heaeders. We foun that these 118 sequences were removed from the 18S file during the clustering step. Therefore we decided to remove them from the 28S file before concatenating. They were removed with the filter_fasta_by_list_of_headers.py python script (biopython was installed with pip install):
+This gave an output of 118 sequences with different heaeders. We found that these 118 sequences were removed from the 18S file during the clustering step. Therefore we decided to remove them from the 28S file before concatenating. They were removed with the filter_fasta_by_list_of_headers.py python script (biopython was installed with pip install):
 
 ```
 ./filter_fasta_by_list_of_headers.py all.28S.aligned.trimal99.5.formatted.fasta difference.list > 28S.filtered.fasta
@@ -108,7 +108,7 @@ all.18S28S.fasta  FASTA   DNA      2,671  15,983,264    5,984    5,984    5,984
 
 We are following the reference tree for ciliates from Rajter & Dunthorn, 2021. We therefore made the following changes to annotation: 
 - Plagiopylea should be a main group (not an undergroup of Prostomatea). 
-- Discotrichidae should not be grouped as nassophorea – This is incertae sedis within CONthreeP.
+- Discotrichidae should not be grouped as Nassophorea – This is incertae sedis within CONthreeP.
 - Cyclotrichium and Pseudotrachelocerca should not be grouped as Prostomatean - These are incertae sedis within CONthreeP.
 
 Numbers of changed sequences:
@@ -151,8 +151,8 @@ diff <(cat all.18S28S.headers.tsv3 | grep ">" | sort)  <(cat all.18S28S.headers.
 The > character was removed from the tsv file, and the replace_fasta_header.pl script was run. 
 
 We also noted the following:
-1. Odontostomatida. In the EukRibo dataset, the group is in SAL (no further group specified). But in Adl et al, we see that Odontostomatida are placed within Armophorea. In our phylogenies, the group falls within Litostomatea (we havent computed bootstrap support for it though).
-2. Kiitrichidae. In the EukRibo dataset, this group is also in an unspecified position in SAL. In Adl et al. the group is placed in Spirotrichea (which is also consistent with our phylogenies).
+1. Odontostomatida - In the EukRibo dataset, the group is in SAL (no further group specified). But in Adl et al, we see that Odontostomatida are placed within Armophorea. In our phylogenies, the group falls within Litostomatea (we havent computed bootstrap support for it though).
+2. Kiitrichidae - In the EukRibo dataset, this group is also in an unspecified position in SAL. In Adl et al. the group is placed in Spirotrichea (which is also consistent with our phylogenies).
 
 ## Making files for the constraint groups
 
