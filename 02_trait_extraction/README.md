@@ -8,9 +8,7 @@ We have extracted trait information for 977 unique soil samples.
 
 ### SoilGrids
 
-We extracted the following variables from Soilgrids, with a depth of 0-5cm. 
-
-The traits we extracted were: 
+We extracted the following variables from Soilgrids, with a depth of 0-5cm: 
 - pH
 - Nitrogen, cg/kg
 - Soil organic carbon content, dg/kg
