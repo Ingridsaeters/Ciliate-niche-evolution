@@ -4,7 +4,7 @@
 
 ## Soil
 
-We have extracted trait information for 977 unique soil samples. 
+We have extracted trait information for 977 unique soil samples.\ 
 The extracted values were combined in a complete table using the traits_soil.R script. 
 
 ### SoilGrids
@@ -26,7 +26,7 @@ We extracted the following climatic variables from CHELSA:
 - Mean monthly precipitation amount for the coldest quarter of the year, kg m-2 month-1 (Bio19)
 - Daily mean temperature for the warmest quarter of the year, °C (Bio10)
 
-We downloaded the bio1, bio10, bio12, bio15, bio16 and bio19 CHELSA data in tif format from https://chelsa-climate.org/downloads/
+We downloaded the bio1, bio10, bio12, bio15, bio16 and bio19 CHELSA data in tif format from https://chelsa-climate.org/downloads/\
 path: Downloads/climatologies/1981-2010/bio
 
 These variables were extracted using the R script chelsa.R. 
@@ -48,7 +48,7 @@ These variables were extracted using the R script topography_soil.R.
 
 ## Marine
 
-We have extracted trait information for 5493 unique marine samples. 
+We have extracted trait information for 5493 unique marine samples.\ 
 The extracted values were combined in a complete table using the traits_marine.R script. 
 
 ### World Ocean Atlas (WOA)
