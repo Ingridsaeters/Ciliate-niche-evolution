@@ -1,6 +1,6 @@
 # Inferring 100 Maximum Likelihood backbone trees
 
-## Alignments
+## Alignment
 
 Run MAFFT-L-ins-i on the 18S and 28S sequences. The advantage of L-ins-i is that it can align a set of sequences containing sequences flanking around one alignable domain. Since L-ins-i is very computationally intensive, we ran the jobs with the sbatch scripts 18S.mafft_linsi.sbatch and 28S.mafft_linsi.sbatch, with 20 threads. 
 
@@ -60,19 +60,20 @@ all.28S.aligned.trimal99.5.fasta  FASTA   DNA      1,181  4,623,615    3,915    
 ## Formatting sequences to remove the text that trimal adds.
 
 ```
-cat all.28S.aligned.trimal99.5.fasta | sed 's/ 3915 bp//' | tr '.' '-' >all.28S.aligned.trimal99.5.formatted.fasta
+cat all.28S.aligned.trimal99.5.fasta | sed 's/ 3915 bp//' | tr '.' '-' > all.28S.aligned.trimal99.5.formatted.fasta
 cat all.18S.aligned.trimal99.5.fasta | sed 's/ 2069 bp//' | tr '.' '-' > all.18S.aligned.trimal99.5.formatted.fasta
 ```
 
 ## Concatenating sequences
 
-I concatenated the sequences using the concat perl script:
+Concatenate sequences with the concat perl script:
 
 ```
 perl ./concat all.18S.aligned.trimal99.5.formatted.fasta all.28S.aligned.trimal99.5.formatted.fasta > all.18S28S.fasta
 ```
 
 To run the script, I made a conda environment called bioperl and installed the following program:
+
 ```
 conda install -c "bioconda/label/cf201901" snippy
 ```
@@ -84,9 +85,7 @@ diff <(cat all.18S.aligned.trimal99.5.formatted.fasta | grep ">" | sort)  <(cat 
 wc -l differece.list
 ```
 
-This gave an output of 118 sequences with different heaeders. These 118 sequences were removed from the 18S file during the clustering step. Therefore we decided to remove them from the 28S file before concatenating. They were removed with the filter_fasta_by_list_of_headers.py python script (biopython was installed with pip install):
-
-The sequences were removed with this command:
+This gave an output of 118 sequences with different heaeders. We foun that these 118 sequences were removed from the 18S file during the clustering step. Therefore we decided to remove them from the 28S file before concatenating. They were removed with the filter_fasta_by_list_of_headers.py python script (biopython was installed with pip install):
 
 ```
 ./filter_fasta_by_list_of_headers.py all.28S.aligned.trimal99.5.formatted.fasta difference.list > 28S.filtered.fasta
@@ -205,6 +204,14 @@ for i in $(seq 100); do echo $i; sbatch <name of sbatch script> ${i}; sleep 1; d
 
 ## Apply all statistical significance tests implemented in IQ-TREE to this set of 100 ML trees.
 
+### Information about the statistical tests performed using IQ-TREE:
+- Kishino-Hasegawa test: Uses differences in support provided by individual sites for two trees to determine if the overall differences between the trees are significantly greater than expected from random sampling error. Assumes that characters are independant and identically distributed. Should be of trees that are selected a priori.
+- Shimodaira-Hasegawa test: Similar to KH, but more statistical correct in cases where trees are not selected a priori. Can be used to test one tree against another tree that was found by searching for the best tree among a large set of candidate trees.
+- RELL: A fast approximation of bootstrapping to assess variability in likelihood ratio test statistics. Instead of resampling characters and conducting a full phylogenetic analysis, we simply resample the site-likelihoods from the original.
+- Approximately Unbiased (AU) test (Shimodaira): The SH test becomes too conservative when testing many trees. The AU test fixes this problem. Uses a multiscale bootstrap technique for hypothesis testing of regions to reduce test bias.
+- c-ELW: Expected likelihood weight.
+
+### Proceedure
 First install iqtree.
 
 Run the following command to find the tree with best likelihood value: 
@@ -213,20 +220,13 @@ Run the following command to find the tree with best likelihood value:
 grep "Final LogLikelihood: " all.18S28S.constrained.*.tree.raxml.log | awk '{print $NF}' | sort
 ```
 
-We found that tree 70 had the best log likelihood value of the 100, and therefore we used this tree for test comparison. We made a concatenated file with all the 100 trees:
+We found that tree 70 had the best log likelihood value of the 100, and therefore we used this tree for test comparison (This is used as input in the iqtree.test script). We made a concatenated file with all the 100 trees:
 
 ```
 cat all.18S28S.constrained.*.tree.raxml.bestTree > RAxML_bestTree.all100trees.constrained
 ```
 
-Then we used the iqtree.test script. 
-
-Information about the statistical tests: 
-- Kishino-Hasegawa test: Uses differences in support provided by individual sites for two trees to determine if the overall differences between the trees are significantly greater than expected from random sampling error. Assumes that characters are independant and identically distributed. Should be of trees that are selected a priori.
-- Shimodaira-Hasegawa test: Similar to KH, but more statistical correct in cases where trees are not selected a priori. Can be used to test one tree against another tree that was found by searching for the best tree among a large set of candidate trees.
-- RELL: A fast approximation of bootstrapping to assess variability in likelihood ratio test statistics. Instead of resampling characters and conducting a full phylogenetic analysis, we simply resample the site-likelihoods from the original.
-- Approximately Unbiased (AU) test (Shimodaira): The SH test becomes too conservative when testing many trees. The AU test fixes this problem. Uses a multiscale bootstrap technique for hypothesis testing of regions to reduce test bias.
-- c-ELW: Expected likelihood weight.
+To perform analyses, run the iqtree.test script. 
 
 ## Select trees
 
