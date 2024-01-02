@@ -12,8 +12,8 @@ We extracted the following variables from Soilgrids, with a depth of 0-5cm.
 
 The traits we extracted were: 
 - pH
-- Nitrogen
-- Soil organic carbon content
+- Nitrogen, cg/kg
+- Soil organic carbon content, dg/kg
 
 This information was extracted with the R script soilgrids.R. 
 
