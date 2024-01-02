@@ -27,7 +27,7 @@ We replaced the headers with the repace_fasta_header.pl script, and removed sequ
 
 ### Extracting metadata
 
-We extracted the following metadata:\
+We extracted the following metadata:
 - sample
 - latitude
 - longitude
@@ -63,7 +63,7 @@ We removed columns with only 0's with the subset.R script. Before running the sc
 
 The ASV table we have extracted (eukbank_18SV4_asv.subset.table) is in wide format, we want it to be in long format, and also to include the metadata we have extracted. To do so, we ran the Rscript long_asv_metadata.R. 
 
-This made a table (asv_long_metadata) with the following column headers:\
+This made a table (asv_long_metadata) with the following column headers:
 - sample
 - amplicon
 - abundance 
@@ -286,5 +286,5 @@ vsearch --cluster_fast all.18S.fasta --threads 4 --id 1 --uc 18S.cluster100.uc -
 
 This gave the following results:\
 Clusters: 2671 Size min 1, max 5, avg 1.1\
-Singletons: 2552, 90.4% of seqs, 95.5% of clusters\
+Singletons: 2552, 90.4% of seqs, 95.5% of clusters
 
