@@ -4,7 +4,7 @@
 
 ## Soil
 
-We have extracted trait information for 977 unique soil samples.\ 
+We have extracted trait information for 977 unique soil samples. \ 
 The extracted values were combined in a complete table using the traits_soil.R script. 
 
 ### SoilGrids
