@@ -1,21 +1,8 @@
 # Inferring 100 Maximum Likelihood backbone trees
 
-We made symlink copies to the datasets we are using:
-
-```
-ln -s ~/nn8118k/ingrid/ciliate_niche/data/18S.cluster100.fasta .
-ln -s ~/nn8118k/ingrid/ciliate_niche/data/all.28S.fasta .
-```
-
 ## Alignments
 
-Load MAFFT. 
-
-```
-module load MAFFT/7.490-GCC-11.2.0-with-extensions
-```
-
-Run MAFFT-L-ins-i on the 18S and 28S sequences. The advantage of L-ins-i is that it can align a set of sequences containing sequences flanking around one alignable domain. Since L-ins-i is very computationally intensive, we made ran the jobs with the sbatch scripts 18S.mafft_linsi.sbatch and 28S.mafft_linsi.sbatch, with 20 threads. 
+Run MAFFT-L-ins-i on the 18S and 28S sequences. The advantage of L-ins-i is that it can align a set of sequences containing sequences flanking around one alignable domain. Since L-ins-i is very computationally intensive, we ran the jobs with the sbatch scripts 18S.mafft_linsi.sbatch and 28S.mafft_linsi.sbatch, with 20 threads. 
 
 Preliminary analyses have showed that some of the 18S sequences are very long, spanning the 18S gene, and so the alignment for the 18S sequences were taking a very long time. Therefore we did the following steps for the 18S sequences:
 
@@ -27,7 +14,7 @@ mafft --thread 4 --adjustdirection --reorder --auto 18S.cluster100.fasta > all.1
 
 2. Manually trim the ends in AliView
 
- Before trimming the ends the alignment was 16757bp long. After removing bp before and after the 18S gene, the alignment was 6620bp long.
+Before trimming the ends the alignment was 16757bp long. After removing bp before and after the 18S gene, the alignment was 6620bp long.
 
  ```
 file                                    format  type  num_seqs     sum_len  min_len  avg_len  max_len
@@ -40,10 +27,10 @@ all.18S.aligned_auto.man_trimmed.fasta  FASTA   DNA      2,671  17,682,020    6,
 seqkit seq -g all.18S.aligned_auto.man_trimmed.fasta > all.18S.unaligned_auto.man_trimmed.fasta
 ```
 
-4. Align with mafft-linsi (3 days)
+4. Align with mafft-linsi 
 
 
-Using seqkit stats gave the following information:
+Statistics after alignment:
 
 ```
 file                   format  type  num_seqs     sum_len  min_len  avg_len  max_len
@@ -53,13 +40,9 @@ all.28S.aligned.fasta  FASTA   DNA      1,181  10,238,089    8,669    8,669    8
 
 ## Trimming
 
-The 18S and 28S alignemnts were trimmed using trimal following the eukref pipeline (https://pr2-database.org/eukref/pipeline_overview/).
+Download trimal version 1.2 from http://trimal.cgenomics.org/downloads.
 
-First i downloaded trimal version 1.2 from http://trimal.cgenomics.org/downloads.
-
-After making the command executable I added it to my path by going into vim ~/.bash_profile and adding /trimAl/source to the path.
-
- I ran trimal with different tresholds (99.5%, 99%, 98% and 97%) to see the differences. To be concervative we chose a trimming treshold of 99.5%.
+Trimal was run with different tresholds (99.5%, 99%, 98% and 97%) to see the differences. To be concervative we chose a trimming treshold of 99.5%.
 
 ```
 trimal -in all.28S.aligned.fasta -out all.28S.aligned.trimal99.5.fasta -gt 0.005
@@ -68,9 +51,11 @@ trimal -in all.18S.aligned.fasta -out all.18S.aligned.trimal99.5.fasta -gt 0.005
 
 Statistics:
 
+```
 file                              format  type  num_seqs    sum_len  min_len  avg_len  max_len
 all.18S.aligned.trimal99.5.fasta  FASTA   DNA      2,671  5,526,299    2,069    2,069    2,069
 all.28S.aligned.trimal99.5.fasta  FASTA   DNA      1,181  4,623,615    3,915    3,915    3,915
+```
 
 ## Formatting sequences to remove the text that trimal adds.
 
@@ -95,16 +80,16 @@ conda install -c "bioconda/label/cf201901" snippy
 After concatenating the number of sequences was 2789, while the number of sequences in the 18S file was 2671, so something had gone wrong. 118 sequeces must be different. To find the sequences with different headers, the following commands were run:
 
 ```
-diff <(cat all.18S.aligned.trimal99.5.formatted.fasta | grep ">" | sort)  <(cat all.28S.aligned.trimal99.5.formatted.fasta | grep ">" | sort) | grep "^>" | awk -F\> '{print $3}' > diff
-wc -l diff
+diff <(cat all.18S.aligned.trimal99.5.formatted.fasta | grep ">" | sort)  <(cat all.28S.aligned.trimal99.5.formatted.fasta | grep ">" | sort) | grep "^>" | awk -F\> '{print $3}' > difference.list
+wc -l differece.list
 ```
 
-This gave an output of 118 sequences with different heaeders. Checking the different files, we found that these 118 sequences were removed from the 18S file during the clustering step. Therefore we decided to remove them from the 28S file before concatenating. They were removed with the filter_fasta_by_list_of_headers.py python script (biopython was installed with pip install):
+This gave an output of 118 sequences with different heaeders. These 118 sequences were removed from the 18S file during the clustering step. Therefore we decided to remove them from the 28S file before concatenating. They were removed with the filter_fasta_by_list_of_headers.py python script (biopython was installed with pip install):
 
 The sequences were removed with this command:
 
 ```
-./filter_fasta_by_list_of_headers.py all.28S.aligned.trimal99.5.formatted.fasta diff > 28S.filtered.fasta
+./filter_fasta_by_list_of_headers.py all.28S.aligned.trimal99.5.formatted.fasta difference.list > 28S.filtered.fasta
 ```
 
 Then concatination was repeated:
@@ -113,17 +98,19 @@ Then concatination was repeated:
 perl ./concat all.18S.aligned.trimal99.5.formatted.fasta 28S.filtered.fasta > all.18S28S.fasta
 ```
 
-Now the number of sequences is 2671, which is the same as the number of sequences in the 18S file, so this is correct.
+Statistics for concatenated file: 
+
+```
 file              format  type  num_seqs     sum_len  min_len  avg_len  max_len
 all.18S28S.fasta  FASTA   DNA      2,671  15,983,264    5,984    5,984    5,984
+```
 
 ## Reannotating
 
-Plagiopylea had been wrongly annotated to Prosteomatea, but should be it's own main group. We therefore need to reannotate it.
-
-Some groups had been wrongly annotated to a main group, they should be incertae sedis (not placed within a specific group). Their headers were changed. This was done for the following groups:
+We are following the reference tree for ciliates from Rajter & Dunthorn, 2021. We therefore made the following changes to annotation: 
+- Plagiopylea should be a main group (not an undergroup of Prostomatea). 
 - Discotrichidae should not be grouped as nassophorea – This is incertae sedis within CONthreeP.
-- Cyclotrichium and Pseudotrachelocerca are grouped as a Prostomatean, needs to be reannotated. These are incertae sedis within CONthreeP.
+- Cyclotrichium and Pseudotrachelocerca should not be grouped as Prostomatean - These are incertae sedis within CONthreeP.
 
 Numbers of changed sequences:
 - Plagiopylea: 28
@@ -132,12 +119,12 @@ Numbers of changed sequences:
 - Pseudotrachelocerca: 1
 
 Also, looking through preliminary trees indicated that this sequence hould be renamed:
-c-7036_conseq_Otu0060_466_freshwater_permafrost_Eukaryota_TSAR_Alveolata_Ciliophora_Prostomatea_2_Prostomatea_2_X_Placidae_Placus_Genus
+ - c-7036_conseq_Otu0060_466_freshwater_permafrost_Eukaryota_TSAR_Alveolata_Ciliophora_Prostomatea_2_Prostomatea_2_X_Placidae_Placus_Genus
 
 Checking it on BLAST gave a percentage identity of 92,99% for the 18S sequence, and 89,2% for the 28S sequence. This indicates that it has been wrongly annotated to Prostomatea, since it appears in a different part of the tree, and has such low percentage identity. We renamed it to this:
-c-7036_conseq_Otu0060_466_freshwater_permafrost_Eukaryota_TSAR_Alveolata_Ciliophora
+- c-7036_conseq_Otu0060_466_freshwater_permafrost_Eukaryota_TSAR_Alveolata_Ciliophora
 
-Headers were changed with the replace_fasta_header.pl script. To run this script we needed to make a tsv file with one column for old headers and one column for new headers:
+Headers were changed with the replace_fasta_header.pl script. To run this script you need a tsv file with one column for old headers and one column for new headers. We made a tsv file with two header columns: 
 
 ```
 grep ">" all.18S28S.fasta > all.18S28S.headers.fasta
@@ -153,7 +140,8 @@ awk -F'\t' -v OFS='\t' 'NR>=2{sub(/prostomateans.*CyPs-clade.*g_Pseudotracheloce
 awk -F'\t' -v OFS='\t' 'NR>=2{sub(/prostomateans.*Plagiopylea/, "Plagiopylea", $2)} 1' all.18S28S.headers.tsv3 > all.18S28S.headers.tsv4
 awk -F'\t' -v OFS='\t' 'NR>=2{sub(/c-7036_conseq_Otu0060_466_freshwater_permafrost_Eukaryota_TSAR_Alveolata_Ciliophora_Prostomatea_2_Prostomatea_2_X_Placidae_Placus_Genus/, "c-7036_conseq_Otu0060_466_freshwater_permafrost_Eukaryota_TSAR_Alveolata_Ciliophora", $2)} 1' all.18S28S.headers.tsv4 > all.18S28S.headers.tsv5
 ```
--F'\t' says that it should use tab as the field delimiter on input. -v OFS='\t' says that it should use tab as the field delimiter on output. NR>=2 {sub(/Discotrichidae_NASSO_1_NASSO_1_/, "Discotrichidae_", $2)} says that it should remove /Discotrichidae_NASSO_1_NASSO_1_ from field 2 only for lines after the first line, and replace it with Discotrichidae_. 1 is awk's cryptic shorthand for print-the-line.
+
+-F'\t' says that it should use tab as the field delimiter on input. -v OFS='\t' says that it should use tab as the field delimiter on output. NR>=2 {sub(/Discotrichidae_NASSO_1_NASSO_1_/, "Discotrichidae_", $2)} says that it should remove /Discotrichidae_NASSO_1_NASSO_1_ from field 2 only for lines after the first line, and replace it with Discotrichidae_. 1 is awk's shorthand for print-the-line.
 
 To check that the correct number of headers had been changed, the following command was run between each step to count the differences between the header files:
 
@@ -161,19 +149,7 @@ To check that the correct number of headers had been changed, the following comm
 diff <(cat all.18S28S.headers.tsv3 | grep ">" | sort)  <(cat all.18S28S.headers.tsv4 | grep ">" | sort) | grep "^>" | awk -F\> '{print $3}' | wc -l
 ```
 
-In this specific command you get the number of differences between the tsv4 and tsv3 file.
-
-The fasta headers shouldn't have the character > in the tsv file, so this was removed:
-
-```
-cat all.18S28S.headers.tsv5 | tr -d ">" > all.18S28S.headers.tsv6
-```
-The changing of headers script was run with the following command:
-
-```
-perl replace_fasta_header.pl all.18S28S.fasta all.18S28S.headers.tsv6 all.18S28S.replaced.fasta
-```
-
+The > character was removed from the tsv file, and the replace_fasta_header.pl script was run. 
 
 We also noted the following:
 1. Odontostomatida. In the EukRibo dataset, the group is in SAL (no further group specified). But in Adl et al, we see that Odontostomatida are placed within Armophorea. In our phylogenies, the group falls within Litostomatea (we havent computed bootstrap support for it though).
@@ -181,13 +157,7 @@ We also noted the following:
 
 ## Making files for the constraint groups
 
-We will follow the reference tree from Rajter and Dunthorn 2021 (file:///C:/Users/ingri/Downloads/MBMG_article_69602_en_1.pdf). We made a file called constraint.tree with a newick tree of the main groups. 
-
-Mesodonium was constrained to be within Litostomatea.
-Caenomorphidae, Cariacotrichea and Muranotrichea were constrained to be within Armophorea.
-Licnophoridae was constrained to be within Spirotrichea.
-Microthoracida was constrained to be within Nassophorea.
-Askenasia and Paraspathidium were constrained to be within Prostomatea.
+We constrained our tree according to the reference tree from Rajter and Dunthorn 2021 (http://dx.doi.org/10.3897/mbmg.5.69602). We made a file called constraint.tree with a newick tree of the main groups. 
 
 To output all taxa that we want to constrain, we made one file for each major group using the following commands:
 
@@ -217,25 +187,17 @@ cat all.18S28S.replaced.fasta | grep "Colponemidae" | tr -d '>' > Colponemidae.t
 cat all.18S28S.replaced.fasta | grep "Colpodellidea" | tr -d '>' > Colpodellidea.txt
 ```
 
-All sequences of Microthoracida were already annotated to Nassophorea. Sequences of Paraspathidium were already annotated to Prostomatea.
-
 To remove duplicates, and process the files to have all taxon names on a single line separated by commas, the following for loop was run:
 
 ```
 for i in *txt; do sort $i | uniq | sed -E 's/(.*)/\1, /' | tr -d '\n' | sed -E 's/, $//' > "$i".csv ; done
 ```
 
-To combine all the files, a script called setup_constraint.pl was constructed.Running this script created two files:
-- Ciliate_constraint.txt
-- Ciliate_constraint.txt.tre
-
-The constraint tree file has 2425 taxa.
+The script setup_constraint.pl was run to combine all the files. 
 
 ## Create constraint tree
 
-Then the constraint.sbatch script was made to create a constraint tree. 
-
-Run the script with this command to make 100 trees:
+Run the constraint.sbatch script with this command to make 100 trees:
 
 ```
 for i in $(seq 100); do echo $i; sbatch <name of sbatch script> ${i}; sleep 1; done
@@ -245,7 +207,7 @@ for i in $(seq 100); do echo $i; sbatch <name of sbatch script> ${i}; sleep 1; d
 
 First install iqtree.
 
-We found the tree with the best likelihood value with the following command:
+Run the following command to find the tree with best likelihood value: 
 
 ```
 grep "Final LogLikelihood: " all.18S28S.constrained.*.tree.raxml.log | awk '{print $NF}' | sort
