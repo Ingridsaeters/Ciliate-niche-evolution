@@ -1,10 +1,8 @@
 # Data
 ## Eukbank
+Info on EukBank (waiting on publication). Need to specify where it is extracted from. 
 
-
-### Extracting ciliate sequences from EukBank
-
-Need to specify where the EukBank data is extracted from. 
+### Extracting ciliate fasta sequences from EukBank
 
 The EukBank fasta file does not contain information about taxonomy, it only has information about amplicon-id and abundance. To extract ciliate sequences we extracted the ciliate headers from the taxonomy file. 
 
@@ -18,29 +16,26 @@ This was used as a pattern file to extract the ciliate sequences from the fasta 
 seqkit grep -r -f <(cut -f1 Ciliate_taxo) eukbank_18SV4_asv.fasta > eukbank_ciliate.fasta
 ```
 
-We changed the fasta header for the ciliate fasta file so that in addition to containing the amplicon-id and abundance (size) it also contained supergroup, taxogroup 1 and taxogroup 2 (this information is given in the taxonomy file). We used the script replace_fasta_header.pl that replaces fasta headers with ones provided in a tab delimited file. 
+We changed the fasta header for the ciliate fasta file so that in addition to containing the amplicon-id and abundance, it also contained supergroup, taxogroup 1 and taxogroup 2 (this information is given in the taxonomy file). We used the script replace_fasta_header.pl that replaces fasta headers with ones provided in a tab delimited file. 
 
 We therefore first made a tab delimited file, with one column for the old headers, and one with the headers we wanted:
 
 ```
 cat eukbank_18SV4_asv.taxo | grep "Ciliophora" | cut -f1-2,7-9 | sed -E 's/(.*)\t([0-9]+)\t(.*)\t(.*)\t(.*)/\1;size=\2\t\1;size=\2;tax=\3_\4_\5/' > replace_fasta_headers.tsv
 ```
-
-Running the script replace_fasta_header.pl created a new fasta file eukbank_ciliate_replaced.fasta with the headers we wanted.
-
-We removed sequences that had only NA in their taxonomy string, and saved this to a file called eukbank_ciliate_clean.fasta.
+We replaced the headers with the repace_fasta_header.pl script, and removed sequences with only NAs in the taxonomy string.  
 
 ### Extracting metadata
 
-We wanted to extract the following metadata:\
--sample\
--latitude\
--longitude\
--depth\
--altitude\
--biome\
--material\
--collection date
+We extracted the following metadata:\
+- sample
+- latitude
+- longitude
+- depth
+- altitude
+- biome
+- material
+- collection date
 
 We extracted the columns with this information with the following command:
 
@@ -48,63 +43,43 @@ We extracted the columns with this information with the following command:
 cat eukbank_18SV4_asv.metadata | cut -f 2,5-8,11,13,14 > eukbank_18SV4_asv.subset.metadata
 ```
 
-We decided that the information we want to include in the fasta headers is sample and biome, so we made a new file with one column for only the sample name and another for <samplename_biome>. We also replaced tabs with underscore in the biome name. We removed the ENVO number at the end of the biome name as this is not necessary to include. We did so with the following command:
+### Extracting ciliate ASVs
 
-```
-cat eukbank_18SV4_asv.subset.metadata | cut -f1,6 | sed -E 's/ENVO_[0-9]+//' | tr -d '()' | sed -E 's/(.*)\t(.*)/\1\t\1_\2/' | tr -s ' ' '_' | sed -E 's/biome_/biome/' > eukbank_18SV4_asv.metadata.headers
-```
-
-To implement this in the fasta headers, we need information from the ASV table. The number of samples in the eukbank ASV table is 15541. 
-The number of ASVs is 460147. We made a pattern file with the ciliate ASVs, so that we can extract only the rows for the ciliates from the asv table.
+We made a pattern file with the ciliate fasta headers, so that we can extract only the rows for the ciliates from the ASV table.
 
 ```
 cat eukbank_ciliate_clean.fasta | grep ">" | cut -f1 -d ";" | tr -d ">" > ciliate_asvs.list
 ```
 
-The number of ciliate asvs is 18816.
-This is the command for extracting the Ciliate rows from the table:
+We extracted ciliate rows from the table:
 
 ```
-grep -f ciliate_asvs.list eukbank_18SV4_asv.table >> eukbank_18SV4_asv.subset.table
+grep -f ciliate_asvs.list eukbank_18SV4_asv.table > eukbank_18SV4_asv.subset.table
 ```
 
-Then we made an R script to remove all columns with only 0s from the table. We installed R with this command:
-
-```
-module load R/4.2.1-foss-2022a
-```
-
-We ran the subset.R script which removes columns with only 0's.
-
-The number of columns after removing 0's was 14735.
+We removed columns with only 0's with the subset.R script. Before running the script we had 18816 columns, and after we had 14735. 
 
 ### Making an ASV table for ciliates with subset of metadata
 
 The ASV table we have extracted (eukbank_18SV4_asv.subset.table) is in wide format, we want it to be in long format, and also to include the metadata we have extracted. To do so, we ran the Rscript long_asv_metadata.R. 
 
 This made a table (asv_long_metadata) with the following column headers:\
--sample\
--amplicon\
--abundance\
--latitude\
--longitude\
--depth\
--altitude\
--biome\
--material\
--collection_date
+- sample
+- amplicon
+- abundance 
+- latitude
+- longitude
+- depth
+- altitude
+- biome
+- material
+- collection_date
 
 We removed the " symbol from the file:
 
 ```
 cat asv_long_metadata | tr -d '"' > asv_long_metadata
 ```
-
-The script also gave the number of rows for each file:\
-asv_wide: 18816\
-asv_long: 1016195\
-metadata: 13055\
-asv_long_metadata: 773967\
 
 ### Extracting soil ciliate ASVs
 
@@ -126,9 +101,48 @@ To extract only unique soil fasta sequences, we used the following command:
 seqkit grep -r -f <(cat asv_long_metadata_soil_reduced | cut -f2 | sort | uniq) eukbank_ciliate_clean.fasta > soil/eukbank_ciliate_soil.fasta
 ```
 
+## Extracting marine ciliate ASVs
+
+To extract the marine ciliate ASVs we used the following command: 
+
+```
+grep "marine" asv_long_metadata > asv_long_metadata_marine
+```
+
+But we also want to only include the asvs that have coordinates and depth information, so to make sure of this we used this command, which removes rows if they contain "NA" in the columns for latitude, longitude and depth (column 4, 5 and 6):
+
+```
+cat asv_long_metadata_marine | awk '$4 != "NA"' | awk '$5 != "NA"' | awk '$6 != "NA"' > asv_long_metadata_marine_reduced
+```
+
+To extract only unique marine fasta sequences, we used the following command:
+
+```
+seqkit grep -r -f <(cat asv_long_metadata_marine_reduced | cut -f2 | sort | uniq) eukbank_ciliate_clean.fasta > marine/eukbank_ciliate_marine.fasta
+```
+
+## Extracting freshwater ciliate ASVs
+
+```
+grep "freshwater" asv_long_metadata > asv_long_metadata_freshwater
+```
+
+But we also want to only include the asvs that have coordinates and depth information, so to make sure of this we used this command, which removes rows if they contain "NA" in the columns for latitude, longitude and depth (column 4, 5 and 6):
+
+```
+cat asv_long_metadata_freshwater | awk '$4 != "NA"' | awk '$5 != "NA"' | awk '$6 != "NA"' > asv_long_metadata_freshwater_reduced
+```
+
+To extract only unique freshwater fasta sequences, we used the following command:
+
+```
+seqkit grep -r -f <(cat asv_long_metadata_freshwater_reduced | cut -f2 | sort | uniq) eukbank_ciliate_clean.fasta > eukbank_ciliate_freshwater.fasta
+```
+
+
 ## EukRibo 
 
-EukRibo is a database of reference small-subunit ribosomal RNA gene (18S rDNA) sequences of eukaryotes. It's aim is to represent a subset of highly trustable sequences covering the whole known diversity of eukaryotes, with a special focus on protists, manually veryfied taxonomic identifications, and relatively low level of redundancy. The dataset is composedof the V4 hypervariable region of the nuclear small submit rRNA gene, along with the associated metadata. The V4 region is widely-used to uncover the diversity and distributions of most of the major protistan taxa.
+EukRibo is a database of reference small-subunit ribosomal RNA gene (18S rDNA) sequences of eukaryotes. It's aim is to represent a subset of highly trustable sequences covering the whole known diversity of eukaryotes, with a special focus on protists, manually veryfied taxonomic identifications, and relatively low level of redundancy. The dataset is composed of the V4 hypervariable region of the nuclear small submit rRNA gene, along with the associated metadata. The V4 region is widely-used to uncover the diversity and distributions of most of the major protistan taxa.
 
 ### Extracting the data
 
@@ -139,24 +153,18 @@ We extracted the ciliate sequences with the following command:
 ```
 seqkit grep -rp "Ciliophora" 46346_EukRibo-02_full_seqs_2022-07-22_nospace.fas > EukRibo_ciliate.fasta
 ```
-### Formatting fasta headers
-
-We replaced : with _ so that the file could be processed by RAxML. 
-
-```
-cat EukRibo_ciliate.fasta | tr ':' '_' > EukRibo_ciliate.formatted.fasta
-```
 
 ### Reducing redundancy - Constructing a new EukRibo dataset with only unique species
 
-To reduce redundancy, a new dataset for EukRibo was first constructed with only unique species. To check how many duplicate species the dataset contains the following command was used:
+To reduce redundancy, a new dataset for EukRibo was first constructed with unique ASVs. To check how many duplicate ASVs the dataset contains the following command was run:
 
 ```
 cat EukRibo_ciliate.formatted.fasta | grep ">" | sed -E 's/>.*_(Eukaryota.*)/\1/' | awk 'l[$0]++{d++}END{print d, "(lines are duplicates)"}'
 ```
-This revealed that 129 species were duplicates.
 
-To make a new file with only unique species, first a pattern file had to be created (with the pattern we wanted to extract from the original file with seqkit grep). The pattern file was created with the following command:
+This revealed that 129 ASVs were duplicates.
+
+To make a new file with only unique ASVs, we made a pattern file with headers for the unique ASVs:
 
 ```
 cat EukRibo_ciliate.formatted.fasta | grep ">" | sed -E 's/>.*_(Eukaryota.*)/\1/' | sort -u > EukRibo_unique
@@ -174,7 +182,9 @@ The new file that was created could then be used as a pattern file to get the un
 seqkit grep -f EukRibo_unique_headers EukRibo_ciliate.formatted.fasta > EukRibo_unique.fasta
 ```
 
-Then the new unique EukRibo file was formatted again for RAxML:
+### Formatting fasta headers
+
+We replaced : with _ so that the file could be processed by RAxML.
 
 ```
 cat EukRibo_unique.fasta | tr ':' '_' > EukRibo_unique.formatted.fasta
