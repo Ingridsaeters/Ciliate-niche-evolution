@@ -11,7 +11,7 @@ library(dplyr)
 library(ncdf4)
 
 ## set working directory
-setwd("C:/Users/ingri/OneDrive/Dokumenter/ciliate_niche/analyses/Analyses/soil/chelsa")
+setwd("C:/Users/path/to/directory")
 
 # Prepare metadata ----
 #______________________

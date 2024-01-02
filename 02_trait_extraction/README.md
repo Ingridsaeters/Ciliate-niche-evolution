@@ -5,6 +5,7 @@
 ## Soil
 
 We have extracted trait information for 977 unique soil samples. 
+The extracted values were combined in a complete table using the traits_soil.R script. 
 
 ### SoilGrids
 
@@ -48,6 +49,7 @@ These variables were extracted using the R script topography_soil.R.
 ## Marine
 
 We have extracted trait information for 5493 unique marine samples. 
+The extracted values were combined in a complete table using the traits_marine.R script. 
 
 ### World Ocean Atlas (WOA)
  

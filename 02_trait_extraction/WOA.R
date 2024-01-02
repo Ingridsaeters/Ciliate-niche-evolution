@@ -9,7 +9,7 @@ library(tidyverse)
 library(raster)
 
 ## Set working directory
-setwd("/Users/ingri/OneDrive/Dokumenter/ciliate_niche/analyses/Analyses/marine/WOA")
+setwd("/Users/path/to/directory")
 
 ### The WOA data is downloaded from: https://www.ncei.noaa.gov/access/world-ocean-atlas-2018/
 
@@ -44,7 +44,7 @@ n_distinct(metadata$sample)### We have 5493 distinct samples
 points<-cbind(metadata_geo$longitude, metadata_geo$latitude)
 
 # Make a data frame with subset of values ----
-#___________________________________________________________________
+#_____________________________________________
 ## Create data frame with samples, coordinates and depth values
 metadata_subset <- metadata_geo %>%
   dplyr::select(c(1:4))
@@ -61,8 +61,8 @@ depth <- ifelse(depth >500, round(depth/50)*50, depth)### For depth >500 round b
 ## Add rounded depth value to metadata_subset
 metadata_subset["rounded_depth"] <- depth
 
-# Extract nitrate values from World Ocean Database ----
-#______________________________________________________
+# Extract nitrate values from World Ocean Atlas ----
+#___________________________________________________
 ## Make a brick
 nitrate_brick <- brick("woa18_all_n00_01.nc")
 
@@ -94,8 +94,8 @@ nitrate_clean <- subset(nitrate, rowSums(is.na(nitrate)) != ncol(nitrate[4:105])
 nitrate_clean$nitrate <- apply(nitrate_clean, 1, function(x) { x[names(x)==x[names(x)=="rounded_depth"]]})
 nitrate_clean <-nitrate_clean %>% relocate(nitrate, .after = 1)
 
-# Extract silicate values from World Ocean Database ----
-#_______________________________________________________
+# Extract silicate values from World Ocean Atlas ----
+#____________________________________________________
 ## Make a brick
 silicate_brick <- brick("woa18_all_i00_01.nc")
 
@@ -124,8 +124,8 @@ silicate_clean <- subset(silicate, rowSums(is.na(silicate)) != ncol(silicate[4:1
 silicate_clean$silicate <- apply(silicate_clean, 1, function(x) { x[names(x)==x[names(x)=="rounded_depth"]]})
 silicate_clean <-silicate_clean %>% relocate(silicate, .after = 1)
 
-# Extract dissolved oxygen values from World Ocean Database ----
-#_______________________________________________________________
+# Extract dissolved oxygen values from World Ocean Atlas ----
+#____________________________________________________________
 ## Make a brick
 DO_brick <- brick("woa18_all_o00_01.nc")
 
@@ -154,8 +154,8 @@ DO_clean <- subset(DO, rowSums(is.na(DO)) != ncol(DO[4:105]))
 DO_clean$DO <- apply(DO_clean, 1, function(x) { x[names(x)==x[names(x)=="rounded_depth"]]})
 DO_clean <-DO_clean %>% relocate(DO, .after = 1)
 
-# Extract percent oxygen saturation values from World Ocean Database ----
-#________________________________________________________________________
+# Extract percent oxygen saturation values from World Ocean Atlas ----
+#_____________________________________________________________________
 ## Make a brick
 POS_brick <- brick("woa18_all_O_00_01.nc")
 
@@ -184,8 +184,8 @@ POS_clean <- subset(POS, rowSums(is.na(POS)) != ncol(POS[4:105]))
 POS_clean$POS <- apply(POS_clean, 1, function(x) { x[names(x)==x[names(x)=="rounded_depth"]]})
 POS_clean <-POS_clean %>% relocate(POS, .after = 1)
 
-# Extract apparent oxygen utilization values from World Ocean Database ----
-#__________________________________________________________________________
+# Extract apparent oxygen utilization values from World Ocean Atlas ----
+#_______________________________________________________________________
 ## Make a brick
 AOU_brick <- brick("woa18_all_A00_01.nc")
 
@@ -214,8 +214,8 @@ AOU_clean <- subset(AOU, rowSums(is.na(AOU)) != ncol(AOU[4:105]))
 AOU_clean$AOU <- apply(AOU_clean, 1, function(x) { x[names(x)==x[names(x)=="rounded_depth"]]})
 AOU_clean <-AOU_clean %>% relocate(AOU, .after = 1)
 
-# Extract phosphate values from World Ocean Database ----
-#________________________________________________________
+# Extract phosphate values from World Ocean Atlas ----
+#_____________________________________________________
 ## Make a brick
 phosphate_brick <- brick("woa18_all_p00_01.nc")
 
@@ -244,8 +244,8 @@ phosphate_clean <- subset(phosphate, rowSums(is.na(phosphate)) != ncol(phosphate
 phosphate_clean$phosphate <- apply(phosphate_clean, 1, function(x) { x[names(x)==x[names(x)=="rounded_depth"]]})
 phosphate_clean <-phosphate_clean %>% relocate(phosphate, .after = 1)
 
-# Extract temperature values from World Ocean Database ----
-#__________________________________________________________
+# Extract temperature values from World Ocean Atlas ----
+#_______________________________________________________
 ## Make a brick
 temperature_brick <- brick("woa18_decav_t00_01.nc")
 

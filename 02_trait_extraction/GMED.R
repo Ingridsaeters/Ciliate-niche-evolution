@@ -11,7 +11,7 @@ library(dplyr)
 library(ncdf4)
 
 ## set working directory
-setwd("C:/Users/ingri/OneDrive/Dokumenter/ciliate_niche/analyses/Analyses/marine")
+setwd("C:/Users/path/to/directory")
 
 ### The GMED data is downloaded from: https://gmed.auckland.ac.nz/download.html 
 

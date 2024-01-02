@@ -12,7 +12,7 @@ library(ncdf4)
 library(elevatr)
 
 ## Set working directory
-setwd("C:/Users/ingri/OneDrive/Dokumenter/ciliate_niche/analyses/Analyses/soil/topography")
+setwd("C:/Users/path/to/directory")
 
 # Prepare metadata ----
 #______________________

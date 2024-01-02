@@ -10,7 +10,7 @@ library(raster)
 library(dplyr)
 library(ncdf4)
 
-setwd("C:/Users/ingri/OneDrive/Dokumenter/ciliate_niche/analyses/Analyses/soil/soiltemp")
+setwd("C:/Users/path/to/directory")
 
 # Prepare metadata ----
 #______________________

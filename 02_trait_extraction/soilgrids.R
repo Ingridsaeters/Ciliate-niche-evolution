@@ -11,7 +11,7 @@ library(soilDB)
 library(aqp)
 
 ## Set working directory
-setwd("C:/Users/ingri/OneDrive/Dokumenter/ciliate_niche/analyses/Analyses/soil/soilgrids")
+setwd("C:/Users/path/to/directory")
 
 # Prepare metadata ----
 #______________________
