@@ -1,10 +1,10 @@
-# Inferring 100 Maximum Likelihood backbone trees
+# Reference phylogeny
 
 ## Alignment
 
 Run MAFFT-L-ins-i on the 18S and 28S sequences. The advantage of L-ins-i is that it can align a set of sequences containing sequences flanking around one alignable domain. Since L-ins-i is very computationally intensive, we ran the jobs with the sbatch scripts 18S.mafft_linsi.sbatch and 28S.mafft_linsi.sbatch, with 20 threads. 
 
-Preliminary analyses have showed that some of the 18S sequences are very long, spanning the 18S gene, and so the alignment for the 18S sequences was taking a very long time. Therefore we did the following steps for the 18S sequences:
+Preliminary analyses showed that some of the 18S sequences are very long, spanning the 18S gene, and so the alignment for the 18S sequences was taking a very long time. Therefore we did the following steps for the 18S sequences:
 
 1. Align with mafft-auto
 
@@ -42,7 +42,7 @@ all.28S.aligned.fasta  FASTA   DNA      1,181  10,238,089    8,669    8,669    8
 
 Download trimal version 1.2 from http://trimal.cgenomics.org/downloads.
 
-Trimal was run with different tresholds (99.5%, 99%, 98% and 97%) to see the differences. To be concervative we chose a trimming treshold of 99.5%.
+Run Trimal with different tresholds (99.5%, 99%, 98% and 97%) to see the differences. To be concervative we chose a trimming treshold of 99.5%.
 
 ```
 trimal -in all.28S.aligned.fasta -out all.28S.aligned.trimal99.5.fasta -gt 0.005
@@ -57,22 +57,22 @@ all.18S.aligned.trimal99.5.fasta  FASTA   DNA      2,671  5,526,299    2,069    
 all.28S.aligned.trimal99.5.fasta  FASTA   DNA      1,181  4,623,615    3,915    3,915    3,915
 ```
 
-## Formatting sequences to remove the text that trimal adds.
+## Format sequences to remove the text that trimal adds
 
 ```
 cat all.28S.aligned.trimal99.5.fasta | sed 's/ 3915 bp//' | tr '.' '-' > all.28S.aligned.trimal99.5.formatted.fasta
 cat all.18S.aligned.trimal99.5.fasta | sed 's/ 2069 bp//' | tr '.' '-' > all.18S.aligned.trimal99.5.formatted.fasta
 ```
 
-## Concatenating sequences
+## Concatenate sequences
 
-Concatenate sequences with the concat perl script:
+Concatenate sequences with the concat.pl script:
 
 ```
-perl ./concat all.18S.aligned.trimal99.5.formatted.fasta all.28S.aligned.trimal99.5.formatted.fasta > all.18S28S.fasta
+perl ./concat.pl all.18S.aligned.trimal99.5.formatted.fasta all.28S.aligned.trimal99.5.formatted.fasta > all.18S28S.fasta
 ```
 
-To run the script, I made a conda environment called bioperl and installed the following program:
+To run the script, make a conda environment and install the following program:
 
 ```
 conda install -c "bioconda/label/cf201901" snippy
@@ -91,10 +91,10 @@ This gave an output of 118 sequences with different heaeders. We found that thes
 ./filter_fasta_by_list_of_headers.py all.28S.aligned.trimal99.5.formatted.fasta difference.list > 28S.filtered.fasta
 ```
 
-Then concatination was repeated:
+Then concatenation was repeated:
 
 ```
-perl ./concat all.18S.aligned.trimal99.5.formatted.fasta 28S.filtered.fasta > all.18S28S.fasta
+perl ./concat.pl all.18S.aligned.trimal99.5.formatted.fasta 28S.filtered.fasta > all.18S28S.fasta
 ```
 
 Statistics for concatenated file: 
@@ -104,7 +104,7 @@ file              format  type  num_seqs     sum_len  min_len  avg_len  max_len
 all.18S28S.fasta  FASTA   DNA      2,671  15,983,264    5,984    5,984    5,984
 ```
 
-## Reannotating
+## Reannotate
 
 We are following the reference tree for ciliates from Rajter & Dunthorn, 2021. We therefore made the following changes to annotation: 
 - Plagiopylea should be a main group (not an undergroup of Prostomatea). 
@@ -154,11 +154,11 @@ We also noted the following:
 1. Odontostomatida - In the EukRibo dataset, the group is in SAL (no further group specified). But in Adl et al, we see that Odontostomatida are placed within Armophorea. In our phylogenies, the group falls within Litostomatea (we havent computed bootstrap support for it though).
 2. Kiitrichidae - In the EukRibo dataset, this group is also in an unspecified position in SAL. In Adl et al. the group is placed in Spirotrichea (which is also consistent with our phylogenies).
 
-## Making files for the constraint groups
+## Make files for the constraint groups
 
 We constrained our tree according to the reference tree from Rajter and Dunthorn 2021 (http://dx.doi.org/10.3897/mbmg.5.69602). We made a file called constraint.tree with a newick tree of the main groups. 
 
-To output all taxa that we want to constrain, we made one file for each major group using the following commands:
+Make one file for each major group to output all taxa to constrain:
 
 ```
 cat all.18S28S.replaced.fasta | grep "Karyorelictea" | tr -d '>' > Karyorelictea.txt
@@ -186,13 +186,13 @@ cat all.18S28S.replaced.fasta | grep "Colponemidae" | tr -d '>' > Colponemidae.t
 cat all.18S28S.replaced.fasta | grep "Colpodellidea" | tr -d '>' > Colpodellidea.txt
 ```
 
-To remove duplicates, and process the files to have all taxon names on a single line separated by commas, the following for loop was run:
+Run the following for loop to remove duplicates, and process the files to have all taxon names on a single line separated by commas:
 
 ```
 for i in *txt; do sort $i | uniq | sed -E 's/(.*)/\1, /' | tr -d '\n' | sed -E 's/, $//' > "$i".csv ; done
 ```
 
-The script setup_constraint.pl was run to combine all the files. 
+Run the script setup_constraint.pl to combine all the files. 
 
 ## Create constraint tree
 
@@ -212,6 +212,7 @@ for i in $(seq 100); do echo $i; sbatch <name of sbatch script> ${i}; sleep 1; d
 - c-ELW: Expected likelihood weight.
 
 ### Proceedure
+
 First install iqtree.
 
 Run the following command to find the tree with best likelihood value: 
@@ -220,7 +221,9 @@ Run the following command to find the tree with best likelihood value:
 grep "Final LogLikelihood: " all.18S28S.constrained.*.tree.raxml.log | awk '{print $NF}' | sort
 ```
 
-We found that tree 70 had the best log likelihood value of the 100, and therefore we used this tree for test comparison (This is used as input in the iqtree.test script). We made a concatenated file with all the 100 trees:
+We found that tree 70 had the best log likelihood value of the 100, and therefore we used this tree for test comparison (This is used as input in the iqtree.test script).    
+    
+Make a concatenated file with all the 100 trees:
 
 ```
 cat all.18S28S.constrained.*.tree.raxml.bestTree > RAxML_bestTree.all100trees.constrained
@@ -232,7 +235,7 @@ To perform analyses, run the iqtree.test script.
 
 Assign ML trees to a “plausible” ML tree set that are not significantly worse than the best-scoring ML tree under any statistical significance test implemented in IQ-TREE. This assignment is conservative, as it will yield the smallest plausible tree set and circumvents the long-lasting debate about which phylogenetic significance test is most appropriate.
 
-That means that we would only accept trees with output plus sign (+) for every test. We found these trees with the following command:
+This implies that you should only accept trees with output plus sign (+) for every test. Extract these trees with the following command:
 
 ```
 grep -A 101 "Tree      logL    deltaL  bp-RELL    p-KH     p-SH    p-WKH    p-WSH       c-ELW       p-AU" all.18S28S.replaced.phy.iqtree | sed -E 's/-104/104/' | grep -v "-" | sed -E 's/ */ /' | cut -f 2 -d ' ' > accepted.trees
@@ -240,7 +243,7 @@ grep -A 101 "Tree      logL    deltaL  bp-RELL    p-KH     p-SH    p-WKH    p-WS
 
 This gave 62 trees, and we will use these as backbone constraint in our analyses.
 
-To find the log likelihood of our accepted trees:
+To find the log likelihood of the accepted trees:
 
 ```
 grep "Final LogLikelihood:" all.18S28S.constrained.{1,2,3,4,5,6,7,8,10,12,14,15,16,17,21,22,27,28,32,33,34,36,37,38,41,42,44,45,47,51,52,53,54,56,57,59,62,63,65,66,67,68,69,70,72,73,74,75,76,77,78,81,83,85,86,87,88,89,92,97,99,100}.tree.raxml.log | awk '{print $NF}' | sort > accepted_trees.logL.sorted
