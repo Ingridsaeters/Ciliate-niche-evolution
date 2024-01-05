@@ -1,6 +1,6 @@
 # Extracting trait information
 
-## Choice of traits
+## Traits
 
 | **Marine** | **Soil** | **Freshwater** | 
 |--------|------|------------|
