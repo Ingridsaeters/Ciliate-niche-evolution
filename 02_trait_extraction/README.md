@@ -2,6 +2,10 @@
 
 ## Choice of traits
 
+| First header | Second header | 
+|--------------|---------------|
+| Content cell | Content cell  |
+
 ## Soil
 
 We have extracted trait information for 977 unique soil samples.  
