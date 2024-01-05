@@ -151,12 +151,12 @@ diff <(cat all.18S28S.headers.tsv3 | grep ">" | sort)  <(cat all.18S28S.headers.
 The > character was removed from the tsv file, and the replace_fasta_header.pl script was run. 
 
 We also noted the following:
-1. Odontostomatida - In the EukRibo dataset, the group is in SAL (no further group specified). But in Adl et al, we see that Odontostomatida are placed within Armophorea. In our phylogenies, the group falls within Litostomatea (we havent computed bootstrap support for it though).
-2. Kiitrichidae - In the EukRibo dataset, this group is also in an unspecified position in SAL. In Adl et al. the group is placed in Spirotrichea (which is also consistent with our phylogenies).
+1. Odontostomatida - In the EukRibo dataset, the group is in SAL (no further group specified). But in Adl et al, we see that Odontostomatida are placed within Armophorea. In our phylogenies, the group falls within Litostomatea.
+2. Kiitrichidae - In the EukRibo dataset, this group is also in an unspecified position in SAL. In Adl et al. the group is placed in Spirotrichea.
 
 ## Make files for the constraint groups
 
-We constrained our tree according to the reference tree from Rajter and Dunthorn 2021 (http://dx.doi.org/10.3897/mbmg.5.69602). We made a file called constraint.tree with a newick tree of the main groups. 
+Constrain the trees according to the reference tree from Rajter and Dunthorn 2021 (http://dx.doi.org/10.3897/mbmg.5.69602). Make a file with a newick tree of the main groups (constraint.tree). 
 
 Make one file for each major group to output all taxa to constrain:
 
@@ -192,17 +192,17 @@ Run the following for loop to remove duplicates, and process the files to have a
 for i in *txt; do sort $i | uniq | sed -E 's/(.*)/\1, /' | tr -d '\n' | sed -E 's/, $//' > "$i".csv ; done
 ```
 
-Run the script setup_constraint.pl to combine all the files. 
+Run the script setup_constraint.pl to combine all the files.
 
 ## Create constraint tree
 
-Run the constraint.sbatch script with this command to make 100 trees:
+Make 100 maximum likelihood trees to take phylogenetic uncertainties into account. Run the constraint.sbatch script with this command to make 100 trees:
 
 ```
 for i in $(seq 100); do echo $i; sbatch <name of sbatch script> ${i}; sleep 1; done
 ```
 
-## Apply all statistical significance tests implemented in IQ-TREE to this set of 100 ML trees.
+## Apply all statistical significance tests implemented in IQ-TREE to this set of 100 ML trees
 
 ### Information about the statistical tests performed using IQ-TREE:
 - Kishino-Hasegawa test: Uses differences in support provided by individual sites for two trees to determine if the overall differences between the trees are significantly greater than expected from random sampling error. Assumes that characters are independant and identically distributed. Should be of trees that are selected a priori.
@@ -247,4 +247,4 @@ To find the log likelihood of the accepted trees:
 
 ```
 grep "Final LogLikelihood:" all.18S28S.constrained.{1,2,3,4,5,6,7,8,10,12,14,15,16,17,21,22,27,28,32,33,34,36,37,38,41,42,44,45,47,51,52,53,54,56,57,59,62,63,65,66,67,68,69,70,72,73,74,75,76,77,78,81,83,85,86,87,88,89,92,97,99,100}.tree.raxml.log | awk '{print $NF}' | sort > accepted_trees.logL.sorted
-```
+```|
