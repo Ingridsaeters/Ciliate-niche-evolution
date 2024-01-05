@@ -4,22 +4,21 @@
 
 | Marine | Soil | Freshwater | 
 |--------|------|------------|
-| **World Ocean Atlas (WOA)** | 
-| Mean annual temperature |
-| Nitrate |
-| Phosphate |
-| Silicate |
-| Dissolved oxygen |
-| Oxygen saturation |
-| Apparent oxygen utilized |
-|--------------------------|
-| **Global Marine Environment Dataset (GMED)** | 
-| Chlorophyll-A mean |
-| Photosynthetic active radiation (PAR) |
-| Particulate inorganic carbon (PIC) |
-| Particulate organic carbon (POC) |
-| Primary productivity |
-| Total suspended matter |
+| **World Ocean Atlas (WOA)** | **Soilgrids** | **ERA5-LAND** |
+| Mean annual temperature | pH | Bottom temperature |
+| Nitrate | Nitrogen | Ice depth | 
+| Phosphate | Carbon | Ice surface temperature |
+| Silicate | **Chelsa** | Depth of mixed layer |
+| Dissolved oxygen | Annual average temperature | Temperature of mixed layer |  
+| Oxygen saturation | Annual mean percipitation | Temperature of total layer
+| Apparent oxygen utilized | Annual percipitation amount | **Topography** | 
+| **Global Marine Environment Dataset (GMED)** | Mean daily mean air temperatures of the warmest quarter | Elevation |
+| Chlorophyll-A mean | **SoilTemp** | **Afilazzola** | 
+| Photosynthetic active radiation (PAR) | Annual soil temperature | Total Nitrogen |
+| Particulate inorganic carbon (PIC) | **Topography** | Total phosphorous | 
+| Particulate organic carbon (POC) | Elevation | Chlorophyll-A |
+| Primary productivity | Topographical Position Index (TPI)
+| Total suspended matter | Slope |
 | pH |
 
 
