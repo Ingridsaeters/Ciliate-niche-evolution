@@ -2,7 +2,7 @@
 
 ## Choice of traits
 
-| Marine | Soil | Freshwater | 
+| **Marine** | **Soil** | **Freshwater** | 
 |--------|------|------------|
 | **World Ocean Atlas (WOA)** | **Soilgrids** | **ERA5-LAND** |
 | Mean annual temperature | pH | Bottom temperature |
