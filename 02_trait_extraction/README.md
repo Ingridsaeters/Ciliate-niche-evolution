@@ -2,9 +2,26 @@
 
 ## Choice of traits
 
-| First header | Second header | 
-|--------------|---------------|
-| Content cell | Content cell  |
+| Marine | Soil | Freshwater | 
+|--------|------|------------|
+| **World Ocean Atlas (WOA)** | 
+| Mean annual temperature |
+| Nitrate |
+| Phosphate |
+| Silicate |
+| Dissolved oxygen |
+| Oxygen saturation |
+| Apparent oxygen utilized |
+|--------------------------|
+| **Global Marine Environment Dataset (GMED)** | 
+| Chlorophyll-A mean |
+| Photosynthetic active radiation (PAR) |
+| Particulate inorganic carbon (PIC) |
+| Particulate organic carbon (POC) |
+| Primary productivity |
+| Total suspended matter |
+| pH |
+
 
 ## Soil
 
