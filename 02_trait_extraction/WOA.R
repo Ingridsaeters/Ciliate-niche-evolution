@@ -2,6 +2,8 @@
 #                     Rscript World Ocean Atlas Niche Evolution               #
 ###############################################################################
 
+### Download WOA data from: https://www.ncei.noaa.gov/access/world-ocean-atlas-2018/
+
 # Setup ----
 #___________
 ## Load packages
@@ -10,8 +12,6 @@ library(raster)
 
 ## Set working directory
 setwd("/Users/path/to/directory")
-
-### The WOA data is downloaded from: https://www.ncei.noaa.gov/access/world-ocean-atlas-2018/
 
 # Prepare metadata ----
 #______________________
