@@ -2,6 +2,8 @@
 #                       Rscript SoilTemp Niche Evolution                      #
 ###############################################################################
 
+### Download the bio1 SoilTemp data in tif format https://zenodo.org/records/7134169
+
 # Setup ----
 #___________
 ## Load packages
@@ -49,10 +51,6 @@ points<-cbind(coords_df$longitude, coords_df$latitude)
 
 # Extract annual average soil temperature data ----
 #__________________________________________________
-### Download the bio1 SoilTemp data in tif format https://zenodo.org/records/7134169
-### Soil temperature layers were calculated by adding monthly soil temperature offsets 
-### to monthly air-temperature maps from CHELSA (date range 1979-2013)
-
 ## Rasterize the tif file
 soiltemp_r<- raster('SBIO1_0_5cm_Annual_Mean_Temperature.tif')
 ## Make a dataframe with sample and temperature data 
