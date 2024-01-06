@@ -86,7 +86,7 @@ Extract the following variables from World Ocean Atlas
 
 Extract values for the specific depth the samples have been collected.
 
-Download the WOA data from: https://www.ncei.noaa.gov/access/world-ocean-atlas-2018/, and extracted using the R script WOA.R.  
+Download the WOA data from: https://www.ncei.noaa.gov/access/world-ocean-atlas-2018/, and extract the variables using the R script WOA.R.  
 
 ### Global Marine Environment Dataset (GMED)
 
@@ -99,7 +99,7 @@ Extract the following variables from GMED:
 - Total suspended matter, g.m-3
 - pH
 
-Download the GMED data from: https://gmed.auckland.ac.nz/download.html, and extracted using the R script GMED.R. 
+Download the GMED data from: https://gmed.auckland.ac.nz/download.html, and extract the variables using the R script GMED.R. 
 
 ### Make a table for all marine traits
 
