@@ -2,6 +2,11 @@
 #                     Rscript CHELSA Niche Evolution                          #
 ###############################################################################
 
+
+### Download the bio1, bio10, bio12, bio15, bio16 and bio19 CHELSA data in tif format https://chelsa-climate.org/downloads/
+### path: Downloads/climatologies/1981-2010/bio
+
+
 # Setup ----
 #___________
 ## Load packages
@@ -53,8 +58,6 @@ chelsa<-as.data.frame(metadata_geo[1], row.names = NULL)
 
 # Extract annual average temperature data ----
 #_____________________________________________
-### Download the bio1 CHELSA data in tif format https://chelsa-climate.org/downloads/ 
-### path: Downloads/climatologies/1981-2010/bio
 ## Rasterize the tif file
 bio1_r<- raster('tif_files/CHELSA_bio1_1981-2010_V.2.1.tif')
 ## Extract values
@@ -65,8 +68,6 @@ chelsa$temperature<- chelsa[,2]-273.15
 
 # Extract annual mean percipitation data (precipitation seasonality) ----
 #________________________________________________________________________
-## Download the bio15 CHELSA data in tif format https://chelsa-climate.org/downloads/ 
-### path: Downloads/climatologies/1981-2010/bio
 ## Rasterize the tif file
 bio15_r<- raster('tif_files/CHELSA_bio15_1981-2010_V.2.1.tif')
 ## Extract values
@@ -76,8 +77,6 @@ chelsa$precipitation_seasonality<- chelsa[,3]*0.1
 
 # Extract annual percipitation amount ----
 #_________________________________________
-## Download the bio12 CHELSA data in tif format https://chelsa-climate.org/downloads/ 
-### path: Downloads/climatologies/1981-2010/bio
 ## Rasterize the tif file
 bio12_r<- raster('tif_files/CHELSA_bio12_1981-2010_V.2.1.tif')
 ## Extract values
@@ -87,8 +86,6 @@ chelsa$precipitation_accumulated<- chelsa[,4]*0.1
 
 # Extract mean monthly precipitation amount for wettest quarter ----
 #___________________________________________________________________
-## Download the bio16 CHELSA data in tif format https://chelsa-climate.org/downloads/ 
-### path: Downloads/climatologies/1981-2010/bio
 ## Rasterize the tif file
 bio16_r<- raster('tif_files/CHELSA_bio16_1981-2010_V.2.1.tif')
 ## Extract values
@@ -98,8 +95,6 @@ chelsa$precipitation_mean_monthly_wettest<- chelsa[,5]*0.1
 
 # Extract mean monthly precipitation amount for coldest quarter ----
 #___________________________________________________________________
-## Download the bio19 CHELSA data in tif format https://chelsa-climate.org/downloads/ 
-### path: Downloads/climatologies/1981-2010/bio
 ## Rasterize the tif file
 bio19_r<- raster('tif_files/CHELSA_bio19_1981-2010_V.2.1.tif')
 ## Extract values
@@ -109,8 +104,6 @@ chelsa$precipitation_mean_monthly_coldest<- chelsa[,6]*0.1
 
 # Extract mean daily mean temperature for warmest quarter ----
 #_____________________________________________________________
-## Download the bio10 CHELSA data in tif format https://chelsa-climate.org/downloads/ 
-### path: Downloads/climatologies/1981-2010/bio
 ## Rasterize the tif file
 bio10_r<- raster('tif_files/CHELSA_bio10_1981-2010_V.2.1.tif')
 ## Extract values
