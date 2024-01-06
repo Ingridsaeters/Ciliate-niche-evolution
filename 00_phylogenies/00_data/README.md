@@ -243,7 +243,7 @@ grep -f outgroup.LongRead.list long_read.18S.otus.fasta | tr -d ">" > outgroup.L
 seqkit grep -f outgroup.LongRead18S.list long_read.18S.otus.fasta > outgroup.long_read.18S.fasta
 ```
 
-## Concatination
+## Concatenation
 
 Concatenate all 18S files and all 28S files:
 
@@ -255,7 +255,7 @@ read.18S.fasta > all.18S.fasta
 cat long_read.28S.ciliate.fasta outgroup.28S.fasta > all.28S.fasta
 ```
 
-Statistics after concatination:
+Statistics after concatenation:
 
 ```
 file           format  type  num_seqs    sum_len  min_len  avg_len  max_len
