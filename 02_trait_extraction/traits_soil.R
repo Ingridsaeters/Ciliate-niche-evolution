@@ -108,6 +108,25 @@ traits_soil$taxon[traits_soil$taxon=="Phacodinium"]<-"SAL"
 #________________
 write_tsv(traits_soil, "traits_soil.tsv")
 
+### Run a phylogenetic PCA analysis with the R script pPCA with the extracted values 
+### Then return to this script to add PC1 values to the table
+
+# Add PC1 values to the table ----
+#_________________________________
+
+## Load the traits file
+traits_soil<-read_tsv("traits_soil.tsv")
+
+## Load the PCA scores 
+pca_scores_soil<-read_tsv("pca_scores_soil.tsv")
+traits_soil<-merge(traits_soil, pca_scores_soil, by.x ="ASV", by.y = "ASV")
+traits_soil<-traits_soil[-17]
+
+# Write file ----
+#________________
+write_tsv(traits_soil, "traits_soil_PC1.tsv")
+
+
 # OPTIONAL - Make a file that is ordered by ASV to see if identical ASVs are found in different samples ----
 #________________________________________________________________________________________________
 traits_soil_ordered<-traits_soil[order(traits_soil$ASV),]
