@@ -92,6 +92,24 @@ traits_marine$taxon[traits_marine$taxon=="Microthoracida"]<-"Nassophorea"
 #________________
 write_tsv(traits_marine, "traits_marine.tsv")
 
+### Run a phylogenetic PCA analysis with the R script pPCA with the extracted values 
+### Then return to this script to add PC1 values to the table
+
+# Add PC1 values to the table ----
+#_________________________________
+
+## Load the traits file
+traits_marine<-read_tsv("traits_marine.tsv")
+
+## Load the PCA scores 
+pca_scores_marine<-read_tsv("pca_scores_marine.tsv")
+traits_marine<-merge(traits_marine, pca_scores_marine, by.x ="ASV", by.y = "ASV")
+traits_marine<-traits_marine[-18]
+
+# Write file ----
+#________________
+write_tsv(traits_marine, "traits_marine_PC1.tsv")
+
 # OPTIONAL - Make a file that is ordered by ASV to see if identical ASVs are found in different samples ----
 #________________________________________________________________________________________________
 traits_marine_ordered<-traits_marine[order(traits_marine$ASV),]
