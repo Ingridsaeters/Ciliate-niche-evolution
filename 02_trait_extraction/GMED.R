@@ -2,6 +2,8 @@
 #           Rscript Global Marine Environment Dataset Niche Evolution         #
 ###############################################################################
 
+### Download GMED data from: https://gmed.auckland.ac.nz/download.html 
+
 # Setup ----
 #___________
 ## Load packages
@@ -12,8 +14,6 @@ library(ncdf4)
 
 ## set working directory
 setwd("C:/Users/path/to/directory")
-
-### The GMED data is downloaded from: https://gmed.auckland.ac.nz/download.html 
 
 # Prepare metadata ----
 #______________________
