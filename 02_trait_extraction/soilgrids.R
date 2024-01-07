@@ -6,6 +6,7 @@
 #___________
 ## Load packages
 library(tidyverse)
+library(readr)
 library(raster)
 library(soilDB)
 library(aqp)
