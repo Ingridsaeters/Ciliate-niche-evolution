@@ -21,6 +21,9 @@
 | - Total suspended matter | - Slope |
 | - pH |
 
+## Visualize sampling locations
+
+Make maps that represent sampling location for soil, marine and freshwater samples, using the R script sample_points_maps.R
 
 ## Soil
 
