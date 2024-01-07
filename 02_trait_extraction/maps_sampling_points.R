@@ -135,7 +135,7 @@ base_world_messy <- p + geom_polygon(data=world_map, aes(x=long, y=lat, group=gr
                                      colour="light green", fill="light green")
 base_world_messy
 
-## Strip the map down so it looks super clean (and beautiful!)
+## Strip the map down so it looks clean
 cleanup <- 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_rect(fill = 'white', colour = 'white'), 
