@@ -8,6 +8,7 @@
 #___________
 ## Load packages
 library(tidyverse)
+library(readr)
 library(raster)
 
 ## Set working directory
