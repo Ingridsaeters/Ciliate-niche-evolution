@@ -23,7 +23,7 @@
 
 ## Visualize sampling locations
 
-Make maps that represent sampling location for soil, marine and freshwater samples, using the R script maps_sampling_points.R
+Make world maps with points for sampling location for soil, marine and freshwater samples, using the R script maps_sampling_points.R
 
 ## Soil
 
