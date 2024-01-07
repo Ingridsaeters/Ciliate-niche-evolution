@@ -12,6 +12,7 @@ library(adephylo)
 library(fs)
 library(utils)
 library(tidyverse)
+library(readr)
 
 ## Set working directory
 setwd("C:/Users/path/to/directory")
