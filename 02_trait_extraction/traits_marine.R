@@ -6,6 +6,8 @@
 #___________
 library(dplyr)
 library(plyr)
+library(tidyverse)
+library(readr)
 
 ## set working directory
 setwd("C:/Users/path/to/directory")
