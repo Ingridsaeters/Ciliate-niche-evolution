@@ -151,9 +151,10 @@ base_world
 #_________________________________________________
 map_data_soil <- 
   base_world +
-  ggtitle("Soil samples") +
+  ggtitle("Soil") +
   theme(plot.title = element_text(hjust = 0.5))+
-  theme(plot.title = element_text(size=22))+
+  theme(plot.title = element_text(size=30))+
+  theme(text = element_text(family = "serif"))+
   geom_point(data=coords_soil_df, 
              aes(x=x, y=y), colour="Deep Pink", 
              fill="Pink",pch=21, size=2, alpha=I(0.7))
@@ -163,9 +164,10 @@ map_data_soil
 #_________________________________________________
 map_data_marine <- 
   base_world +
-  ggtitle("Marine samples") +
+  ggtitle("Marine") +
   theme(plot.title = element_text(hjust = 0.5))+
-  theme(plot.title = element_text(size=22))+
+  theme(plot.title = element_text(size=30))+
+  theme(text = element_text(family = "serif"))+
   geom_point(data=coords_marine_df, 
              aes(x=x, y=y), colour="Deep Pink", 
              fill="Pink",pch=21, size=2, alpha=I(0.7))
@@ -175,9 +177,10 @@ map_data_marine
 #_________________________________________________
 map_data_freshwater <- 
   base_world +
-  ggtitle("Freshwater samples") +
+  ggtitle("Freshwater") +
   theme(plot.title = element_text(hjust = 0.5))+
-  theme(plot.title = element_text(size=22))+
+  theme(plot.title = element_text(size=30))+
+  theme(text = element_text(family = "serif"))+
   geom_point(data=coords_freshwater_df, 
              aes(x=x, y=y), colour="Deep Pink", 
              fill="Pink",pch=21, size=2, alpha=I(0.7))
