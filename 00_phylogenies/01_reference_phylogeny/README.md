@@ -66,35 +66,29 @@ cat all.18S.aligned.trimal99.5.fasta | sed 's/ 2069 bp//' | tr '.' '-' > all.18S
 
 ## Concatenate sequences
 
-Concatenate sequences with the concat.pl script:
-
-```
-perl ./concat.pl all.18S.aligned.trimal99.5.formatted.fasta all.28S.aligned.trimal99.5.formatted.fasta > all.18S28S.fasta
-```
-
-To run the script, make a conda environment and install the following program:
-
-```
-conda install -c "bioconda/label/cf201901" snippy
-```
-
-After concatenating the number of sequences was 2789, while the number of sequences in the 18S file was 2671, so something had gone wrong. 118 sequeces must be different. To find the sequences with different headers, the following commands were run:
+Check if the 18S file and 28S file have the same number of sequences. Some might have been removed from the 18S file during the clustering step. If the number of sequences in the two files are different, find out which sequences these are: 
 
 ```
 diff <(cat all.18S.aligned.trimal99.5.formatted.fasta | grep ">" | sort)  <(cat all.28S.aligned.trimal99.5.formatted.fasta | grep ">" | sort) | grep "^>" | awk -F\> '{print $3}' > difference.list
 wc -l differece.list
 ```
 
-This gave an output of 118 sequences with different heaeders. We found that these 118 sequences were removed from the 18S file during the clustering step. Therefore we decided to remove them from the 28S file before concatenating. They were removed with the filter_fasta_by_list_of_headers.py python script (biopython was installed with pip install):
+Remove these sequences from the 28S file, using the filter_fasta_by_list_of_headers.py python script (this requires that biopython is installed):
 
 ```
 ./filter_fasta_by_list_of_headers.py all.28S.aligned.trimal99.5.formatted.fasta difference.list > 28S.filtered.fasta
 ```
 
-Then concatenation was repeated:
+Before concatenating, make a conda environment and install the following program:
 
 ```
-perl ./concat.pl all.18S.aligned.trimal99.5.formatted.fasta 28S.filtered.fasta > all.18S28S.fasta
+conda install -c "bioconda/label/cf201901" snippy
+```
+
+Then concatenate sequences with the concat.pl script:
+
+```
+perl ./concat.pl all.18S.aligned.trimal99.5.formatted.fasta all.28S.aligned.trimal99.5.formatted.fasta > all.18S28S.fasta
 ```
 
 Statistics for concatenated file: 
