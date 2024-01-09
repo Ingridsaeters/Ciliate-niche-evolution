@@ -27,7 +27,7 @@ all.18S.aligned_auto.man_trimmed.fasta  FASTA   DNA      2,671  17,682,020    6,
 seqkit seq -g all.18S.aligned_auto.man_trimmed.fasta > all.18S.unaligned_auto.man_trimmed.fasta
 ```
 
-4. Align with mafft-linsi 
+4. Align with mafft-linsi (18S.mafft_linsi.sbatch)
 
 
 Statistics after alignment:
@@ -98,7 +98,7 @@ file              format  type  num_seqs     sum_len  min_len  avg_len  max_len
 all.18S28S.fasta  FASTA   DNA      2,671  15,983,264    5,984    5,984    5,984
 ```
 
-## Reannotate
+## Taxonomic annotation
 
 We are following the reference tree for ciliates from Rajter & Dunthorn, 2021. We therefore made the following changes to annotation: 
 - Plagiopylea should be a main group (not an undergroup of Prostomatea). 
