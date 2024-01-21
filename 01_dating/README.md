@@ -10,6 +10,8 @@ for file in all.*.tree.raxml.rooted.bestTree; do python extract_clade.py "$file"
 for file in all.*.tree.raxml.rooted.bestTree; do python extract_clade.py "$file" Dinoflagellata Dinoflagellata."$file"; done;
 ```
 
+## Select taxa for calibration
+
 For each taxon you have dating information for, select taxa so that your calibration will be for the node that separates the fossil taxon from its closest sister taxa. 
 
 ## TreePL

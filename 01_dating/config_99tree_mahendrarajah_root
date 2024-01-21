@@ -1,0 +1,50 @@
+[input files containing the ML trees]
+treefile=/cluster/home/ingrmsae/nn8118k/ingrid/ciliate_niche/analyses/3_dating/99.tree/all.99.tree.raxml.edited.bestTree
+
+[general commands]
+numsites = 5984
+nthreads = 4 
+# thorough
+log_pen
+
+[Calibrations]
+mrca = Colpoda M97908_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|CON3P|Colpodea|core-Colp|Colpodida|colpodids|g_Colpoda|Colpoda+inflata|strain_ATCC-30917 fe04b99589b17d06666ab4bfadb41e4b69c21baa_size_216_tax_Alveolata_Ciliophora_Colpodea
+min = Colpoda 115
+mrca = Pseudoplatyophrya AF060452_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|CON3P|Colpodea|core-Colp|Colpodida|grossglockneriids|g_Pseudoplatyophrya|Pseudoplatyophrya+nana|strain_Lynn-1998 c5263d7d9d2d996e0453756ebf373dda9cc698ad_size_10_tax_Alveolata_Ciliophora_Colpodea
+min = Pseudoplatyophrya 93.9
+mrca = Cyrtolophosis EU039899_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|CON3P|Colpodea|core-Colp|Cyrtolophosidida|cyrtolophosids|g_Cyrtolophosis|Cyrtolophosis+mucicola|strain_Dunthorn-2007-Austria 839ac7a1c1e132203bc16858f2120a52324c7c22_size_44_tax_Alveolata_Ciliophora_Colpodea
+min = Cyrtolophosis 93.9
+mrca = Bryometopus KJ873045_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|CON3P|Colpodea|core-Colp|Bursariomorphida|Btriquetrus-lineage|Bryometopus+triquetrus|strain_BryTriq1 4c4a3d37cedc856f1ea0fa50dad5fd367cab0190_size_16_tax_Alveolata_Ciliophora_Colpodea
+min = Bryometopus 93.9
+mrca = Tetrahymena AF364042_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|CON3P|OP-clade|Oligohymenophorea|Hymenostomatia|Tetrahymenida|g_Tetrahymena|Tetrahymena+rostrata 7824cbb2d4ce7bda0df265820974bbe721a34fe2_size_20_tax_Alveolata_Ciliophora_NA
+min = Tetrahymena 93.9
+mrca = Paramecium AB206537_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|CON3P|OP-clade|Oligohymenophorea|Peniculia|g_Paramecium|Paramecium+bursaria 5c91fd98f0276b9c41cd602e6d1dc437d93a2b7b_size_780_tax_Alveolata_Ciliophora_Oligohymenophorea
+min = Paramecium 93.9
+mrca = Vorticellidae AF335518_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|CON3P|OP-clade|Oligohymenophorea|Peritrichia|Sessilida|vorticellids|AV-group|Vorticellidae|g_Vorticella|Vorticella+campanula 64fec787a1bad0a173f98167fb8c1ea9b62136bb_size_30_tax_Alveolata_Ciliophora_Oligohymenophorea
+min = Vorticellidae 201.1
+mrca = Root AY187933_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Postciliodesmatophora|Karyorelictea|Geleiidae|g_Geleia|Geleia+swedmarkii|strain_Nah AY103190_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|CON3P|OP-clade|Oligohymenophorea|Scuticociliatia|Philasterida|Uelegans-clade|Uronema+elegans
+min = Root 800
+max = Root 1879.6
+
+[Priming command]
+# prime
+
+[Best optimization parameters]
+opt = 2
+optad = 2
+optcvad = 0
+
+[Cross validation analyses]
+# randomcv
+# cviter = 5
+# cvsimaniter = 1000000000
+# cvstart = 1
+# cvstop = 0.00000000000001
+# cvmultstep = 0.1
+# cvoutfile = treePL_2.cv.out
+
+[Best smoothing value]
+smooth = 5.47715e+35
+
+[Output file of dating step]
+outfile = /cluster/home/ingrmsae/nn8118k/ingrid/ciliate_niche/analyses/3_dating/99.tree/all.99.tree.raxml.mahendrarajah.dated.bestTree 
