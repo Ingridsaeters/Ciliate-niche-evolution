@@ -1,0 +1,29 @@
+# Dating
+
+## Extracting subtrees
+
+Extract trees of only the clades you have fossils from with the extract_clade.py script, to make it easier to select taxa for node calibrations. 
+
+```
+for file in all.*.tree.raxml.rooted.bestTree; do python extract_clade.py "$file" Colpodea Colpodea."$file"; done;
+for file in all.*.tree.raxml.rooted.bestTree; do python extract_clade.py "$file" Oligohymenophorea Oligohymenophorea."$file"; done;
+for file in all.*.tree.raxml.rooted.bestTree; do python extract_clade.py "$file" Dinoflagellata Dinoflagellata."$file"; done;
+```
+
+For each taxon you have dating information for, select taxa so that your calibration will be for the node that separates the fossil taxon from its closest sister taxa. 
+
+## TreePL
+
+Follow this manual for treePL: https://doi.org/10.48550/arXiv.2008.07054.
+
+Run the configuration file in treePL in three different steps:
+1. Priming - This step will try to find the best optimisation parameters for your run. Run treePL with the configuration file, but comment out [Best optimization parameters], [Cross validation analyses] and [Best smoothing value]. Give it three hours.
+2. Cross Validation (CV) analysis - This step will try to find the best smoothing parameter that affects the penalty of rate variation across the tree. Run this analysis with random subsample and replicate cross-validation (RSRCV). This will randomly sample, with replacement, multiple terminal nodes, recalculate rates and dates with these nodes removed, and calculate the averaged error over the sampled nodes. Add the best optimisation parameters from step 1. For [Cross validation analyses] use the same settings as in the manual, except the cvstart parameter (we set it to 1, while in the manual it is 100000). Unless you are expecting rates consistent with a strict clock model, you may not need a high cvstart value. Run treePL with the configuration file again, but this time comment out [Priming command] and [Best smoothing value]. Give it 24 hours.
+3. Date the tree - This step uses the best optimisation parameters and the best smoothing value to date the tree. Add the smoothing value you got in step 2. Comment out [Priming command] and [Cross validation analyses] and run it in treePL again. Give it three days.
+
+The = sign in the tree causes a problem for treePL, since the config file uses = signs for assigning calibration nodes. Change the = sign to _ in the tree, and for the calibration taxa given in the calibration file.
+
+```
+cat all.15.tree.raxml.rooted.bestTree | sed -E 's/=/_/g' > all.15.tree.raxml.rooted.formatted.bestTree
+```
+
