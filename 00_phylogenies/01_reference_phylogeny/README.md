@@ -27,7 +27,7 @@ all.18S.aligned_auto.man_trimmed.fasta  FASTA   DNA      2,671  17,682,020    6,
 seqkit seq -g all.18S.aligned_auto.man_trimmed.fasta > all.18S.unaligned_auto.man_trimmed.fasta
 ```
 
-4. Align with mafft-linsi 
+4. Align with mafft-linsi (18S.mafft_linsi.sbatch)
 
 
 Statistics after alignment:
@@ -66,35 +66,29 @@ cat all.18S.aligned.trimal99.5.fasta | sed 's/ 2069 bp//' | tr '.' '-' > all.18S
 
 ## Concatenate sequences
 
-Concatenate sequences with the concat.pl script:
-
-```
-perl ./concat.pl all.18S.aligned.trimal99.5.formatted.fasta all.28S.aligned.trimal99.5.formatted.fasta > all.18S28S.fasta
-```
-
-To run the script, make a conda environment and install the following program:
-
-```
-conda install -c "bioconda/label/cf201901" snippy
-```
-
-After concatenating the number of sequences was 2789, while the number of sequences in the 18S file was 2671, so something had gone wrong. 118 sequeces must be different. To find the sequences with different headers, the following commands were run:
+Check if the 18S file and 28S file have the same number of sequences. Some might have been removed from the 18S file during the clustering step. If the number of sequences in the two files are different, find out which sequences these are: 
 
 ```
 diff <(cat all.18S.aligned.trimal99.5.formatted.fasta | grep ">" | sort)  <(cat all.28S.aligned.trimal99.5.formatted.fasta | grep ">" | sort) | grep "^>" | awk -F\> '{print $3}' > difference.list
 wc -l differece.list
 ```
 
-This gave an output of 118 sequences with different heaeders. We found that these 118 sequences were removed from the 18S file during the clustering step. Therefore we decided to remove them from the 28S file before concatenating. They were removed with the filter_fasta_by_list_of_headers.py python script (biopython was installed with pip install):
+Remove these sequences from the 28S file, using the filter_fasta_by_list_of_headers.py python script (this requires that biopython is installed):
 
 ```
 ./filter_fasta_by_list_of_headers.py all.28S.aligned.trimal99.5.formatted.fasta difference.list > 28S.filtered.fasta
 ```
 
-Then concatenation was repeated:
+Before concatenating, make a conda environment and install the following program:
 
 ```
-perl ./concat.pl all.18S.aligned.trimal99.5.formatted.fasta 28S.filtered.fasta > all.18S28S.fasta
+conda install -c "bioconda/label/cf201901" snippy
+```
+
+Then concatenate sequences with the concat.pl script:
+
+```
+perl ./concat.pl all.18S.aligned.trimal99.5.formatted.fasta all.28S.aligned.trimal99.5.formatted.fasta > all.18S28S.fasta
 ```
 
 Statistics for concatenated file: 
@@ -104,7 +98,7 @@ file              format  type  num_seqs     sum_len  min_len  avg_len  max_len
 all.18S28S.fasta  FASTA   DNA      2,671  15,983,264    5,984    5,984    5,984
 ```
 
-## Reannotate
+## Taxonomic annotation
 
 We are following the reference tree for ciliates from Rajter & Dunthorn, 2021. We therefore made the following changes to annotation: 
 - Plagiopylea should be a main group (not an undergroup of Prostomatea). 
@@ -247,4 +241,4 @@ To find the log likelihood of the accepted trees:
 
 ```
 grep "Final LogLikelihood:" all.18S28S.constrained.{1,2,3,4,5,6,7,8,10,12,14,15,16,17,21,22,27,28,32,33,34,36,37,38,41,42,44,45,47,51,52,53,54,56,57,59,62,63,65,66,67,68,69,70,72,73,74,75,76,77,78,81,83,85,86,87,88,89,92,97,99,100}.tree.raxml.log | awk '{print $NF}' | sort > accepted_trees.logL.sorted
-```|
+```
