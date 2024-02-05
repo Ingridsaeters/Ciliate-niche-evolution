@@ -29,3 +29,8 @@ Run the configuration file in treePL in three different steps:
 2. Cross Validation (CV) analysis - This step will try to find the best smoothing parameter that affects the penalty of rate variation across the tree. Run this analysis with random subsample and replicate cross-validation (RSRCV). This will randomly sample, with replacement, multiple terminal nodes, recalculate rates and dates with these nodes removed, and calculate the averaged error over the sampled nodes. Add the best optimisation parameters from step 1. For [Cross validation analyses] use the same settings as in the manual, except the cvstart parameter (we set it to 1, while in the manual it is 100000). Unless you are expecting rates consistent with a strict clock model, you may not need a high cvstart value. Run treePL with the configuration file again, but this time comment out [Priming command] and [Best smoothing value]. Give it 24 hours. The smoothing value will be the lowest chisq value you get as output. 
 3. Date the tree - This step uses the best optimisation parameters and the best smoothing value to date the tree. Add the smoothing value you got in step 2. Comment out [Priming command] and [Cross validation analyses] and run it in treePL again. Give it 24 hours.
 
+To comment out several lines at once in vim: 
+1. Go to the first line and press shift+v and mark all the lines you want to comment out
+2. Press :s/^/# / and hit enter
+3. To remove the yellow search line that comes up, press :nohl and hit enter
+
