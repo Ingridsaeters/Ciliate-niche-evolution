@@ -66,3 +66,22 @@ Activate this script with the following command, to make one sbatch job per tree
 ```
 for i in 1 2 3 4 5 6 7 8 10 12 14 15 16 17 21 22 27 28 32 33 34 36 37 38 41 42 44 45 47 51 52 53 54 56 57 59 62 63 65 66 67 68 69 70 72 73 74 75 76 77 78 81 83 85 86 87 88 89 92 97 99 100; do echo $i; sbatch trees.sbatch ${i}; sleep 1; done
 ```
+## Robinson Foulds and clustering
+Calculate Robinson Foulds distances for the 62 trees with RAxML-ng. First make one file for all 62 trees. Concatenate by increasing order of number in the filename. 
+
+```
+ls -v all.18S28S.*.tree.raxml.bestTree | xargs cat > all.18S28S.bestTree
+```
+
+Then calculate Robinson Foulds distances. 
+
+```
+raxml-ng --rfdist --tree all.18S28S.bestTree --prefix RF
+```
+
+Use these distances for a clustering analysis in R, using the Rscript Clustering.R. 
+
+Decide a reasonable threshold value to choose which cluster level to select trees from. Choose one arbitrary tree from each level below this cluster. 
+
+## Rooting 
+Root the trees you select with the root_at_node.py script. 
