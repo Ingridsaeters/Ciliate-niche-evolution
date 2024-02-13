@@ -81,7 +81,7 @@ raxml-ng --rfdist --tree all.18S28S.bestTree --prefix RF
 
 Use these distances for a clustering analysis in R, using the Rscript Clustering.R. 
 
-Decide a reasonable threshold value to choose which cluster level to select trees from. Choose one arbitrary tree from each level below this cluster. 
+Decide on a reasonable threshold value to choose which cluster level to select trees from. Choose one arbitrary tree from each level below this cluster. 
 
 ## Rooting 
 Root the trees you select with the root_at_node.py script. 
