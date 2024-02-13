@@ -10,7 +10,7 @@ library(tidyr)
 library(fastcluster)
 
 ## Set working directory
-setwd("/Users/ingri/OneDrive/Dokumenter/ciliate_niche/analyses/Analyses/clustering")
+setwd("/Users/path/to/directory")
 
 # Read in distance file ----
 #___________________________
