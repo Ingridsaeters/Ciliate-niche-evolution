@@ -8,6 +8,8 @@ Extract trees of only the clades you have fossils from with the extract_clade.py
 for file in all.*.tree.raxml.rooted.bestTree; do python extract_clade.py "$file" Colpodea Colpodea."$file"; done;
 for file in all.*.tree.raxml.rooted.bestTree; do python extract_clade.py "$file" Oligohymenophorea Oligohymenophorea."$file"; done;
 for file in all.*.tree.raxml.rooted.bestTree; do python extract_clade.py "$file" Dinoflagellata Dinoflagellata."$file"; done;
+for file in all.*.tree.raxml.rooted.bestTree; do python extract_clade.py "$file" Armophorea Armophorea."$file"; done;
+for file in all.*.tree.raxml.rooted.bestTree; do python extract_clade.py "$file" Litostomatea Litostomatea."$file"; done;
 ```
 
 ## Select taxa for calibration
