@@ -36,3 +36,35 @@ To comment out several lines at once in vim:
 2. Press :s/^/# / and hit enter
 3. To remove the yellow search line that comes up, press :nohl and hit enter
 
+## Extract soil, marine and frehwater trees
+
+Make a list of all the soil ciliate ASVs in the tree. First, make a pattern file from the eukbank file. 
+
+```
+grep ">" eukbank_ciliate_soil.fasta | tr ";" "_" | tr -d ">" > eukbank_ciliate_soil.list
+```
+
+Format the pattern file, since "=" has been changed to _ in the trees. 
+
+```
+sed -E 's/(.*)_size=(.*)_tax=(.*)/\1/g' eukbank_ciliate_soil.list > eukbank_ciliate_soil.reduced.list
+```
+
+Extract ASV soil ciliate fasta sequences from the final alignment. 
+
+```
+seqkit grep -r -f eukbank_ciliate_soil.reduced.list all.18S28S.ciliate.final.edited.unique.fasta > all.18S28S.ciliate.soil.final.edited.unique.fasta
+```
+
+Make a pattern file of these sequences to prune the trees. 
+```
+grep ">" all.18S28S.ciliate.soil.final.edited.unique.fasta > soil.list
+cat soil.list | tr -d ">" > soil.formatted.list
+```
+
+Prune the trees, to create a tree with only soil ciliate ASVs. 
+```
+python prune.py 99.dated.mahendrarajah_root.nwk soil.formatted.list 99.dated.mahendrarajah_root_soil.nwk
+```
+Do the same proceedure for marine and freshwater ASVs.
+
