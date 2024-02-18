@@ -1,0 +1,72 @@
+[input files containing the ML trees]
+treefile=/cluster/home/ingrmsae/nn8118k/ingrid/ciliate_niche/analyses/3_dating/15.tree/all.15.tree.raxml.rooted.formatted.bestTree
+
+[general commands]
+numsites = 5984
+nthreads = 4
+# thorough
+log_pen
+
+[Primary calibrations]
+# mrca = Tintinnida KJ762922_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|SAL|Spirotrichea|Perilemmaphora|Oligotrichia|Choreotrichida|Tintinnina|clone_SGUH1220 45a973adc1e563e246575d07e9667158205ff59f_size_11_tax_Alveolata_Ciliophora_Spirotrichea 
+# min = Tintinnida 100.5
+# mrca = Colpoda KJ607919_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|CON3P|Colpodea|core-Colp|Colpodida|g_Exocolpoda|strain_PAPSc-6 KJ873049_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|CON3P|Colpodea|core-Colp|Colpodida|bryophryids|g_Jaroschia|Jaroschia+sumptuosa|strain_JarSump1
+# min = Colpoda 115
+# mrca = Pseudoplatyophrya AF060452_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|CON3P|Colpodea|core-Colp|Colpodida|grossglockneriids|g_Pseudoplatyophrya|Pseudoplatyophrya+nana|strain_Lynn-1998 3b98e5e3360a8aad0d5db305d97a7726a8d6f520_size_11_tax_Alveolata_Ciliophora_Colpodea
+# min = Pseudoplatyophrya 93.9
+# mrca = Cyrtolophosis m54088_170216_085445_63111272_ccs_Otu0490_2_soil_agricultural-soil_Eukaryota_TSAR_Alveolata_Ciliophora_Colpodea_Colpodea_X_Cyrtolophosidida_Cyrtolophosis_Genus ae2a1c02eb95a59bdb330641a76728dda69e4212_size_452_tax_Alveolata_Ciliophora_Colpodea
+# min = Cyrtolophosis 93.9
+# mrca = Bryometopus EU039886_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|CON3P|Colpodea|core-Colp|Bursariomorphida|bursariids|Batypicus-lineage|Bryometopus+atypicus|strain_Dunthorn-2007 1683954be2aa71aa52fef165b0f60597958f3299_size_17_tax_Alveolata_Ciliophora_Colpodea
+# min = Bryometopus 93.9
+# mrca = Tetrahymena EF070253_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|CON3P|OP-clade|Oligohymenophorea|Hymenostomatia|Tetrahymenida|g_Tetrahymena|Tetrahymena+paravorax 7824cbb2d4ce7bda0df265820974bbe721a34fe2_size_20_tax_Alveolata_Ciliophora_NA
+# min = Tetrahymena 93.9
+# mrca = Paramecium KM091235_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|CON3P|OP-clade|Oligohymenophorea|Peniculia|g_Paramecium|Paramecium+chlorelligerum FJ868200_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|CON3P|OP-clade|Oligohymenophorea|Peniculia|Apofrontonia-clade|Fdidieri-lineage|Frontonia+elegans 
+# min = Paramecium 93.9
+# mrca = Vorticellidae GQ221940_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|CON3P|OP-clade|Oligohymenophorea|Peritrichia|Sessilida|vorticellids|AV-group|Vorticellidae|g_Apocarchesium|Apocarchesium+arndti c099c0f55498dc4aa49ee268a0b4a3e2895edfb2_size_1265_tax_Alveolata_Ciliophora_Oligohymenophorea
+# min = Vorticellidae 201.1
+# mrca = Root AY187933_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Postciliodesmatophora|Karyorelictea|Geleiidae|g_Geleia|Geleia+swedmarkii|strain_Nah AY103190_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|CON3P|OP-clade|Oligohymenophorea|Scuticociliatia|Philasterida|Uelegans-clade|Uronema+elegans
+# min = Root 800
+# max = Root 1879.6
+# mrca = Dinophyceae M88521_Eukaryota|Diaphoretickes|Sar|Alveolata|Myzozoa|DP-clade|Dinoflagellata|Dinophyceae|Suessiales|Suessiaceae|symbiodiniids|g_Symbiodinium|Symbiodinium+microadriaticum|strain_Rowan-1992 c-2796_conseq_Otu0120_231_surface_Ms1-DCM_Eukaryota_TSAR_Alveolata_Dinoflagellata_Syndiniales_Dino-Group-II_Dino-Group-II-Clade-3_Dino-Group-II-Clade-3_X_Dino-Group-II-Clade-3_X_sp_Species
+# min = Dinophyceae 227
+# mrca = Gonyaulacales AB548851_Eukaryota|Diaphoretickes|Sar|Alveolata|Myzozoa|DP-clade|Dinoflagellata|Dinophyceae|Gonyaulacales|core-G|FG-clade|g_Fukuyoa|strain_Suda-2013-Go3 M88521_Eukaryota|Diaphoretickes|Sar|Alveolata|Myzozoa|DP-clade|Dinoflagellata|Dinophyceae|Suessiales|Suessiaceae|symbiodiniids|g_Symbiodinium|Symbiodinium+microadriaticum|strain_Rowan-1992
+# min = Gonyaulacales 182
+# max = Gonyaulacales 227
+
+[Secondary calibrations]
+mrca = Clevelandella_Nyctotherus MK084748_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|SAL|ACM-clade|Armophorea|MAC-clade|HAC-clade|LAC-clade|Clevelandellida|g_Nyctotheroides|Nyctotheroides+cordiformis|strain_Fl KY432958_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|SAL|ACM-clade|Armophorea|MAC-clade|HAC-clade|LAC-clade|atopospirids|MhMy-lineage|Metopus+hasei|strain_Omar-2017-China 
+min = Clevelandella_Nyctotherus 52
+max = Clevelandella_Nyctotherus 407
+mrca = Trichostomatia AF029763_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|SAL|Litostomatea|core-Lito|spathidiids|Trichostomatia|g_Neobalantidium|Neobalantidium+coli 4babb9473cb99e6a1a90e4c627fd4f8e7c43c5a9_size_13_tax_Alveolata_Ciliophora_Litostomatea
+min = Trichostomatia 61.66
+max = Trichostomatia 169.4
+mrca = Macropodiniida AF298825_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|SAL|Litostomatea|core-Lito|spathidiids|Trichostomatia|Macropodiniida|Amylovoracidae|g_Amylovorax|Amylovorax+dogieli KJ124724_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|SAL|Litostomatea|core-Lito|spathidiids|Trichostomatia|Macropodiniida|Balantidium+polyvacuolum
+min = Macropodiniida 23.04
+max = Macropodiniida 56
+mrca = Ophryoscolex U57768_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|SAL|Litostomatea|core-Lito|spathidiids|Trichostomatia|EI-clade|Entodiniomorphida|Ophryoscolecidae|g_Ophryoscolex|Ophryoscolex+purkynjei AM158474_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Intramacronucleata|SAL|Litostomatea|core-Lito|spathidiids|Trichostomatia|EI-clade|Entodiniomorphida|Ophryoscolecidae|g_Epidinium|Epidinium+caudatum
+min = Ophryoscolex 10.2
+max = Ophryoscolex 27.29 
+
+
+[Priming command]
+# prime
+
+[Best optimization parameters]
+opt = 1
+optad = 0
+optcvad = 3
+
+[Cross validation analyses]
+randomcv
+cviter = 5
+cvsimaniter = 1000000000
+cvstart = 1
+cvstop = 0.00000000000001
+cvmultstep = 0.1
+cvoutfile = 15.m.cv.out
+
+[Best smoothing value]
+# smooth = 4.42755e+36
+
+[Output file of dating step]
+outfile =/cluster/home/ingrmsae/nn8118k/ingrid/ciliate_niche/analyses/3_dating/15.tree/all.15.tree.treepl.mahendrarajah.dated_secondary.bestTree
