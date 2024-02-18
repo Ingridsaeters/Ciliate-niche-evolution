@@ -1,5 +1,5 @@
 [input files containing the ML trees]
-treefile=/cluster/home/ingrmsae/nn8118k/ingrid/ciliate_niche/analyses/3_dating/15.tree/all.15.tree.raxml.rooted.formatted.bestTree
+treefile=/cluster/home/pingrmsae/nn8118k/ingrid/ciliate_niche/analyses/3_dating/15.tree/all.15.tree.raxml.rooted.formatted.bestTree
 
 [general commands]
 numsites = 5984
