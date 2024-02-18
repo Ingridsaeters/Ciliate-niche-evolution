@@ -196,7 +196,9 @@ Make 100 maximum likelihood trees to take phylogenetic uncertainties into accoun
 for i in $(seq 100); do echo $i; sbatch <name of sbatch script> ${i}; sleep 1; done
 ```
 
-## Apply all statistical significance tests implemented in IQ-TREE to this set of 100 ML trees
+## IQ-TREE - Significance tests
+
+Apply all statistical significance tests implemented in IQ-TREE to this set of 100 ML trees
 
 ### Information about the statistical tests performed using IQ-TREE:
 - Kishino-Hasegawa test: Uses differences in support provided by individual sites for two trees to determine if the overall differences between the trees are significantly greater than expected from random sampling error. Assumes that characters are independant and identically distributed. Should be of trees that are selected a priori.
