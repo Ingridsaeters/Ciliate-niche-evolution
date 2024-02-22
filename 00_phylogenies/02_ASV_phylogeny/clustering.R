@@ -2,6 +2,13 @@
 #                     Rscript Clustering Niche Evolution                      #
 ###############################################################################
 
+#=================#
+# Ingrid Sætersdal
+# EDGE group, Natural history museum, University of Oslo
+# 22.02.2024
+# Version 1
+#=================#
+
 # Setup ----
 #___________
 ## Load packages
