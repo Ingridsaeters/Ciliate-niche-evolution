@@ -1,6 +1,14 @@
 ###############################################################################
-#                     Rscript Traits-Soil Niche Evolution                     #
+#                               Rscript Traits-Soil                      |    #
 ###############################################################################
+
+#=================#
+# Ingrid Sætersdal
+# Niche Evolution 
+# EDGE group, Natural history museum, University of Oslo
+# 22.02.2024
+# Version 1
+#=================#
 
 # Setup ----
 #___________
