@@ -1,6 +1,14 @@
 ###############################################################################
-#                 Rscript Sampling Points Maps Niche Evolution                #
+#                           Rscript Sampling Points Maps                      #
 ###############################################################################
+
+#=================#
+# Ingrid Sætersdal
+# Niche Evolution 
+# EDGE group, Natural history museum, University of Oslo
+# 22.02.2024
+# Version 1
+#=================#
 
 # Setup ----
 #___________
