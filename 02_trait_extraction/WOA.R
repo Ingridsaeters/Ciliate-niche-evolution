@@ -2,6 +2,14 @@
 #                     Rscript World Ocean Atlas Niche Evolution               #
 ###############################################################################
 
+#=================#
+# Ingrid Sætersdal
+# Niche Evolution 
+# EDGE group, Natural history museum, University of Oslo
+# 22.02.2024
+# Version 1
+#=================#
+
 ### Download WOA data from: https://www.ncei.noaa.gov/access/world-ocean-atlas-2018/
 
 # Setup ----
