@@ -2,6 +2,13 @@
 #           Rscript Global Marine Environment Dataset Niche Evolution         #
 ###############################################################################
 
+#=================#
+# Ingrid Sætersdal
+# EDGE group, Natural history museum, University of Oslo
+# 22.02.2024
+# Version 1
+#=================#
+
 ### Download GMED data from: https://gmed.auckland.ac.nz/download.html 
 
 # Setup ----
