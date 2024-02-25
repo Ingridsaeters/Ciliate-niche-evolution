@@ -16,11 +16,11 @@
 
 ## Fossils used for calibration
 
-- root
-  - 00_phylogenies
-  - 01_dating
-  - 02_trait_extraction
-  - 03_modelling_niches
+├── 00_phylogenies
+├── 01_dating
+├── 02_trait_extraction
+├── 03_modelling_niches
+└── README.md
 
 
 <put link to google doc>
