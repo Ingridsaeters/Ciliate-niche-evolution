@@ -16,4 +16,6 @@
 
 ## Fossils used for calibration
 
+tree()
+
 <put link to google doc>
