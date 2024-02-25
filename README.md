@@ -16,6 +16,11 @@
 
 ## Fossils used for calibration
 
-tree
+- root
+  - 00_phylogenies
+  - 01_dating
+  - 02_trait_extraction
+  - 03_modelling_niches
+
 
 <put link to google doc>
