@@ -53,7 +53,7 @@ sed -E 's/(.*)_size=(.*)_tax=(.*)/\1/g' eukbank_ciliate_soil.list > eukbank_cili
 Extract ASV soil ciliate fasta sequences from the final alignment. 
 
 ```
-seqkit grep -r -f eukbank_ciliate_soil.reduced.list all.18S28S.ciliate.final.edited.unique.fasta > all.18S28S.ciliate.soil.final.edited.unique.fasta
+seqkit grep -r -f eukbank_ciliate_soil.reduced.list all.18S28S.ciliate.final.edited.unique.fasta > all.18S28S.ciliate.soil.final.fasta
 ```
 
 Make a pattern file of these sequences to prune the trees. 
