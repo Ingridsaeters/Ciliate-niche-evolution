@@ -58,7 +58,7 @@ seqkit grep -r -f eukbank_ciliate_soil.reduced.list all.18S28S.ciliate.final.fas
 
 Make a pattern file of these sequences to prune the trees. 
 ```
-grep ">" all.18S28S.ciliate.soil.final.edited.unique.fasta > soil.list
+grep ">" all.18S28S.ciliate.soil.final.fasta > soil.list
 cat soil.list | tr -d ">" > soil.formatted.list
 ```
 
