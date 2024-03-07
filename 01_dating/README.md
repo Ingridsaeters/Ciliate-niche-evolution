@@ -60,11 +60,12 @@ Make a pattern file of these sequences to prune the trees.
 ```
 grep ">" all.18S28S.ciliate.soil.final.fasta > soil.list
 cat soil.list | tr -d ">" > soil.formatted.list
+cat soil.formatted.list | sed -E 's/(.*)_size=(.*)_tax=(.*)/\1_size_\2_tax_\3/g' > soil.formatted.reduced.list
 ```
 
 Prune the trees, to create a tree with only soil ciliate ASVs. 
 ```
-python prune.py 99.dated.mahendrarajah_root.nwk soil.formatted.list 99.dated.mahendrarajah_root_soil.nwk
+python prune.py 99.dated.mahendrarajah_root.nwk soil.formatted.reduced.list 99.dated.mahendrarajah_root_soil.nwk
 ```
 Do the same proceedure for marine and freshwater ASVs.
 
