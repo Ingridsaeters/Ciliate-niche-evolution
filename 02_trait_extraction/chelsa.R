@@ -1,7 +1,14 @@
 ###############################################################################
-#                     Rscript CHELSA Niche Evolution                          #
+#                                 Rscript CHELSA                              #
 ###############################################################################
 
+#=================#
+# Ingrid Sætersdal
+# Niche Evolution 
+# EDGE group, Natural history museum, University of Oslo
+# 22.02.2024
+# Version 1
+#=================#
 
 ### Download the bio1, bio10, bio12, bio15, bio16 and bio19 CHELSA data in tif format https://chelsa-climate.org/downloads/
 ### path: Downloads/climatologies/1981-2010/bio

@@ -1,13 +1,19 @@
 ###############################################################################
-#                     Rscript Traits-Soil Niche Evolution                     #
+#                               Rscript Traits-Soil                           #
 ###############################################################################
+
+#=================#
+# Ingrid Sætersdal
+# Niche Evolution 
+# EDGE group, Natural history museum, University of Oslo
+# 22.02.2024
+# Version 1
+#=================#
 
 # Setup ----
 #___________
 library(dplyr)
 library(plyr)
-library(tidyverse)
-library(readr)
 
 
 ## set working directory
@@ -70,14 +76,43 @@ topography<- topography %>%
 
 traits_soil<-merge(traits_soil, topography[, c("sample", "elevation", "TPI", "slope")], by="sample")
 
+
 # Group by ASVs and calculate mean values ----
 #________________________________________
-traits_soil <- traits_soil %>%
+traits <- traits_soil %>%
   group_by(ASV) %>%
   summarise_at(vars(-group_cols()), mean, na.rm = TRUE)
 
 ## Remove the sample column
-traits_soil <- traits_soil[-2]
+traits <- traits[-2]
+
+# Group by ASV and calculate SD values ----
+#__________________________________________
+## Calculate the number of each ASV
+asv_counts <- traits_soil %>%
+  count(ASV, name = "ASV_count")
+
+## Calculate standard deviation for each trait 
+sd_soil <- traits_soil %>%
+  group_by(ASV) %>%
+  summarise_at(vars(-group_cols()), sd, na.rm = TRUE) %>%
+  left_join(asv_counts, by = "ASV") %>%
+  mutate(ASV_group_count = ASV_count) %>%
+  select(-ASV_count)
+
+## Add suffix _sd to trait columns
+names(sd_soil)[3:15] <- paste0(names(sd_soil[,3:15]), "_sd")
+
+## Remove the sample column
+sd_soil<-sd_soil[-2]
+
+## Rename ASV_count column to N
+colnames(sd_soil)[15]<-"N"
+
+# Merge the traits table with sd table ----
+#__________________________________________
+traits_sd<-merge(traits, sd_soil, by.x = "ASV", by.y = "ASV")
+
 
 # Add taxon ----
 #______________________________
@@ -86,13 +121,13 @@ group<-read.csv("eukbank_ciliate_soil_ASV.list", header=FALSE, sep = "\t")
 colnames(group)[1]<-"ASV"
 colnames(group)[3]<-"taxon"
 
-## Add to traits file
-traits_soil<-merge(traits_soil, group, by.x = "ASV", by.y = "ASV")
+## Add taxon information to traits file
+traits_sd<-merge(traits_sd, group, by.x = "ASV", by.y = "ASV")
 
 ## Replace ASV column with one that matches the ASV information on our trees
-traits_soil <- traits_soil[-1]
-colnames(traits_soil)[14]<-"ASV"
-traits_soil<-traits_soil %>%
+traits_sd <- traits_sd[-1]
+colnames(traits_sd)[28]<-"ASV"
+traits_sd<-traits_sd %>%
   relocate(ASV, 1) %>%
   relocate(taxon, .after=1)
 
@@ -102,9 +137,19 @@ traits_soil<-traits_soil %>%
 unique<-as.data.frame(unique(traits_soil$taxon))
 
 ## Rename taxa from undergroup to main group
-traits_soil$taxon[traits_soil$taxon=="Microthoracida"]<-"Nassophorea"
-traits_soil$taxon[traits_soil$taxon=="Nassulida"]<-"Nassophorea"
-traits_soil$taxon[traits_soil$taxon=="Phacodinium"]<-"SAL"
+traits_sd$taxon[traits_sd$taxon=="Microthoracida"]<-"Nassophorea"
+traits_sd$taxon[traits_sd$taxon=="Nassulida"]<-"Nassophorea"
+traits_sd$taxon[traits_sd$taxon=="Phacodinium"]<-"SAL"
+
+## Replace NaNs with blank
+traits_sd$socmean[is.nan(traits_sd$socmean)]<-""
+traits_sd$nitrogenmean[is.nan(traits_sd$nitrogenmean)]<-""
+traits_sd$phh2omean[is.nan(traits_sd$phh2omean)]<-""
+traits_sd$soil_temperature[is.nan(traits_sd$soil_temperature)]<-""
+traits_sd$socmean[is.na(traits_sd$socmean)]<-""
+traits_sd$nitrogenmean[is.na(traits_sd$nitrogenmean)]<-""
+traits_sd$phh2omean[is.na(traits_sd$phh2omean)]<-""
+traits_sd$soil_temperature[is.na(traits_sd$soil_temperature)]<-""
 
 # Write file ----
 #________________
@@ -119,16 +164,12 @@ write_tsv(traits_soil, "traits_soil.tsv")
 ## Load the traits file
 traits_soil<-read_tsv("traits_soil.tsv")
 
+
 ## Load the PCA scores 
 pca_scores_soil<-read_tsv("pca_scores_soil.tsv")
-traits_soil<-merge(traits_soil, pca_scores_soil, by.x ="ASV", by.y = "ASV")
-traits_soil<-traits_soil[-17]
+traits_soil<-merge(traits_sd, pca_scores_soil, by.x ="ASV", by.y = "ASV")
+traits_soil<-traits_soil[-31]
 
 # Write file ----
 #________________
 write_tsv(traits_soil, "traits_soil_PC1.tsv")
-
-
-# OPTIONAL - Make a file that is ordered by ASV to see if identical ASVs are found in different samples ----
-#________________________________________________________________________________________________
-traits_soil_ordered<-traits_soil[order(traits_soil$ASV),]

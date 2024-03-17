@@ -1,5 +1,5 @@
 [input files containing the ML trees]
-treefile=/cluster/home/ingrmsae/nn8118k/ingrid/ciliate_niche/analyses/3_dating/15.tree/all.15.tree.raxml.rooted.formatted.bestTree
+treefile=/path/to/treefile
 
 [general commands]
 numsites = 5984
@@ -69,4 +69,4 @@ cvoutfile = 15.m.cv.out
 # smooth = 4.42755e+36
 
 [Output file of dating step]
-outfile =/cluster/home/ingrmsae/nn8118k/ingrid/ciliate_niche/analyses/3_dating/15.tree/all.15.tree.treepl.mahendrarajah.dated_secondary.bestTree
+outfile =/path/to/outfile

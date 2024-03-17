@@ -1,6 +1,14 @@
 ###############################################################################
-#                       Rscript SoilTemp Niche Evolution                      #
+#                                Rscript SoilTemp                             #
 ###############################################################################
+
+#=================#
+# Ingrid Sætersdal
+# Niche Evolution 
+# EDGE group, Natural history museum, University of Oslo
+# 22.02.2024
+# Version 1
+#=================#
 
 ### Download the bio1 SoilTemp data in tif format https://zenodo.org/records/7134169
 
