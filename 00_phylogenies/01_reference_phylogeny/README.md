@@ -195,6 +195,26 @@ Make 100 maximum likelihood trees to take phylogenetic uncertainties into accoun
 ```
 for i in $(seq 100); do echo $i; sbatch <name of sbatch script> ${i}; sleep 1; done
 ```
+## Compute bootstrap support
+Use the script bootstrap.sbatch to get support values. Activate the script with this command:
+
+```
+for i in $(seq 10); do echo $i; sbatch boostrap.sbatch ${i}; sleep 1; done
+```
+
+This creates 100 bootstrap replicates (10 in each bootstrap file)
+
+Then concatenate the bootstrap files:
+
+```
+cat *.bootstraps > all.18S28S.constrained.bs.bootstraps
+```
+
+And compute support for a tree, here exemplified by tree 15:
+
+```
+raxml-ng --support --tree all.18S28S.constrained.15.tree.raxml.bestTree --bs-trees all.18S28S.constrained.bs.bootstraps --prefix support --threads 2
+```
 
 ## IQ-TREE - Significance tests
 
