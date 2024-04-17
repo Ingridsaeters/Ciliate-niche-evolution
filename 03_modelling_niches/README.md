@@ -10,10 +10,10 @@
 - Early Burst: This model assumes an initial rapid evolution of the trait value, followed by a reduction of diversification rates.
 - Late burst: This model assumes rapid evolution after relative stasis/low diversification rates. 
 
-## Mode of evolution for full tree
+### Mode of evolution for full tree
 Test the standard models of evolution (Brownian motion, Ornstein Uhlenbeck, Early burst and Late Burst) for each combination of trait and tree, to see which model fits the data best. Use the R script Rpanda.R.
 
-## Mode of evolution for clades
+### Mode of evolution for clades
 
 Prune the trees, so that you get subtrees for each clade. Use the python script prune.py. Test the standard models of evolution against the tree for each clade, but use a cutoff of 50 ASVs (don't run the analyses on trees with less than 50 tips). For soil, this includes all clades except Plagiopylea and Karyorelictea.  
 
