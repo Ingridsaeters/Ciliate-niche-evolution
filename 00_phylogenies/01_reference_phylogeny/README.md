@@ -216,6 +216,8 @@ And compute support for a tree, here exemplified by tree 15:
 raxml-ng --support --tree all.18S28S.constrained.15.tree.raxml.bestTree --bs-trees all.18S28S.constrained.bs.bootstraps --prefix support --threads 2
 ```
 
+Check how many nodes in the tree have support of over 50% using the python script compute_support_over_50.py. 
+
 ## IQ-TREE - Significance tests
 
 Apply all statistical significance tests implemented in IQ-TREE to this set of 100 ML trees
