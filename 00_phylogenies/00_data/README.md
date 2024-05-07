@@ -1,6 +1,6 @@
 # Data
 ## Eukbank
-Info on EukBank (waiting on publication). Need to specify where it is extracted from. 
+
 
 ### Extract ciliate fasta sequences from EukBank
 
