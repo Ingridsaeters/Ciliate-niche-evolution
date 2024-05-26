@@ -44,9 +44,9 @@ for(i in seq_along(trees))  {
   tree_name<-basename(trees[[i]])
   tip_labels<-tree$tip.label
   
-  # Read data (Exemplified with PC1)
+  # Read data 
     data_path<-file.path("/Users/ingri/OneDrive/Dokumenter/ciliate_niche/analyses/Analyses/modelling/pPCA/pc5_scores_marine", PCfiles[[i]])
-    PC1<-read.csv(data_path, sep = "\t")
+    PC <-read.csv(data_path, sep = "\t")
   
     # Read me file
     me_path<-file.path("/Users/ingri/OneDrive/Dokumenter/ciliate_niche/analyses/Analyses/modelling/pPCA/me_marine", mefiles[[i]])
@@ -57,7 +57,7 @@ for(i in seq_along(trees))  {
     me_reordered<-me_reordered[-1]
     
     # Calculate Pagel's lambda
-    test<-fitContinuous(tree, PC1, SE = me_reordered, model = "lambda")
+    test<-fitContinuous(tree, PC, SE = me_reordered, model = "lambda")
     
     # Create an empty list to store results for this trait
     lambda<-test$opt$lambda
