@@ -10,8 +10,9 @@
 # Version 1
 #=================#
 
-
-# Load libraries
+# Setup ----
+#___________
+## Load libraries
 library(ape)
 library(ecodist)
 library(readr)
@@ -21,17 +22,19 @@ library(adephylo)
 setwd()
 
 # Read trees and data ----
-#________________
-## Assign trees
-trees <- list.files("/path/to/treefiles_folder")
+#_________________________
+## List tree files
+trees <- list.files("/path/to/tree/folder")
 
-## Read PC scores
-traits <- list.files("/path/to/PC_scores_folder")
+## List PC files
+traits <- list.files("/path/to/PC/folder")
 
-# Make an empty list to store results
+# Perform mantel test 
+#_____________________
+## Make an empty list to store results
 results<-list()
 
-# Perform mantel test by using the first tree file in the tree folder and the first PC file in the PC folder. Then the second and so on
+## Make a loop through the first tree file in the tree folder and the first PC file in the PC folder. Then repeat for the second and so on. 
 for (i in seq_along(trees)) {
   # Read tree
   tree_path <- file.path(tree_directory, trees[[i]])
@@ -44,13 +47,14 @@ for (i in seq_along(trees)) {
   # Extract tree name from file path
   tree_name <- basename(trees[[i]])
   
-  # read trait data (PC scores)
-  trait<-read.csv(file.path("/cluster/home/ingrmsae/nn8118k/ingrid/ciliate_niche/analyses/4_modelling/pPCA/soil/pc5_scores_soil/climate", traits[[i]]), sep = "\t")
+  # Read trait data (PC scores)
+  trait<-read.csv(file.path("/path/to/PC/folder", traits[[i]]), sep = "\t")
+ 
   # Reorder by order in tree
   trait_reordered<-trait[match(tip_labels, rownames(trait)), , drop = FALSE]
   
   # Make a distance object  
-  dist<-(distance(trait_reordered, method = "euclidean"))
+  dist <- distance(trait_reordered, method = "euclidean")
   
   # Perform a mantel test with 1000 permutations
   mantel<-ecodist::mantel(dist_phylo ~ dist, nperm = 1000)
