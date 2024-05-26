@@ -13,53 +13,72 @@
 
 # Load libraries
 library(ape)
-library(tidyverse)
-library(vegan)
-library(phytools)
-library(philentropy)
+library(ecodist)
+library(readr)
+library(adephylo)
 
-# Function to perform Mantel test
-perform_mantel_test <- function(data_file, trait_column, phylo_tree, permutations = 999) {
-  # Load data
-  data <- read_tsv(data_file)
-  
-  # Extract ASV and trait column
-  data_trait <- data %>%
-    dplyr::select("ASV", {{trait_column}})
-  data_trait <- data.frame(data_trait)
-  data_trait <- data_trait[-1]
-  row.names(data_trait) <- data$ASV
-  
-  # Compute distance matrix
-  dist_trait <- distance(data_trait, method = "euclidean")
-  row.names(dist_trait) <- data$ASV
-  colnames(dist_trait) <- as.character(unlist(data[1]))
-  
-  # Match the order in the phylogenetic tree
-  dist_phylo_reordered <- phylo_tree[match(rownames(dist_trait), rownames(phylo_tree)), 
-                                      match(colnames(dist_trait), colnames(phylo_tree))]
-  
-  # Perform Mantel test
-  mantel_result <- mantel(xdis = dist_phylo_reordered, ydis = dist_trait, 
-                          method = "spearman", permutations = permutations, na.rm = TRUE)
-  
-  return(mantel_result)
+## Set working directory
+setwd()
+
+# Read trees and data ----
+#________________
+## Assign trees
+trees <- list.files("/path/to/treefiles")
+
+## Read data
+trait_data <- read_tsv("trait_data.tsv")
+
+## Assign traits for analysis
+traits<-c("trait1", "trait2", "trait3", "etc")
+
+# Perform mantel test ----
+#_________________________
+# Loop through trees
+for (tree_file in trees) {
+  # Read tree
+  tree_path <- file.path(tree_directory, tree_file)
+  tree<-read.tree(tree_path)
+
+  # Make a distance object
+  dist_phylo<-distTips(tree)
+  tip_labels<-tree$tip.label
+
+  # Extract tree name from file path
+  tree_name <- basename(tree_file)
+
+  # Loop through traits
+  for (trait in traits) {
+    
+    # read trait data
+    trait_column<-trait_data[[trait]]
+    df<-data.frame(ASV = trait_data$ASV, trait = trait_column)
+    rownames_df<-trimws(df$ASV)
+    df_reordered<-df[match(tip_labels, rownames_df), , drop = FALSE]
+    df_final<-df_reordered[-1]
+    rownames(df_final)<-df_reordered$ASV
+    
+    # Make a distance object
+    dist<-(distance(df_final, method = "euclidean"))
+
+    # Perform mantel test with 1000 permutations
+    mantel<-ecodist::mantel(dist_phylo ~ dist, nperm = 1000)
+
+    # Store results
+    result_name <- paste(tree_name, trait, sep = "_")
+    mantelr<-mantel[1]
+    pval1<-mantel[2]
+    pval2<-mantel[3]
+    pval3<-mantel[4]
+    llim<-mantel[5]
+    ulim<-mantel[6]
+
+    results[[result_name]]<-list(Mantel_r = mantelr, pval1 = pval1, pval2 = pval2, pval3=pval3, llim = llim, ulim = ulim)
+    
+    # Combine results into a data frame
+    results_df <- do.call(rbind.data.frame, results)
+
+    # Write results to a CSV file
+    write.csv(results_df, "mantel_test_marine_clades.csv", row.names = TRUE)
+  }
 }
 
-# Define paths
-tree_path <- "/path/to/treefile1", 
-	"/path/to/treefile2")
-data_file <- "data.tsv"
-
-# Read phylogenetic tree
-tree <- read.newick(tree_path)
-
-# Perform Mantel tests for different traits
-trait1_mantel <- perform_mantel_test(data_file, "trait1", tree)
-trait2_mantel <- perform_mantel_test(data_file, "trait2", tree)
-trait3_mantel <- perform_mantel_test(data_file, "trait3", tree)
-
-# Print results
-print(trait1_mantel)
-print(trait2_mantel)
-print(trait3_mantel)
