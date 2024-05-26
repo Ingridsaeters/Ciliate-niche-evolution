@@ -26,7 +26,7 @@ setwd()
 # Read trees and data ----
 #________________
 ## List treefiles
-trees <- list.files("/path/to/treefile/folder")
+trees <- list.files("/path/to/tree/folder")
 
 ## Read data
 trait_data <- read_tsv("trait_data.tsv")
@@ -42,7 +42,7 @@ results_df<-tibble()
 ## Loop through trees and traits to calculate Pagel's lambda for each tree and trait combination
 ### Loop through each tree
 for (tree_file in trees) {
-  tree<-read.newick(file.path("/path/to/treefiles", tree_file))
+  tree<-read.newick(file.path("/path/to/tree/folder", tree_file))
   tip_labels<-tree$tip.label
   tree_name <- basename(tree_file)
 
