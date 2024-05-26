@@ -30,8 +30,8 @@ trees <- list.files("/path/to/tree/folder")
 ## List files with PC scores
 traits <- list.files("/path/to/PC/folder")
 
-# Read files with measurement errors (see proceedure from Drury et al. 2018 to calculate measurement errors for PC scores)
-sems <- list.files("/path/to/me/folder")
+# List files with measurement errors (see proceedure from Drury et al. 2018 to calculate measurement errors for PC scores)
+mes <- list.files("/path/to/me/folder")
 
 # Perform model test ----
 #________________________
@@ -47,16 +47,16 @@ for (i in seq_along(trees)) {
   tip_labels<- tree$tip.label
   
   # Read me file
-  sem <- read.csv(file.path("/path/to/me/folder", sems[[i]]), sep = ",")
-  colnames(sem)[1]<-"ASV"
-  colnames(sem)[2]<-"sem_values"
+  me <- read.csv(file.path("/path/to/me/folder", mes[[i]]), sep = ",")
+  colnames(me)[1]<-"ASV"
+  colnames(me)[2]<-"me_values"
   
   # Order me file by order in tree
-  sem_reordered <- sem[match(tip_labels, sem$ASV), ,drop = FALSE]
+  me_reordered <- me[match(tip_labels, me$ASV), ,drop = FALSE]
 
-  # Make a named vector with sem
-  sem_vector <- sem_reordered$sem_values
-  names(sem_vector) <- tip_labels
+  # Make a named vector with me
+  me_vector <- me_reordered$me_values
+  names(me_vector) <- tip_labels
 
  # Read PC file
 trait <- read.csv(file.path("/path/to/PC/folder", traits[[i]]), sep = "\t")
@@ -70,7 +70,7 @@ vector <- trait_reordered$pc
 names(vector) <- rownames(trait_reordered)
 
 # Perform model analysis (Here exemplified with BM. Change to OU and EB for analysis with these model)
-BM.fit <- fit_t_standard(tree, vector, model = "BM", error = sem_vector)
+BM.fit <- fit_t_standard(tree, vector, model = "BM", error = me_vector)
 
 # Extract output
 LH <- BM.fit$logl
