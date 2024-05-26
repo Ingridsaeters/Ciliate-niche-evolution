@@ -24,11 +24,13 @@ setwd()
 
 # Read trees and data ----
 #_________________________
+## List tree files
+trees <- list.files("/path/to/tree/folder")
 
-trees <- list.files("/path/to/treefile_folder")
-
+## Read data
 data <- read_tsv(data_file.tsv)
 
+## Assign traits for analysis
 traits <- c("trait1", "trait2", "trait3", "etc")
 
 # Perform model analysis ----
@@ -38,13 +40,13 @@ results_df<-tibble()
 
 # Loop through trees
 for (tree_file in trees) {
-tree_path <- file.path("/path/to/treefile_folder", tree_file)
+tree_path <- file.path("/path/to/tree/folder", tree_file)
 tree <- read.tree(tree_path)
 tree_filename<- basename(tree_file)
 tip_labels<- tree$tip.label
 
 # Change order of data so it is in the same order as the tree
-data_tree <- data_1[match(tip_labels, rownames_data_1), , drop = FALSE]
+data_tree <- data[match(tip_labels, rownames(data)), , drop = FALSE]
 data_tree["ASV"]<-tip_labels
 
   # Loop through traits
@@ -64,7 +66,7 @@ data_tree["ASV"]<-tip_labels
     vector<-data_tree[[trait]]
     names(vector)<- data_tree$ASV
 
-    # Perform model analysis (Here exemplified with BM. Change to OU and EB if you wish to use these model)
+    # Perform model analysis (Here exemplified with BM. Change to OU and EB for analysis with these model)
     BM.fit <- fit_t_standard(tree, vector, model = "BM", error = sem)
 
     # Extract output
