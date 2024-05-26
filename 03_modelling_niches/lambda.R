@@ -25,8 +25,8 @@ setwd()
 
 # Read trees and data ----
 #________________
-## Assign trees
-trees <- list.files("/path/to/treefiles")
+## List treefiles
+trees <- list.files("/path/to/treefile/folder")
 
 ## Read data
 trait_data <- read_tsv("trait_data.tsv")
@@ -40,13 +40,13 @@ traits<-c("trait1", "trait2", "trait3", "etc")
 results_df<-tibble()
 
 ## Loop through trees and traits to calculate Pagel's lambda for each tree and trait combination
+### Loop through each tree
 for (tree_file in trees) {
-  # Loop through each tree
   tree<-read.newick(file.path("/path/to/treefiles", tree_file))
   tip_labels<-tree$tip.label
   tree_name <- basename(tree_file)
 
-  # Loop through each trait
+  #### Loop through each trait
   for (trait in traits) {
     row_names<-trait_data$ASV
     trait_data_ordered<-trait_data[match(tip_labels, row_names), , drop = FALSE]
@@ -68,9 +68,9 @@ for (tree_file in trees) {
     names(vector)<-trait_data_ordered$ASV
 
     # Perform test of Pagel's lambda
-    test<-fitContinuous(tree, vector, SE = sem, model = "lambda")
+    test <-fitContinuous(tree, vector, SE = sem, model = "lambda")
     
-    # Make an empty list to store results for this trait
+    # Store results for this trait
     lambda<-test$opt$lambda
     sigsq<-test$opt$sigsq
     logL<-test$opt$lnL
@@ -80,9 +80,8 @@ for (tree_file in trees) {
     wn <- fitContinuous(tree, vector, SE = sem, model = "white")
     logL_wn <- wn$opt$lnL
 
-    # conduct hypothesis test using chi-square
+    # Conduct hypothesis test using chi-square
     LR<-2*(test$opt$lnL-logL_wn)
-
     P<-pchisq(LR,df=1,lower.tail=F)
     
     # Print p-value
