@@ -25,9 +25,9 @@ library(readr)
 ## Set working directory
 setwd("C:/Users/path/to/directory")
 
-# Assign path to tree files ----
-#_______________________________
-trees<-list.files("/path/to/treefiles")
+# List tree files ----
+#_____________________
+trees<-list.files("/path/to/treefile/folder")
 
 # Read data ----
 #_______________
@@ -48,7 +48,7 @@ results_df <- tibble()
 ## Loop through all trees, perform pPCA and extract PC scores and percent variation
 for (tree_file in trees) {
   # Read tree file
-  tree_path <- path("/Users/ingri/OneDrive/Dokumenter/ciliate_niche/analyses/Analyses/dating/marine_pruned", tree_file)
+  tree_path <- path("/path/to/treefile/folder", tree_file)
   tree<-read.newick(tree_path)
   tree_name<-basename(tree_file)
   tip_labels<-tree$tip.label
@@ -83,7 +83,7 @@ for (tree_file in trees) {
   )
   # Write out a file with percent variation
   results_df <- dplyr::bind_rows(results_df, df)
-  write.csv(results_df, "marine_precent_variation.csv")
+  write.csv(results_df, "name_of_file.csv")
   
   # Get PCA scores
   pca_scores<-data.frame(pca$S)
@@ -93,34 +93,34 @@ for (tree_file in trees) {
   colnames(pc1_scores)[1]<-tree_name
   rownames(pc1_scores)<-rownames(pca_scores)
   # Save PC1 scores to file
-  write.table(pc1_scores, file = paste0("pc1_scores_marine/pc3_scores_", tree_name, ".tsv"), sep = "\t", row.names = TRUE, col.names = TRUE)
+  write.table(pc1_scores, file = paste0("pc1_scores_", tree_name, ".tsv"), sep = "\t", row.names = TRUE, col.names = TRUE)
 
   # Write file with PC2 scores
   pc2_scores<- data.frame(pca_scores$PC2)
   colnames(pc2_scores)[1]<-tree_name
   rownames(pc2_scores)<-rownames(pca_scores)
-  # Save PC1 scores to file
-  write.table(pc2_scores, file = paste0("pc2_scores_marine/pc3_scores_", tree_name, ".tsv"), sep = "\t", row.names = TRUE, col.names = TRUE)
+  # Save PC2 scores to file
+  write.table(pc2_scores, file = paste0("pc2_scores_", tree_name, ".tsv"), sep = "\t", row.names = TRUE, col.names = TRUE)
 
   # Write file with PC3 scores
   pc3_scores<- data.frame(pca_scores$PC3)
   colnames(pc3_scores)[1]<-tree_name
   rownames(pc3_scores)<-rownames(pca_scores)
-  # Save PC1 scores to file
-  write.table(pc3_scores, file = paste0("pc3_scores_marine/pc3_scores_", tree_name, ".tsv"), sep = "\t", row.names = TRUE, col.names = TRUE)
+  # Save PC3 scores to file
+  write.table(pc3_scores, file = paste0("pc3_scores_", tree_name, ".tsv"), sep = "\t", row.names = TRUE, col.names = TRUE)
   
   # Write file with PC4 scores
   pc4_scores<- data.frame(pca_scores$PC4)
   colnames(pc4_scores)[1]<-tree_name
   rownames(pc4_scores)<-rownames(pca_scores)
-  # Save PC1 scores to file
-  write.table(pc4_scores, file = paste0("pc4_scores_marine/pc4_scores_", tree_name, ".tsv"), sep = "\t", row.names = TRUE, col.names = TRUE)
+  # Save PC4 scores to file
+  write.table(pc4_scores, file = paste0("pc4_scores_", tree_name, ".tsv"), sep = "\t", row.names = TRUE, col.names = TRUE)
   
   # Write file with PC5 scores
   pc5_scores<- data.frame(pca_scores$PC5)
   colnames(pc5_scores)[1]<-tree_name
   rownames(pc5_scores)<-rownames(pca_scores)
-  # Save PC1 scores to file
-  write.table(pc5_scores, file = paste0("pc5_scores_marine/pc5_scores_", tree_name, ".tsv"), sep = "\t", row.names = TRUE, col.names = TRUE)
+  # Save PC5 scores to file
+  write.table(pc5_scores, file = paste0("pc5_scores_", tree_name, ".tsv"), sep = "\t", row.names = TRUE, col.names = TRUE)
   
 }
