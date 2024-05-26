@@ -27,7 +27,7 @@ setwd("C:/Users/path/to/directory")
 
 # List tree files ----
 #_____________________
-trees<-list.files("/path/to/treefile/folder")
+trees<-list.files("/path/to/tree/folder")
 
 # Read data ----
 #_______________
@@ -48,13 +48,13 @@ results_df <- tibble()
 ## Loop through all trees, perform pPCA and extract PC scores and percent variation
 for (tree_file in trees) {
   # Read tree file
-  tree_path <- path("/path/to/treefile/folder", tree_file)
+  tree_path <- path("/path/to/tree/folder", tree_file)
   tree<-read.newick(tree_path)
   tree_name<-basename(tree_file)
   tip_labels<-tree$tip.label
 
   # Reorder data so it is in the same order as the tree file
-  data_reordered<-data[match(tip_labels, rownames_data), , drop = FALSE]
+  data_reordered<-data[match(tip_labels, rownames(data)), , drop = FALSE]
   data_reordered<-as.matrix(data_reordered)
   
   # Perform phylogenetic PCA 
