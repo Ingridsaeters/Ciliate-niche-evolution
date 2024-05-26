@@ -22,8 +22,8 @@ setwd()
 
 # Read trees and data ----
 #________________
-## Assign trees
-trees <- list.files("/path/to/treefiles")
+## List tree files
+trees <- list.files("/path/to/tree/folder")
 
 ## Read data
 trait_data <- read_tsv("trait_data.tsv")
@@ -36,7 +36,7 @@ traits<-c("trait1", "trait2", "trait3", "etc")
 # Loop through trees
 for (tree_file in trees) {
   # Read tree
-  tree_path <- file.path(tree_directory, tree_file)
+  tree_path <- file.path("/path/to/tree/folder", tree_file)
   tree<-read.tree(tree_path)
 
   # Make a distance object
@@ -58,7 +58,7 @@ for (tree_file in trees) {
     rownames(df_final)<-df_reordered$ASV
     
     # Make a distance object
-    dist<-(distance(df_final, method = "euclidean"))
+    dist <- distance(df_final, method = "euclidean")
 
     # Perform mantel test with 1000 permutations
     mantel<-ecodist::mantel(dist_phylo ~ dist, nperm = 1000)
@@ -78,7 +78,7 @@ for (tree_file in trees) {
     results_df <- do.call(rbind.data.frame, results)
 
     # Write results to a CSV file
-    write.csv(results_df, "mantel_test_marine_clades.csv", row.names = TRUE)
+    write.csv(results_df, "name_of_file.csv", row.names = TRUE)
   }
 }
 
