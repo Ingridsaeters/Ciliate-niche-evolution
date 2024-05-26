@@ -44,7 +44,7 @@ get_min_column <- function(row, r_value) {
   row_without_min <- row[row != min_val]
   second_min_val <- min(row_without_min)
   
-  # Check if the difference between the lowest and second lowest is greater than 2
+  # Check if the difference between the lowest and second lowest is greater than 2. If true, result is significant, if not true it is not significant. 
   significance <- ifelse(second_min_val - min_val > 2, "Significant", "Not significant")
   
   # Check if "r" is negative and "LB" has the lowest value. If this is true, assign best_model to EB instead
