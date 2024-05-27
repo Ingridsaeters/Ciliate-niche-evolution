@@ -59,17 +59,10 @@ Mean daily mean air temperatures of the warmest quarter, °C (Bio10)
 Mean daily mean air temperatures of the coldest quarter, °C (Bio11) 
 Annual precipitation amount, kg m-2 year -1 (Bio12) 
 Precipitation seasonality, kg m-2 (Bio15)
-Mean monthly precipitation amount of the wettest quarter | Chelsa (Bio16) | 1km |
-| Mean monthly precipitation amount of the driest quarter | Chelsa (Bio17) | 1km|
+Mean monthly precipitation amount of the wettest quarter, kg m-2 month-1 (Bio16) 
+Mean monthly precipitation amount of the driest quarter, kg m-2 month-1 (Bio17) 
 
-- Average annual temperature, °C (Bio1)
-- Annual mean precipitation, precipitation seasonality, kg m-2 (Bio15)
-- Annual precipitation amount, precipitation accumulated, kg m-2 year-1 (Bio12)
-- Mean monthly precipitation amount for wettest qaurter of the year, kg m-2 month-1 (Bio16)
-- Mean monthly precipitation amount for the coldest quarter of the year, kg m-2 month-1 (Bio19)
-- Daily mean temperature for the warmest quarter of the year, °C (Bio10)
-
-Download the bio1, bio10, bio12, bio15, bio16 and bio19 CHELSA data in tif format from https://chelsa-climate.org/downloads/   
+Download the bio1, bio10, bio11, bio12, bio15, bio16 and bio17 CHELSA data in tif format from https://chelsa-climate.org/downloads/   
 path: Downloads/climatologies/1981-2010/bio
 
 These variables can be extracted using the R script chelsa.R. 
@@ -79,15 +72,6 @@ These variables can be extracted using the R script chelsa.R.
 Extract soil temperature values (°C) from the dataset by Lembrechts et al. 2022. Soil temperature layers have been calculated by adding monthly soil temperature offsets to monthly air-temperature maps from CHELSA (date range 1979-2013). 
 
 Download SoilTemp data in tif format from https://zenodo.org/records/7134169, and extract the variables with the R script soiltemp.R.
-
-### Topography
-
-Extract the following topography variables: 
-- Elevation, m
-- Slope, °
-- Topographical Position Index (TPI), m
-
-These variables can be extracted using the R script topography_soil.R. 
 
 ### Make a table for all soil traits
 
@@ -101,12 +85,13 @@ We have extracted trait information for 5493 unique marine samples.
  
 Extract the following variables from World Ocean Atlas
 - Mean annual temperature, °C
+- Salinity
 - Nitrate, µmol/kg
 - Phosphate, µmol/kg
 - Silicate, µmol/kg
-- Dissolved oxygen, µmol/kg
-- Oxygen saturation, %
-- Apparent oxygen utilized, µmol/kg
+- Dissolved Oxygen, µmol/kg
+- Percent Oxygen Saturation, %
+- Apparent Oxygen Utilized, µmol/kg
 
 Extract values for the specific depth the samples have been collected.
 
@@ -129,9 +114,7 @@ Download the GMED data from: https://gmed.auckland.ac.nz/download.html, and extr
 
 Combine all extracted values in a complete table using the traits_marine.R script. 
 
-## Freshwater
-
 ## Phylogenetic Principal Coordinate Analysis (pPCA)
 
-Do a pPCA for soil, marina and freshwater traits, with the script pPCA.R. Add the PC1 values to the trait table. 
+Do a pPCA for soil, marina and freshwater traits, with the script pPCA.R. 
 
