@@ -37,7 +37,8 @@
 
 ## Visualize sampling locations
 
-Make world maps with points for sampling location for soil, marine and freshwater samples, using the R script maps_sampling_points.R
+Make world maps with points for sampling location for soil, marine and freshwater samples, using the R script maps_sampling_points.R. 
+Make a visualization of the number of shared ASVs with the R script shared_ASVs.R. 
 
 ## Soil
 
@@ -116,5 +117,5 @@ Combine all extracted values in a complete table using the traits_marine.R scrip
 
 ## Phylogenetic Principal Coordinate Analysis (pPCA)
 
-Do a pPCA for soil, marina and freshwater traits, with the script pPCA.R. 
+Do a pPCA for terrestrial and marine traits, with the script pPCA.R. 
 
