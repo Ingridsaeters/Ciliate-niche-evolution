@@ -29,4 +29,6 @@ To compare rates in ciliates with estimated rates in plants and animals, repeat 
 ### Rates within clades
 Examine evolutionary rates within clades using evorates.R. 
 
+## Age of trees
+Extract the age of the phylogenetic trees using the R script age_trees.R. 
 
