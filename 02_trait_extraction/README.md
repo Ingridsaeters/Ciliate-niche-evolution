@@ -17,6 +17,7 @@
 | Total nitrogen | SoilGrids | 250m |
 
 | **Marine** | **Source** | **Scale** |
+|----|----|----|
 | Annual mean temperature | WOA | 27km | 
 |Salinity | WOA | 27km |
 |Silicate | WOA | 27km |
