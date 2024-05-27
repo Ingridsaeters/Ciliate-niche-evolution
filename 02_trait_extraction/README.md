@@ -1,38 +1,38 @@
-# Extracting trait information,
+# Extracting trait information
 
 ## Traits
 
 |**Terrestrial**| **Source**| **Scale**|
 |----|----|----|
-| Mean annual air temperature | Chelsa (Bio1) | 1km|
-|Mean daily mean air temperatures of the warmest quarter | Chelsa (Bio10) | 1km|
-| Mean daily mean air temperatures of the coldest quarter | Chelsa (Bio11) | 1km|
-| Annual precipitation amount | Chelsa (Bio12) | 1km |
-| Precipitation seasonality | Chelsa (Bio15) | 1km |
-| Mean monthly precipitation amount of the wettest quarter | Chelsa (Bio16) | 1km |
-| Mean monthly precipitation amount of the driest quarter | Chelsa (Bio17) | 1km|
-| Soil temperature | SoilTemp | 1km |
-| Soil pH | SoilGrids | 250m |
-| Soil organic carbon content in the fine earth fraction (SOC) | SoilGrids | 250m |
-| Total nitrogen | SoilGrids | 250m |
+| Mean annual air temperature (°C) | Chelsa (Bio1) | 1km|
+|Mean daily mean air temperatures of the warmest quarter (°C)| Chelsa (Bio10) | 1km|
+| Mean daily mean air temperatures of the coldest quarter (°C) | Chelsa (Bio11) | 1km|
+| Annual precipitation amount (kg m-2 year -1)| Chelsa (Bio12) | 1km |
+| Precipitation seasonality (kg m-2) | Chelsa (Bio15) | 1km |
+| Mean monthly precipitation amount of the wettest quarter (kg m-2 month -1)| Chelsa (Bio16) | 1km |
+| Mean monthly precipitation amount of the driest quarter (kg m-2 month -1)| Chelsa (Bio17) | 1km|
+| Soil temperature (°C) | SoilTemp | 1km |
+| Soil pH (pH x 10)| SoilGrids | 250m |
+| Soil organic carbon content in the fine earth fraction (SOC, dg/kg) | SoilGrids | 250m |
+| Total nitrogen (cg/kg) | SoilGrids | 250m |
 
 | **Marine** | **Source** | **Scale** |
 |----|----|----|
-| Annual mean temperature | WOA | 27km | 
+| Annual mean temperature (°C) | WOA | 27km | 
 |Salinity | WOA | 27km |
-|Silicate | WOA | 27km |
-| Phosphate | WOA | 27km |
-| Nitrate | WOA | 27km |
-| Apparent Oxygen Utilized | WOA | 27km |
-| Dissolved Oxygen | WOA | 27km |
-| Percent Oxygen Saturation | WOA | 27km |
+|Silicate (µmol/kg)| WOA | 27km |
+| Phosphate (µmol/kg) | WOA | 27km |
+| Nitrate (µmol/kg) | WOA | 27km |
+| Apparent Oxygen Utilized (AOU, µmol/kg)| WOA | 27km |
+| Dissolved Oxygen (DO, µmol/kg) | WOA | 27km |
+| Percent Oxygen Saturation (POS, %) | WOA | 27km |
 |pH | GMED | 27km |
-| Mean chlorophyll-A | GMED | 9.2km |
-| Photosynthetic Active Radiation | GMED | 9.2km |
-|Primary productivity | GMED | 9.2km |
-| Particulate Inorganic Carbon | GMED | 4km |
-|Particulate Organic Carbon | GMED | 4km |
-|Total Suspended Matter | GMED | 4km |
+| Mean chlorophyll-A (mg/m-3) | GMED | 9.2km |
+| Photosynthetic Active Radiation (PAR, Einstein/m-2/day)| GMED | 9.2km |
+|Primary productivity (mg C m-2/day/cell) | GMED | 9.2km |
+| Particulate Inorganic Carbon  (PIC, mol.m-3)| GMED | 4km |
+|Particulate Organic Carbon  (POC, mol.m-3) | GMED | 4km |
+|Total Suspended Matter (TSM, g m-3)  | GMED | 4km |
 
 
 ## Visualize sampling locations
