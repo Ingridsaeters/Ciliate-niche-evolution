@@ -2,7 +2,7 @@
 
 ## Traits
 
-| **Marine** | **Soil** | **Freshwater** | 
+| **Marine** | **Soil** | 
 |--------|------|------------|
 | **World Ocean Atlas (WOA)** | **Soilgrids** | 
 | - Mean annual temperature | - pH |
