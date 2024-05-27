@@ -2,6 +2,19 @@
 
 ## Traits
 
+|**Terrestrial**| **Source**| **Scale**|
+| Mean annual air temperature | Chelsa (Bio1) | 1km|
+|Mean daily mean air temperatures of the warmest quarter | Chelsa (Bio10) | 1km|
+| Mean daily mean air temperatures of the coldest quarter | Chelsa (Bio11) | 1km|
+| Annual precipitation amount | Chelsa (Bio12) | 1km |
+| Precipitation seasonality | Chelsa (Bio15) | 1km |
+| Mean monthly precipitation amount of the wettest quarter | Chelsa (Bio16) | 1km |
+| Mean monthly precipitation amount of the driest quarter | Chelsa (Bio17) | 1km|
+| Soil temperature | SoilTemp | 1km |
+| Soil pH | SoilGrids | 250m |
+| Soil organic carbon content in the fine earth fraction (SOC) | SoilGrids | 250m |
+| Total nitrogen | SoilGrids | 250m |
+
 | **Marine** | **Soil** | 
 |--------|------|
 | **World Ocean Atlas (WOA)** | **Soilgrids** | 
