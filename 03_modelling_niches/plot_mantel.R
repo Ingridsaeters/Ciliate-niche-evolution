@@ -26,7 +26,7 @@ setwd()
 #_______________
 ### Make sure to have the following columns: Mantel_r, group (clades), pval3 (two-tailed probability, null hypothesis: R=0), trait
 
-# Add a new column 'signal' based on conditions
+# Add a new column 'signal'. If P < 0.01 and above 0 -> signal=significant positive, if P < 0.01 and below 0 -> significant negative, if P <0.01 -> signal=not significant
 data$signal <- ifelse(data$pval3 <= 0.01 & data$pval3 > 0,
                     "Significant positive phylogenetic signal",
                     ifelse(data$pval3 < 0.01 & data$pval3 < 0,
