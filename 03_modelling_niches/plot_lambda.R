@@ -1,7 +1,30 @@
+###############################################################################
+#                   	       Rscript Plot lambda 	                            #
+###############################################################################
 
+#=================#
+# Ingrid Sætersdal
+# Niche Evolution 
+# EDGE group, Natural history museum, University of Oslo
+# 17.03.2024
+# Version 1
+#=================#
 
-# Read data
-data <- read_tsv("datafile.csv")
+# Setup ----
+#___________
+## Load libraries
+library(data.table)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(tidyverse)
+
+## Set working directory
+setwd()
+
+# Read data ----
+#_______________
+### Make sure to have the following columns: lambda, group (clades), P, trait
 
 # Make plot with significance
 ## Mahe a function to have labels on separate lines
@@ -14,13 +37,13 @@ wrap_labels <- function(labels, multi_line = TRUE) {
 }
 
 # Make plot for soil traits
-soil_traits <- ggplot(df_soil, aes(x = group, y = 1, fill = P)) +
+soil_traits <- ggplot(df_soil, aes(x = group, y = 1, fill = P)) + # Plot P per group
   geom_blank() +
   ylab("Proportions") +
   geom_bar(aes(fill = P), stat = "identity", position = "fill") +
   xlab(element_blank()) +
   theme_minimal() +
-  facet_wrap(~trait, labeller = as_labeller(wrap_labels)) +  # Use custom labeller function
+  facet_wrap(~trait, labeller = as_labeller(wrap_labels)) +  # Group per clade, have labels on multiple lines
   scale_fill_manual(values = c("#8da0cb", "#66c2a5", "#fc8d62"),
                     labels = function(x) str_wrap(x, width = 15)) +
   theme(
@@ -42,13 +65,13 @@ soil_traits <- ggplot(df_soil, aes(x = group, y = 1, fill = P)) +
   guides(fill = guide_legend(override.aes = list(color = "black")))
 
 # Make plot for marine traits
-marine_traits <- ggplot(df_marine, aes(x = group, y = 1, fill = P)) +
+marine_traits <- ggplot(df_marine, aes(x = group, y = 1, fill = P)) + # Plot P per group
   geom_blank() +
   ylab("Proportions") +
   geom_bar(aes(fill = P), stat = "identity", position = "fill") +
   xlab(element_blank()) +
   theme_minimal() +
-  facet_wrap(~trait, labeller = as_labeller(wrap_labels)) +  # Use custom labeller function
+  facet_wrap(~trait, labeller = as_labeller(wrap_labels)) +  # Group by trait, have labels on multiple lines
   scale_fill_manual(values = c("#8da0cb", "#66c2a5", "#fc8d62"),
                     labels = function(x) str_wrap(x, width = 15)) +
   theme(
@@ -95,13 +118,13 @@ df_soil$group <- str_replace(df_soil$group, "\\bPhyllopharyngea\\b", "Phyllophar
 df_soil$group <- str_replace(df_soil$group, "\\bSpirotrichea\\b", "Spirotrichea (N = 492)")
 
 # Make plot for soil
-soil_plot <- ggplot(df_soil, aes(x = trait, y = 1, fill = P)) +
+soil_plot <- ggplot(df_soil, aes(x = trait, y = 1, fill = P)) + # Plot P per trait
   geom_blank() +
   ylab("Proportions")+
   geom_bar(aes(fill = P), stat = "identity", position = "fill") +
   xlab(element_blank()) +
   theme_minimal() +
-  facet_wrap(~group) +  # Use custom labeller function
+  facet_wrap(~group) +  # Order by group
   scale_fill_manual(values = c("#8da0cb", "#66c2a5", "#fc8d62"),
                     labels = function(x) str_wrap(x, width = 15)) +
   theme(
@@ -123,13 +146,13 @@ soil_plot <- ggplot(df_soil, aes(x = trait, y = 1, fill = P)) +
   guides(fill = guide_legend(override.aes = list(color = "black")))
 
 # Make plot for marine
-marine_plot <- ggplot(df_marine, aes(x = trait, y = 1, fill = P)) +
+marine_plot <- ggplot(df_marine, aes(x = trait, y = 1, fill = P)) + # Plot P per trait
   geom_blank() +
   geom_bar(aes(fill = P), stat = "identity", position = "fill") +
   xlab(element_blank()) +
   ylab("Proportions")+
   theme_minimal() +
-  facet_wrap(~group) +  # Use custom labeller function
+  facet_wrap(~group) +  # Group by clade
   scale_fill_manual(values = c("#8da0cb", "#66c2a5", "#fc8d62"),
                     labels = function(x) str_wrap(x, width = 15)) +
   theme(
@@ -161,9 +184,9 @@ combined_plots +
 
 # Plot values for clades
 ## Make soil plot
-soil_values_clades <- df_soil %>%
-  mutate(class = fct_reorder(group, lambda, .fun='mean' )) %>%
-  ggplot(aes(x=reorder(group, -lambda), y = lambda)) +
+soil_values_clades <- df_soil %>% 
+  mutate(class = fct_reorder(group, lambda, .fun='mean' )) %>% # Calculate mean lambda values per group
+  ggplot(aes(x=reorder(group, -lambda), y = lambda)) + # Plot lambda values per group in decreasing order
   ylim(0,1)+
   geom_boxplot(fill = "#d04848") +
   theme_minimal() +
@@ -176,8 +199,8 @@ soil_values_clades <- df_soil %>%
 
 ## Make marine plot
 marine_values_clades <- df_marine %>%
-  mutate(class = fct_reorder(group, lambda, .fun='mean' )) %>%
-  ggplot(aes(x=reorder(group, -lambda), y = lambda)) +
+  mutate(class = fct_reorder(group, lambda, .fun='mean' )) %>% # Calculate mean lambda values per group
+  ggplot(aes(x=reorder(group, -lambda), y = lambda)) + # Plot lambda values per group in decreasing order
   ylim(0,1)+
   geom_boxplot(fill = "#0571b1") +
   theme_minimal() +
@@ -187,22 +210,25 @@ marine_values_clades <- df_marine %>%
   xlab("") +
   ylab(expression(paste("Pagel's ", lambda)))
 
-# Combine the plots
+## Combine the plots
 combined_clades <- soil_values_clades / marine_values_clades +
   plot_layout(ncol = 1)
-# Add annotations a and b
+
+## Add annotations a and b
 combined_clades +
   plot_annotation(tag_levels = 'a') 
 
-# Plot values for traits with colors 
+# Plot values for traits ----
+#____________________________
+## Set colors for soil, special color for multivariate
 trait_colors_soil <- c("#d04848", "#fb9a99", "#fb9a99", "#d04848", "#d04848",
                   "#d04848", "#d04848", "#d04848", "#d04848", "#d04848",
                   "#d04848", "#d04848", "#d04848")  
 
-# Make soil plot
+## Make soil plot
 soil_values_traits <- df_soil %>%
-  mutate(class = fct_reorder(trait, lambda, .fun='mean' )) %>%
-  ggplot(aes(x=reorder(trait, -lambda), y = lambda)) +
+  mutate(class = fct_reorder(trait, lambda, .fun='mean' )) %>% # Calculate mean lambda values per trait
+  ggplot(aes(x=reorder(trait, -lambda), y = lambda)) + # Plot mean lambda per trait in decreasing order
   ylim(0,1)+
   geom_boxplot(aes(fill = trait), color = "black") +  
   scale_fill_manual(values = trait_colors_soil) +  
@@ -214,15 +240,15 @@ soil_values_traits <- df_soil %>%
   xlab("") +
   ylab(expression(paste("Pagel's ", lambda)))
 
-# Colors for marine plot
+## Set colors for marine plot, special for multivariate
 trait_colors_marine <- c("#0571b1", "#0571b1", "#0571b1","#0571b1", "#0571b1", "#a6cee3", 
                   "#0571b1", "#0571b1", "#0571b1", "#0571b1", "#0571b1", "#0571b1",
                   "#0571b1", "#0571b1", "#0571b1", "#0571b1")
 
-# Make marine plot
+## Make marine plot
 marine_values_traits <- df_marine %>%
-  mutate(class = fct_reorder(trait, lambda, .fun='mean' )) %>%
-  ggplot(aes(x=reorder(trait, -lambda), y = lambda)) +
+  mutate(class = fct_reorder(trait, lambda, .fun='mean' )) %>% # Calculate mean lambda per trait
+  ggplot(aes(x=reorder(trait, -lambda), y = lambda)) + # Plot mean lambda per trait in decreasing order
   ylim(0,1)+
   geom_boxplot(aes(fill = trait), color = "black") +  
   scale_fill_manual(values = trait_colors_marine) +  
