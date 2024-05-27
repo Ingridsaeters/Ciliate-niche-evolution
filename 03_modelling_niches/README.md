@@ -17,7 +17,7 @@ The mantel test is a model-free test that examines the correlation between two d
 - Late burst: This model assumes rapid evolution after relative stasis/low diversification rates. 
 
 ### Mode of evolution 
-Test the standard models of evolution (Brownian motion, Ornstein Uhlenbeck, Early burst and Late Burst) for each combination of trait and tree, to see which model fits the data best. Use the R scripts model_comparison_BM_OU_EB.R and model_comparison_PC_BM_OU_EB.R to test Brownian Motion, Ornstein Uhlenbeck and Early Burst. Use the R scripts model_comparison_ddexp.R and model_comparison_PC_ddexp.R to test for a Late Burst. ddEXP is an exponential diversity dependant model where evolutionary rates either increase or decrease exponentially with accumulation of species diversity in the clade. Exponential increase can be characterized as "Late Burst", and exponential decrease as "Early Burst". 
+Test the standard models of evolution (Brownian motion, Ornstein Uhlenbeck, Early burst and Late Burst) for each combination of trait and tree, to see which model fits the data best. Use the R scripts model_comparison_BM_OU_EB.R and model_comparison_PC_BM_OU_EB.R to test Brownian Motion, Ornstein Uhlenbeck and Early Burst. Use the R scripts model_comparison_ddexp.R and model_comparison_PC_ddexp.R to test for a Late Burst. ddEXP is an exponential diversity dependant model where evolutionary rates either increase or decrease exponentially with accumulation of species diversity in the clade. Exponential increase can be characterized as "Late Burst", and exponential decrease as "Early Burst". Use the script plot_best_model.R to make a visualization with best model. 
 
 ## Rate of evolution 
 ### Relative evolutionary rates
