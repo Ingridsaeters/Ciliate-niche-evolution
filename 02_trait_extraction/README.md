@@ -53,8 +53,15 @@ Extract the following variables from Soilgrids, with a depth of 0-5cm:
 These variables can be extracted with the R script soilgrids.R. 
 
 ### CHELSA
-
 Extract the following climatic variables from CHELSA: 
+Mean annual air temperature, °C (Bio1)
+Mean daily mean air temperatures of the warmest quarter, °C (Bio10) 
+Mean daily mean air temperatures of the coldest quarter, °C (Bio11) 
+Annual precipitation amount, kg m-2 year -1 (Bio12) 
+Precipitation seasonality, kg m-2 (Bio15)
+Mean monthly precipitation amount of the wettest quarter | Chelsa (Bio16) | 1km |
+| Mean monthly precipitation amount of the driest quarter | Chelsa (Bio17) | 1km|
+
 - Average annual temperature, °C (Bio1)
 - Annual mean precipitation, precipitation seasonality, kg m-2 (Bio15)
 - Annual precipitation amount, precipitation accumulated, kg m-2 year-1 (Bio12)
