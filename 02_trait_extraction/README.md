@@ -16,24 +16,23 @@
 | Soil organic carbon content in the fine earth fraction (SOC) | SoilGrids | 250m |
 | Total nitrogen | SoilGrids | 250m |
 
-| **Marine** | **Soil** | 
-|--------|------|
-| **World Ocean Atlas (WOA)** | **Soilgrids** | 
-| - Mean annual temperature | - pH |
-| - Nitrate | - Nitrogen |  
-| - Phosphate | - Carbon | 
-| - Silicate | **Chelsa** | 
-| - Dissolved oxygen | - Annual average temperature | 
-| - Oxygen saturation | - Annual mean percipitation |
-| - Apparent oxygen utilized | - Annual percipitation amount | 
-| **Global Marine Environment Dataset (GMED)** | - Mean daily mean air temperatures of the warmest quarter | 
-| - Chlorophyll-A mean | **SoilTemp** |
-| - Photosynthetic active radiation (PAR) | - Annual soil temperature | 
-| - Particulate inorganic carbon (PIC) | **Topography** |
-| - Particulate organic carbon (POC) | - Elevation | 
-| - Primary productivity | - Topographical Position Index (TPI)
-| - Total suspended matter | - Slope |
-| - pH |
+| **Marine** | **Source** | **Scale** |
+| Annual mean temperature | WOA | 27km | 
+|Salinity | WOA | 27km |
+|Silicate | WOA | 27km |
+| Phosphate | WOA | 27km |
+| Nitrate | WOA | 27km |
+| Apparent Oxygen Utilized | WOA | 27km |
+| Dissolved Oxygen | WOA | 27km |
+| Percent Oxygen Saturation | WOA | 27km |
+|pH | GMED | 27km |
+| Mean chlorophyll-A | GMED | 9.2km |
+| Photosynthetic Active Radiation | GMED | 9.2km |
+|Primary productivity | GMED | 9.2km |
+| Particulate Inorganic Carbon | GMED | 4km |
+|Particulate Organic Carbon | GMED | 4km |
+|Total Suspended Matter | GMED | 4km |
+
 
 ## Visualize sampling locations
 
