@@ -3,7 +3,7 @@
 ## Traits
 
 | **Marine** | **Soil** | 
-|--------|------|------------|
+|--------|------|
 | **World Ocean Atlas (WOA)** | **Soilgrids** | 
 | - Mean annual temperature | - pH |
 | - Nitrate | - Nitrogen |  
