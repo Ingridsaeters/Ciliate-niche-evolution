@@ -1,4 +1,4 @@
-# Extracting trait information
+# Extracting trait information,
 
 ## Traits
 
