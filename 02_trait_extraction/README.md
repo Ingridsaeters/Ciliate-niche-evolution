@@ -3,6 +3,7 @@
 ## Traits
 
 |**Terrestrial**| **Source**| **Scale**|
+|----|----|----|
 | Mean annual air temperature | Chelsa (Bio1) | 1km|
 |Mean daily mean air temperatures of the warmest quarter | Chelsa (Bio10) | 1km|
 | Mean daily mean air temperatures of the coldest quarter | Chelsa (Bio11) | 1km|
