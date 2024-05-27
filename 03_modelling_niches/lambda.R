@@ -40,13 +40,13 @@ traits<-c("trait1", "trait2", "trait3", "etc")
 results_df<-tibble()
 
 ## Loop through trees and traits to calculate Pagel's lambda for each tree and trait combination
-### Loop through each tree
+# Loop through each tree
 for (tree_file in trees) {
   tree<-read.newick(file.path("/path/to/tree/folder", tree_file))
   tip_labels<-tree$tip.label
   tree_name <- basename(tree_file)
 
-  #### Loop through each trait
+  # Loop through each trait
   for (trait in traits) {
     row_names<-trait_data$ASV
     trait_data_ordered<-trait_data[match(tip_labels, row_names), , drop = FALSE]
