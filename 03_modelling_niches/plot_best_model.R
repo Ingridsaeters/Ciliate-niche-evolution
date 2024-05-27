@@ -44,7 +44,7 @@ get_min_column <- function(row, r_value) {
   row_without_min <- row[row != min_val]
   second_min_val <- min(row_without_min)
   
-  # Check if the difference between the lowest and second lowest is greater than 2
+  # Check if the difference between the lowest and second lowest is greater than 2. If true, result is significant, if not true it is not significant. 
   significance <- ifelse(second_min_val - min_val > 2, "Significant", "Not significant")
   
   # Check if "r" is negative and "LB" has the lowest value. If this is true, assign best_model to EB instead
@@ -55,7 +55,7 @@ get_min_column <- function(row, r_value) {
   return(c(min_col, significance))
 }
 
-## Create an empty data frame to store the results. Assumes your dataframe is called "df"
+## Create an empty data frame to store the results. Original data is "df". 
 results <- data.frame(best_model = character(nrow(df)),
                       significance = character(nrow(df)))
 
@@ -93,54 +93,54 @@ unique_count_per_clade <- df %>%
 ## Define a function to get labels in the plot to be on multiple lines
 wrap_labels <- function(labels, multi_line = TRUE) {
   if (multi_line) {
-    str_wrap(labels, width = 10)  # Adjust width as needed
+    str_wrap(labels, width = 10)  
   } else {
     labels
   }
 }
 
 ## Make a plot for soil traits
-soil_traits <- ggplot(df_soil, aes(x = group, y = 1, fill = best_model)) +
+soil_traits <- ggplot(df_soil, aes(x = group, y = 1, fill = best_model)) + # Plot best model for each group
   geom_blank() +
   ylab("Proportions") +
   geom_bar(aes(fill = best_model), stat = "identity", position = "fill") +
   xlab(element_blank()) +
   theme_minimal() +
-  facet_wrap(~trait, labeller = as_labeller(wrap_labels)) +  
+  facet_wrap(~trait, labeller = as_labeller(wrap_labels)) + # Order by trait. Have the labels on multiple lines
   scale_fill_manual(values = c("#fdc086", "#ffff99", "#beaed4", "#7fc97f", "gray")) +
   theme(
     axis.title.y = element_text(),
     axis.text.y = element_text(),
     panel.grid.minor = element_blank(),
     panel.grid.major = element_line(color = "gray", linetype = "solid"),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 15),
-    strip.text.x = element_text(size = 20),
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 15), # Have the x-axis labels at 90 degree angle
+    strip.text.x = element_text(size = 20), 
     legend.title = element_blank(),
     legend.key.size = unit(2, "lines"),  # Increase size of legend box
     legend.text = element_text(size = 15),
     text = element_text(size = 15)
   ) +
   scale_y_continuous(
-    breaks = seq(0, 1, by = 1/5),  # Define breaks
-    labels = seq(0, 1, by = 1/5)   # Define labels as 0 and 1
+    breaks = seq(0, 1, by = 1/5),  # Define breaks on y-axis
+    labels = seq(0, 1, by = 1/5)   # Define labels as 0 and 1 on y-axis
   ) +
-  guides(fill = guide_legend(override.aes = list(color = "black")))
+  guides(fill = guide_legend(override.aes = list(color = "black"))) # Make a black outline around the legend box
 
 ## Make a plot for marine traits
-marine_traits <- ggplot(df_marine, aes(x = group, y = 1, fill = best_model)) +
+marine_traits <- ggplot(df_marine, aes(x = group, y = 1, fill = best_model)) + # Plot best model for each group
   geom_blank() +
   ylab("Proportions") +
   geom_bar(aes(fill = best_model), stat = "identity", position = "fill") +
   xlab(element_blank()) +
   theme_minimal() +
-  facet_wrap(~trait, labeller = as_labeller(wrap_labels)) +  
+  facet_wrap(~trait, labeller = as_labeller(wrap_labels)) + # Order by trait. Have the labels on multiple lines
   scale_fill_manual(values = c("#fdc086", "#ffff99", "#beaed4", "#7fc97f", "gray")) +
   theme(
     axis.title.y = element_text(),
     axis.text.y = element_text(),
     panel.grid.minor = element_blank(),
     panel.grid.major = element_line(color = "gray", linetype = "solid"),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 15),
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 15), # Have the x-axis labels at 90 degree angle
     strip.text.x = element_text(size = 20),
     legend.title = element_blank(),
     legend.key.size = unit(2, "lines"),  # Increase size of legend box
@@ -148,10 +148,10 @@ marine_traits <- ggplot(df_marine, aes(x = group, y = 1, fill = best_model)) +
     text = element_text(size = 15)
   ) +
   scale_y_continuous(
-    breaks = seq(0, 1, by = 1/5),  # Define breaks
-    labels = seq(0, 1, by = 1/5)   # Define labels as 0 and 1
+    breaks = seq(0, 1, by = 1/5),  # Define breaks on y-axis
+    labels = seq(0, 1, by = 1/5)   # Define labels as 0 and 1 on y-axis
   ) +
-  guides(fill = guide_legend(override.aes = list(color = "black")))
+  guides(fill = guide_legend(override.aes = list(color = "black"))) # Make a black outline around legend box
 
 ## Combine the plots 
 combined_traits <- soil_traits / marine_traits +
@@ -179,20 +179,20 @@ df_soil$group <- str_replace(df_soil$group, "\\bPhyllopharyngea\\b", "Phyllophar
 df_soil$group <- str_replace(df_soil$group, "\\bSpirotrichea\\b", "Spirotrichea (N = 492)")
 
 ## Make soil plot
-soil_plot <- ggplot(df_soil, aes(x = trait, y = 1, fill = best_model)) +
+soil_plot <- ggplot(df_soil, aes(x = trait, y = 1, fill = best_model)) + # Plot best model for each trait
   geom_blank() +
   ylab("Proportions")+
   geom_bar(aes(fill = best_model), stat = "identity", position = "fill") +
   xlab(element_blank()) +
   theme_minimal() +
-  facet_wrap(~group) +
+  facet_wrap(~group) + # Order by group
   scale_fill_manual(values = c("#ffff99", "#fdc086", "#beaed4", "#7fc97f")) +
   theme(
     axis.title.y = element_text(),
     axis.text.y = element_text(),
     panel.grid.minor = element_blank(),
     panel.grid.major = element_line(color = "gray", linetype = "solid"),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 15),
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 15), # Have the x-axis labels at 90 degree angle
     strip.text.x = element_text(size = 20),
     legend.title = element_blank(),
     legend.key.size = unit(2, "lines"),  # Increase size of legend box
@@ -200,26 +200,26 @@ soil_plot <- ggplot(df_soil, aes(x = trait, y = 1, fill = best_model)) +
     text = element_text(size = 15)
   ) +
   scale_y_continuous(
-    breaks = seq(0, 1, by = 1/5),  # Define breaks
-    labels = seq(0, 1, by = 1/5)   # Define labels as 0 and 1
+    breaks = seq(0, 1, by = 1/5),  # Define breaks on y-axis
+    labels = seq(0, 1, by = 1/5)   # Define labels as 0 and 1 on y-axis
   ) +
-  guides(fill = guide_legend(override.aes = list(color = "black")))
+  guides(fill = guide_legend(override.aes = list(color = "black"))) # Make a black outline around legend box
 
 ## Make marine plot
-marine_plot <- ggplot(marine, aes(x = trait, y = 1, fill = best_model)) +
+marine_plot <- ggplot(marine, aes(x = trait, y = 1, fill = best_model)) + # Plot best model for each trait
   geom_blank() +
   geom_bar(aes(fill = best_model), stat = "identity", position = "fill") +
   xlab(element_blank()) +
   ylab("Proportions")+
   theme_minimal() +
-  facet_wrap(~group) +
+  facet_wrap(~group) + # Order by group
   scale_fill_manual(values = c("#ffff99", "#fdc086", "#beaed4", "#7fc97f")) +
   theme(
     axis.title.y = element_text(),
     axis.text.y = element_text(),
     panel.grid.minor = element_blank(),
     panel.grid.major = element_line(color = "gray", linetype = "solid"),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 15),
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 15), # Have the x-axis labels at 90 degree angle
     strip.text.x = element_text(size = 20),
     legend.title = element_blank(),
     legend.key.size = unit(2, "lines"),  # Increase size of legend box
@@ -227,10 +227,10 @@ marine_plot <- ggplot(marine, aes(x = trait, y = 1, fill = best_model)) +
     text = element_text(size = 15)
   ) +
   scale_y_continuous(
-    breaks = seq(0, 1, by = 1/5),  # Define breaks
-    labels = seq(0, 1, by = 1/5)   # Define labels as 0 and 1
+    breaks = seq(0, 1, by = 1/5),  # Define breaks on y-axis
+    labels = seq(0, 1, by = 1/5)   # Define labels as 0 and 1 on y-axis
   ) +
-  guides(fill = guide_legend(override.aes = list(color = "black")))
+  guides(fill = guide_legend(override.aes = list(color = "black"))) # Make a black outline around legend box
 
 ## Combine the plots
 combined_plots <- soil_plot / marine_plot +
@@ -243,20 +243,20 @@ combined_plots +
 # Plot the significance ----
 #___________________________
 ## Make soil plot
-soil_significance <- ggplot(df_soil, aes(x = trait, y = 1, fill = significance)) +
+soil_significance <- ggplot(df_soil, aes(x = trait, y = 1, fill = significance)) + # Plot significance for each trait
   geom_blank() +
   geom_bar(aes(fill = significance), stat = "identity", position = "fill") +
   xlab(element_blank()) +
   ylab("Proportions")+
   theme_minimal() +
-  facet_wrap(~group) +
+  facet_wrap(~group) + # Order by group
   scale_fill_manual(values = c("#8da0cb", "#66c2a5")) +
   theme(
     axis.title.y = element_text(),
     axis.text.y = element_text(),
     panel.grid.minor = element_blank(),
     panel.grid.major = element_line(color = "gray", linetype = "solid"),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 15),
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 15), # Have the x-axis labels at 90 degree angle
     strip.text.x = element_text(size = 15),
     legend.title = element_blank(),
     legend.key.size = unit(2, "lines"),  # Increase size of legend box
@@ -264,10 +264,10 @@ soil_significance <- ggplot(df_soil, aes(x = trait, y = 1, fill = significance))
     text = element_text(size = 10)
   ) +
   scale_y_continuous(
-    breaks = seq(0, 1, by = 1/5),  # Define breaks
-    labels = seq(0, 1, by = 1/5)   # Define labels as 0 and 1
+    breaks = seq(0, 1, by = 1/5),  # Define breaks on y-axis
+    labels = seq(0, 1, by = 1/5)   # Define labels as 0 and 1 on y-axis
   ) +
-  guides(fill = guide_legend(override.aes = list(color = "black")))
+  guides(fill = guide_legend(override.aes = list(color = "black"))) # Make a black outline around legend box
 
 ## Make marine plot
 marine_significance <- ggplot(marine, aes(x = trait, y = 1, fill = significance)) +

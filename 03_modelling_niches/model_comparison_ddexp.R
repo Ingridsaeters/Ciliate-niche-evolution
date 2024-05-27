@@ -24,11 +24,13 @@ setwd()
 
 # Read trees and data ----
 #_________________________
+## List tree files
+trees <- list.files("/path/to/tree/folder")
 
-trees <- list.files("/path/to/treefile_folder")
-
+## Read data
 data <- read_tsv(data_file.tsv)
 
+## Assign traits for analysis
 traits <- c("trait1", "trait2", "trait3", "etc")
 
 # Perform model analysis ----
@@ -39,7 +41,8 @@ results_df<-tibble()
 # Loop through trees
 for (tree_file in trees) {
   # Read tree
-  tree <- read.newick(file.path("/path/to/treefile_folder", tree_file))
+  tree <- read.newick(file.path("/path/to/tree/folder", tree_file))
+  # Some trees are not strictly ultrametric, which causes problems. Force the trees to be ultrametric. 
   tree <- force.ultrametric(tree, method = "extend")
   tree_filename <- basename(tree_file)
   tip_labels <- tree$tip.label

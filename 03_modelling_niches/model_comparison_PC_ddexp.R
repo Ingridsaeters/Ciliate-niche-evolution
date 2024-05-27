@@ -24,46 +24,48 @@ setwd()
 
 # Read trees and data ----
 #_________________________
+## List tree files
+trees <- list.files("/path/to/tree/folder")
 
-trees <- list.files("/path/to/treefile_folder")
+## List files with PC scores
+traits <- list.files("/path/to/PC/folder")
 
-## Read files with PC scores
-traits <- list.files("/path/to/PCfiles_folder")
-
-# Read files with measurement errors (Proceedure from Drury et al. 2018 to calculate measurement errors for PC scores)
-sems <- list.files("/path/to/me_files")
+# List files with measurement errors (Proceedure from Drury et al. 2018 to calculate measurement errors for PC scores)
+mes <- list.files("/path/to/me/folder")
 
 # Perform model test ----
 #________________________
 ## Make an empty tibble to store results
 results_df <- tibble()
 
-# Perform model test by using the first tree file in the tree folder, the first PC file in the PC folder and first me file in me folder. Then the second and so on
+## Make a loop though the first tree file in the tree folder, the first PC file in the PC folder and first me file in me folder. 
+## Then repeat for the second and so on.
 for (i in seq_along(trees)) {
-  tree_path <- file.path(tree_directory, trees[[i]])
+  tree_path <- file.path("/path/to/tree/folder", trees[[i]])
   tree <- read.tree(tree_path)
  
   # Large trees have some nodes with the exact same age, which causes problems. Therefore, jitter the edge length by a miniscule fraction to avoid this problem
   jitter_amount <- runif(length(tree$edge.length), min = 0, max = 0.001) 
   tree$edge.length <- tree$edge.length + jitter_amount
+  # Some of the trees are not ultrametric, which also causes problems. Force the trees to be ultrametric. 
   tree <- force.ultrametric(tree, method = "extend")
   tree_filename<- basename(trees[[i]])
   tip_labels<- tree$tip.label
   
-   # Read me file
-  sem <- read.csv(file.path("/path/to/me_files", sems[[i]]), sep = ",")
-  colnames(sem)[1]<-"ASV"
-  colnames(sem)[2]<-"pc_values"
+  # Read me file
+  me <- read.csv(file.path("/path/to/me/folder", mes[[i]]), sep = ",")
+  colnames(me)[1]<-"ASV"
+  colnames(me)[2]<-"me_values"
 
   # Order me file by order in tree
-  sem_reordered <- sem[match(tip_labels, sem$ASV), ,drop = FALSE]
+  me_reordered <- me[match(tip_labels, me$ASV), ,drop = FALSE]
 
   # Make a named vector with sem
-  sem_vector <- sem_reordered$pc_values
- names(sem_vector) <- tip_labels
+  me_vector <- me_reordered$me_values
+  names(me_vector) <- tip_labels
 
- # Read PC file
-trait <- read.csv(file.path("/path/to/PCfiles_folder", traits[[i]]), sep = "\t")
+# Read PC file
+trait <- read.csv(file.path("/path/to/PC/folder", traits[[i]]), sep = "\t")
 
 # Order by order in tree
 trait_reordered <- trait[match(tip_labels, rownames(trait)), , drop = FALSE]
@@ -74,8 +76,9 @@ vector <- trait_reordered$pc
 names(vector) <- rownames(trait_reordered) 
   
 # Perform model analysis
-LB.fit <- fit_t_comp(tree, vector, model = "DDexp", error = sem_vector)
-  
+LB.fit <- fit_t_comp(tree, vector, model = "DDexp", error = me_vector)
+
+  # Extract output
   LH <- LB.fit$logl
   aic <- LB.fit$aic
   aicc <- LB.fit$aicc
