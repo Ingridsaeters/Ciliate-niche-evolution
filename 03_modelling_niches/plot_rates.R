@@ -25,9 +25,6 @@ setwd()
 
 # Load data ----
 #_______________
-
-data <- read.csv("datafile.csv")
-
 ### Data should be modified to include the columns "trait", "mean_sig2", "sd", "median", "min", "max"
 
 ##  Combine the datasets
