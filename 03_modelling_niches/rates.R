@@ -23,8 +23,8 @@ setwd()
 
 # Read trees and data ----
 #________________
-## Assign trees
-trees <- list.files("/path/to/treefiles")
+## List tree files
+trees <- list.files("/path/to/tree/folder")
 
 ## Read data
 trait_data <- read_tsv("trait_data.tsv") # Normalized for comparisons among traits and non-normalized for calculations of rates per millions of years
@@ -39,7 +39,7 @@ results_df<-tibble()
 
 # Loop through trees
 for (tree_file in trees) {
-tree_path <- file.path("/path/to/treefile_folder", tree_file)
+tree_path <- file.path("/path/to/tree/folder", tree_file)
 tree <- read.tree(tree_path)
 tree_filename<- basename(tree_file)
 tip_labels<- tree$tip.label
