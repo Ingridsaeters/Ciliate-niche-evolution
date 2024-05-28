@@ -30,6 +30,7 @@ trees <- list.files("/path/to/tree/folder")
 
 ## Read data
 trait_data <- read_tsv("trait_data.tsv")
+### Make sure you have one column with values for the trait, and one column with sd (with trait name and suffix _sd), and one column with the number of samples the ASV has been found in (N). 
 
 ## Assign traits for analysis
 traits<-c("trait1", "trait2", "trait3", "etc")
@@ -49,6 +50,7 @@ for (tree_file in trees) {
   # Loop through each trait
   for (trait in traits) {
     row_names<-trait_data$ASV
+    # Order trait data in the same order as the tree
     trait_data_ordered<-trait_data[match(tip_labels, row_names), , drop = FALSE]
     
     # Calculate standard error of mean for this trait by dividing sd by the square root of number of samples ASV is found in (N)
