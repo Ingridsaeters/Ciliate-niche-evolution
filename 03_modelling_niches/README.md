@@ -29,6 +29,28 @@ To compare rates in ciliates with estimated rates in plants and animals, repeat 
 ### Rates within clades
 Examine evolutionary rates within clades using evorates.R. 
 
+### Examine the effect of terrestrial sampling bias on inferences of rates
+To examine this, measure evolutionary rates for subsets of the terrestrial phylogeny to see if the same general patterns are detected. First, shuffle the list of terrestrial ASVs so that they are in random order: 
+
+```
+shuf terrestrial_tip_labels.tsv > terrestrial_tip_labels_shuffled.tsv
+```
+
+Then make new lists were you have removed percentages. We removed 10, 20, 30, 50 and 70% of ASVs: 
+
+```
+sed '1,306d' terrestrial_tip_labels_shuffled.tsv > terrestrial_tip_labels_shuffled_10_percent.tsv
+```
+
+Prune the trees to create trees with subset of 10, 20, 30, 50 and 70% less ASVs: 
+
+```
+for file in all.*.tree.treepl.mahendrarajah.dated_primary_secondary.soil.bestTree; do python prune.py "$file" terrestrial_tip_labels_shuffled_70_percent.tsv 70_percent/70_percent."$file"; done;
+```
+
+Then repeat analysis of evolutionary rates with these trees, and examine the difference. 
+
+
 ## Age of trees
 Extract the age of the phylogenetic trees using the R script age_trees.R. 
 
