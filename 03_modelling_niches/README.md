@@ -29,8 +29,8 @@ To compare rates in ciliates with estimated rates in plants and animals, repeat 
 ### Rates within clades
 Examine evolutionary rates within clades using evorates.R. 
 
-### Examine the effect of terrestrial sampling bias on inferences of rates
-To examine this, measure evolutionary rates for subsets of the terrestrial phylogeny to see if the same general patterns are detected. First, shuffle the list of terrestrial ASVs so that they are in random order: 
+### Examine the effect of terrestrial sampling bias on inferences of rates - Prune away ASVs randomly
+Measure evolutionary rates for subsets of the terrestrial phylogeny to see if the same general patterns are detected. First, shuffle the list of terrestrial ASVs so that they are in random order: 
 
 ```
 shuf terrestrial_tip_labels.tsv > terrestrial_tip_labels_shuffled.tsv
@@ -50,6 +50,24 @@ for file in all.*.tree.treepl.mahendrarajah.dated_primary_secondary.soil.bestTre
 
 Then repeat analysis of evolutionary rates with these trees, and examine the difference. 
 
+### Examine the effect of terrestrial sampling bias on inferences of rates - Prune away ASVs based on area
+
+First define a bounding box for Europe, and exclude points in this bounding box. Then filter the metadata file to keep only samples not found in Europe. 
+
+```
+## Filter out points in Europe
+# Define a bounding box for Europe (longitude: -10 to 60, latitude: 35 to 70)
+coords_soil_df <- coords_soil_df %>%
+  filter(!(x >= -10 & x <= 60 & y >= 35 & y <= 70))
+
+## Filter metadata_soil to keep only rows where "sample" matches "id" in coords_soil_df
+metadata_soil_filtered <- metadata_soil %>%
+  semi_join(coords_soil_df, by = c("sample" = "id"))
+
+write_tsv(metadata_soil_filtered, "soil/metadata_soil_without_europe.tsv")
+```
+
+Then calculate new trait values based on this metadata, prune trees to only keep ASVs in this new list and repeat analyses of evolutionary rates. 
 
 ## Age of trees
 Extract the age of the phylogenetic trees using the R script age_trees.R. 
