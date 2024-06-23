@@ -73,7 +73,9 @@ Bounding box for North America: longitude: -170 to -30, latitude: 15 to 80
 Bounding box for Southeast Asia: longitude: 90 to 155, latitude: -10 to 45
 Bounding box for Central and South America: longitude: -120 to -34, latitude: -56 to 33
 
-The full terrestrial phylogeny has 3064 ASVs. When you remove samples from Europe you have 1833 ASVs. When you remove samples from North America you have 2936 ASVs. When you remove samples from Southeast Asia you have 2838 ASVs. When you remove samples from Central and South America you have 2338 ASVs. 
+The full terrestrial phylogeny has 3064 ASVs. When you remove samples from Europe you have 1833 ASVs. When you remove samples from North America you have 2936 ASVs. When you remove samples from Southeast Asia you have 2838 ASVs. When you remove samples from Central and South America you have 2338 ASVs.    
+
+The number of terrestrial samples is 977. When you remove samples from Europe, you have 555 samples (=422 european samples). When you remove samples from North America you have 959 samples (=18 North American samples). When you remove samples from central+south america you have 684 samples (=293 central+south american samples). When you remove from southeast asia you have 733 (=244 southeast asian samples). 
 
 Then calculate new trait values based on this metadata, prune trees to only keep ASVs in this new list and repeat analyses of evolutionary rates. 
 
