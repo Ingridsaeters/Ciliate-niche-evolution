@@ -69,7 +69,7 @@ write_tsv(metadata_soil_filtered, "soil/metadata_soil_without_europe.tsv")
 
 Do the same for North America and Southeast Asia. 
 
-Bounding box for North America: longitude: -170 to -30, latitude: 15 to 80
+Bounding box for North America: longitude: -170 to -30, latitude: 15 to 80 \\
 Bounding box for Southeast Asia: longitude: 90 to 155, latitude: -10 to 45
 
 Then calculate new trait values based on this metadata, prune trees to only keep ASVs in this new list and repeat analyses of evolutionary rates. 
