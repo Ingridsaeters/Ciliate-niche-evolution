@@ -14,6 +14,8 @@ grep "Ciliophora" eukbank_18SV4_asv.taxo > Ciliate_taxo
 seqkit grep -r -f <(cut -f1 Ciliate_taxo) eukbank_18SV4_asv.fasta > eukbank_ciliate.fasta
 ```
 
+We have 22896 ciliate sequences. 
+
 Change the fasta header for the ciliate fasta file so that in addition to containing the amplicon-id and abundance, it also contains supergroup, taxogroup 1 and taxogroup 2 (this information is given in the taxonomy file). Use the script replace_fasta_header.pl that replaces fasta headers with ones provided in a tab delimited file. 
 
 Create a tab delimited file, with one column for the old headers, and one with the new:
@@ -22,7 +24,7 @@ Create a tab delimited file, with one column for the old headers, and one with t
 cat eukbank_18SV4_asv.taxo | grep "Ciliophora" | cut -f1-2,7-9 | sed -E 's/(.*)\t([0-9]+)\t(.*)\t(.*)\t(.*)/\1;size=\2\t\1;size=\2;tax=\3_\4_\5/' > replace_fasta_headers.tsv
 ```
 
-Replace the headers with the repace_fasta_header.pl script.    
+Replace the headers with the replace_fasta_header.pl script.    
 
 Remove sequences with only NAs in the taxonomy string.  
 
