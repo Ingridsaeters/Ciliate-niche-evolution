@@ -7,11 +7,11 @@
 The EukBank fasta file does not contain information about taxonomy, it only has information about amplicon-id and abundance. Extract ciliate headers from the taxonomy file to make a pattern file to extract ciliate fasta sequences.  
 
 ```
-grep "Ciliophora" eukbank_18SV4_asv.taxo > Ciliate_taxo
+grep "Ciliophora" eukbank_18S_V4_asvs.tsv > Ciliate_taxo
 ```
 
 ```
-seqkit grep -r -f <(cut -f1 Ciliate_taxo) eukbank_18SV4_asv.fasta > eukbank_ciliate.fasta
+seqkit grep -r -f <(cut -f1 Ciliate_taxo) eukbank_18S_V4_asvs.fasta > eukbank_ciliate.fasta
 ```
 
 We have 22896 ciliate sequences. 
@@ -21,7 +21,7 @@ Change the fasta header for the ciliate fasta file so that in addition to contai
 Create a tab delimited file, with one column for the old headers, and one with the new:
 
 ```
-cat eukbank_18SV4_asv.taxo | grep "Ciliophora" | cut -f1-2,7-9 | sed -E 's/(.*)\t([0-9]+)\t(.*)\t(.*)\t(.*)/\1;size=\2\t\1;size=\2;tax=\3_\4_\5/' > replace_fasta_headers.tsv
+cat eukbank_18S_V4_asvs.tsv | grep "Ciliophora" | cut -f1-2,7-9 | sed -E 's/(.*)\t([0-9]+)\t(.*)\t(.*)\t(.*)/\1\t\1;size=\2;tax=\3_\4_\5/' > replace_fasta_headers.tsv
 ```
 
 Replace the headers with the replace_fasta_header.pl script.    
@@ -43,7 +43,7 @@ Extract the following metadata:
 - collection date
 
 ```
-cat eukbank_18SV4_asv.metadata | cut -f 2,5-8,11,13,14 > eukbank_18SV4_asv.subset.metadata
+cat eukbank_18SV4_asv.metadata | cut -f1,6-12,16-17 > eukbank_18SV4_asv.subset.metadata
 ```
 
 ### Extract ciliate ASVs
