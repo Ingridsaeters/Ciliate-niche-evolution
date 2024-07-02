@@ -28,6 +28,8 @@ Replace the headers with the replace_fasta_header.pl script.
 
 Remove sequences with only NAs in the taxonomy string.  
 
+After removing sequences with only NAs we have 17705 sequences. 
+
 ### Extract metadata
 
 Extract the following metadata:
