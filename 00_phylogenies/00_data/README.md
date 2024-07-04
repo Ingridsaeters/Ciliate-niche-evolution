@@ -43,7 +43,7 @@ Extract the following metadata:
 - collection date
 
 ```
-cat eukbank_18SV4_asv.metadata | cut -f1,6-12,16-17 > eukbank_18SV4_asv.subset.metadata
+cat eukbank_18S_V4_samples.tsv | cut -f1,6-14,16-17 > eukbank_18SV4_asv.subset.metadata
 ```
 
 ### Extract ciliate ASVs
