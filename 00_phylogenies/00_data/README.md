@@ -24,9 +24,17 @@ Create a tab delimited file, with one column for the old headers, and one with t
 cat eukbank_18S_V4_asvs.tsv | grep "Ciliophora" | cut -f1-2,9-11 | sed -E 's/(.*)\t([0-9]+)\t(.*)\t(.*)\t(.*)/\1\t\1;size=\2;tax=\3_\4_\5/' > replace_fasta_headers.tsv
 ```
 
-Replace the headers with the replace_fasta_header.pl script.    
+Replace the headers with the replace_fasta_header.pl script.   
+
+```
+perl replace_fasta_header.pl eukbank_ciliate.fasta replace_fasta_headers.tsv eukbank_ciliate_replaced.fasta
+```
 
 Remove sequences with only NAs in the taxonomy string.  
+
+```
+grep "Ciliophora" eukbank_ciliate_replaced.fasta > eukbank_ciliate_clean.fasta
+```
 
 After removing sequences with only NAs we have 17705 sequences. 
 
@@ -39,8 +47,11 @@ Extract the following metadata:
 - depth
 - altitude
 - biome
-- material
 - collection date
+- feature material
+- raw_env
+- temperature
+- salinity
 
 ```
 cat eukbank_18S_V4_samples.tsv | cut -f1,6-14,16-17 > eukbank_18SV4_asv.subset.metadata
@@ -54,24 +65,20 @@ Make a pattern file with ciliate fasta headers, to extract only the rows for cil
 cat eukbank_ciliate_clean.fasta | grep ">" | cut -f1 -d ";" | tr -d ">" > ciliate_asvs.list
 ```
 
-Extract ciliate rows from the table:
+The eukbank_18S_V4_counts.tsv file contains information about sample and amplicon. Make a list with only ciliate ampicons. 
 
 ```
-grep -f ciliate_asvs.list eukbank_18SV4_asv.table > eukbank_18SV4_asv.subset.table
+grep -f ciliate_asvs.list eukbank_18S_V4_counts.tsv > sample_amplicon
 ```
 
-Remove columns with only 0's with the subset.R script.    
+Make a metadata file for ciliates with amplicon using the R script metadata_ciliates.R
 
-Before running the script we had 18816 columns, and after we had 14735. 
-
-### Make an ASV table for ciliates with subset of metadata
-
-The extracted ASV table is in wide format. Convert it to long format, and add extracted metadata with the R script long_asv_metadata.R.    
+We have metadata for 10881 ciliate sequences.  
 
 Remove the " symbol from the file:
 
 ```
-cat asv_long_metadata | tr -d '"' > asv_long_metadata
+cat metadata_ciliates | tr -d '"' > metadata_ciliates_formatted
 ```
 
 ### Extract soil ciliate ASVs
@@ -79,13 +86,13 @@ cat asv_long_metadata | tr -d '"' > asv_long_metadata
 Extract soil ciliate ASVs: 
 
 ```
-grep "soil" asv_long_metadata > asv_long_metadata_soil
+grep "soil" metadata_ciliates_formatted > metadata_soil
 ```
 
 Exclude ASVs that does not have coordinates by removing rows if they contain "NA" in the columns for latitude and longitude: 
 
 ```
-awk -F '\t' '$4$5~!/NA/' asv_long_metadata_soil > asv_long_metadata_soil_reduced
+awk -F '\t' '$4$5~!/NA/' metadata_soil > metadata_soil_reduced
 ```
 
 Extract unique soil fasta sequences:
