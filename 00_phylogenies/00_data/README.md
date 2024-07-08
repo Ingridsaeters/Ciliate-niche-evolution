@@ -21,7 +21,7 @@ Change the fasta header for the ciliate fasta file so that in addition to contai
 Create a tab delimited file, with one column for the old headers, and one with the new:
 
 ```
-cat eukbank_18S_V4_asvs.tsv | grep "Ciliophora" | cut -f1-2,7-9 | sed -E 's/(.*)\t([0-9]+)\t(.*)\t(.*)\t(.*)/\1\t\1;size=\2;tax=\3_\4_\5/' > replace_fasta_headers.tsv
+cat eukbank_18S_V4_asvs.tsv | grep "Ciliophora" | cut -f1-2,9-11 | sed -E 's/(.*)\t([0-9]+)\t(.*)\t(.*)\t(.*)/\1\t\1;size=\2;tax=\3_\4_\5/' > replace_fasta_headers.tsv
 ```
 
 Replace the headers with the replace_fasta_header.pl script.    
