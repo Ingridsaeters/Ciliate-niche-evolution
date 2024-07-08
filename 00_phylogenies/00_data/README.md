@@ -98,46 +98,10 @@ awk -F '\t' '$4$5~!/NA/' metadata_soil > metadata_soil_reduced
 Extract unique soil fasta sequences:
 
 ```
-seqkit grep -r -f <(cat asv_long_metadata_soil_reduced | cut -f2 | sort | uniq) eukbank_ciliate_clean.fasta > soil/eukbank_ciliate_soil.fasta
+seqkit grep -f <(cat metadata_soil_reduced | cut -f1 | sort | uniq) eukbank_ciliate_clean.fasta > soil/eukbank_ciliate_soil.fasta
 ```
 
-### Extract marine ciliate ASVs
-
-Extract marine ciliate ASVs:
-
-```
-grep "marine" asv_long_metadata > asv_long_metadata_marine
-```
-
-Exclude ASVs that does not have coordinates by removing rows if they contain "NA" in the columns for latitude and longitude:
-
-```
-cat asv_long_metadata_marine | awk '$4 != "NA"' | awk '$5 != "NA"' | awk '$6 != "NA"' > asv_long_metadata_marine_reduced
-```
-
-Extract unique matine fasta sequences: 
-
-```
-seqkit grep -r -f <(cat asv_long_metadata_marine_reduced | cut -f2 | sort | uniq) eukbank_ciliate_clean.fasta > marine/eukbank_ciliate_marine.fasta
-```
-
-### Extract freshwater ciliate ASVs
-
-```
-grep "freshwater" asv_long_metadata > asv_long_metadata_freshwater
-```
-
-Exclude ASVs that does not have coordinates by removing rows if they contain "NA" in the columns for latitude and longitude:
-
-```
-cat asv_long_metadata_freshwater | awk '$4 != "NA"' | awk '$5 != "NA"' | awk '$6 != "NA"' > asv_long_metadata_freshwater_reduced
-```
-
-Extract unique freshwater fasta sequences: 
-
-```
-seqkit grep -r -f <(cat asv_long_metadata_freshwater_reduced | cut -f2 | sort | uniq) eukbank_ciliate_clean.fasta > eukbank_ciliate_freshwater.fasta
-```
+Repeat for marine and feshwater. 
 
 
 ## EukRibo 
