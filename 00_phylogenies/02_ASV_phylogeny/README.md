@@ -5,7 +5,7 @@
 Assemble the accepted backbone trees:
 
 ```
-cp /cluster/home/ingrmsae/nn8118k/ingrid/ciliate_niche/analyses/1_phylogenies/reference_phylogeny/all.18S28S.constrained.{1,2,3,4,5,6,7,8,10,12,14,15,16,17,21,22,27,28,32,33,34,36,37,38,41,42,44,45,47,51,52,53,54,56,57,59,62,63,65,66,67,68,69,70,72,73,74,75,76,77,78,81,83,85,86,87,88,89,92,97,99,100}.tree.raxml.bestTree .
+cp /cluster/home/ingrmsae/nn8118k/ingrid/ciliate_niche/analyses/1_phylogenies/reference_phylogeny/phylogeny_round2/all.18S28S.constrained.{49,11,79,82,62,46,64,37,75,70,50,65,17,4,18,33,90,21,72,51,48,13}.tree.raxml.bestTree .
 ```
 
 Extract the fasta file for of the ciliate sequences from Eukbank: 
