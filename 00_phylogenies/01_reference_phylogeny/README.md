@@ -233,7 +233,7 @@ raxml-ng --rfdist --tree all.18S28S.bestTree --prefix RF
 
 Use these distances for a clustering analysis in R, using the Rscript Clustering.R. 
 
-Decide on a reasonable threshold value to choose which cluster level to select trees from. Choose one arbitrary tree from each level below this cluster. We chose a treshold of 400 differences. We moved forward with tree 49, 11, 79, 82, 62, 46, 64, 37, 75, 81, 50, 65, 17, 4, 18, 33, 90, 21, 72, 51, 48, 13. 
+Decide on a reasonable threshold value to choose which cluster level to select trees from. Choose one arbitrary tree from each level below this cluster. We chose a treshold of 400 differences. We moved forward with tree 49, 11, 79, 82, 62, 46, 64, 37, 75, 70, 50, 65, 17, 4, 18, 33, 90, 21, 72, 51, 48, 13. 
 
 ## IQ-TREE - Significance tests
 
