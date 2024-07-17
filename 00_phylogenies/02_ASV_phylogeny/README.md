@@ -18,7 +18,7 @@ These are the statistics for this file:
 
 ```
 file                         format  type  num_seqs    sum_len  min_len  avg_len  max_len
-eukbank_ciliate_clean.fasta  FASTA   DNA     18,816  6,760,308       32    359.3      453
+eukbank_ciliate_clean.fasta  FASTA   DNA     17,705  6,367,340      152    359.6      453
 ```
 
 Remove sequences below 200bp, as these are likely to be of decreased phylogenetic signal.
@@ -31,7 +31,7 @@ Statistics after removing sequences below 200bp:
 
 ```
 file                      format  type  num_seqs    sum_len  min_len  avg_len  max_len
-eukbank_ciliate200.fasta  FASTA   DNA     18,781  6,755,513      200    359.7      453
+eukbank_ciliate200.fasta  FASTA   DNA     17,687  6,364,238      200    359.8      453
 ```
 
 Extract the alignment used to make the constraint trees, in phylip format:
