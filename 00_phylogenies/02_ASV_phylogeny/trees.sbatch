@@ -10,6 +10,6 @@
 module load Miniconda3/22.11.1-1
 conda activate raxml-ng
 
-raxml-ng --search1 --msa all.18S28S.ciliate.final.fasta --model GTR+G --tree-constraint all.18S28S.constrained.$1.tree.raxml.bestTree --prefix  all.18S28S."$1".tree --threads 8 --seed $RANDOM
+raxml-ng --search1 --msa all.18S28S.ciliate.final.fasta --model GTR+G --tree-constraint all.18S28S.constrained.$1.tree.raxml.bestTree --prefix  all.18S28S."$1"."$2".tree --threads 8 --seed $RANDOM
 
 
