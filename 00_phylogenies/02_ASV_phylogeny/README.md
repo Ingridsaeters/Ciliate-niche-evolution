@@ -72,25 +72,9 @@ for i in 11 13 17 18 21 33 37 46 48 49 4 50 51 62 64 65 70 72 75 79 82 90; do
     done
 done
 ```
-## Robinson Foulds and clustering
-Calculate Robinson Foulds distances for the 62 trees with RAxML-ng. First make one file for all 62 trees. Concatenate by increasing order of number in the filename. 
-
-```
-ls -v all.18S28S.*.tree.raxml.bestTree | xargs cat > all.18S28S.bestTree
-```
-
-Then calculate Robinson Foulds distances. 
-
-```
-raxml-ng --rfdist --tree all.18S28S.bestTree --prefix RF
-```
-
-Use these distances for a clustering analysis in R, using the Rscript Clustering.R. 
-
-Decide on a reasonable threshold value to choose which cluster level to select trees from. Choose one arbitrary tree from each level below this cluster. 
 
 ## Rooting 
-Root the trees you select with the root_at_node.py script. 
+Root the trees with the root_at_node.py script. 
 
 ## Make 100 bootstrap replicates for each tree
 
