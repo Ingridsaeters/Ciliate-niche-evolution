@@ -59,12 +59,18 @@ cat all.18S28S.ciliate.fasta | sed 's/;/_/g' > all.18S28S.ciliate.final.fasta
 
 ## Tree inference
 
-Do tree inference for the complete alignment for each of the 62 accepted backbone trees, using the sbatch script trees.sbatch. 
+Do tree inference for the complete alignment for each of the 22 accepted backbone trees, 10 trees for each backbone (220 trees in total), using the sbatch script trees.sbatch. 
 
-Activate this script with the following command, to make one sbatch job per tree:
+Activate this script with the following command, to make one sbatch job per tree and 10 trees per backbone:
 
 ```
-for i in 1 2 3 4 5 6 7 8 10 12 14 15 16 17 21 22 27 28 32 33 34 36 37 38 41 42 44 45 47 51 52 53 54 56 57 59 62 63 65 66 67 68 69 70 72 73 74 75 76 77 78 81 83 85 86 87 88 89 92 97 99 100; do echo $i; sbatch trees.sbatch ${i}; sleep 1; done
+for i in 11 13 17 18 21 33 37 46 48 49 4 50 51 62 64 65 70 72 75 79 82 90; do 
+    echo $i
+    for j in {1..10}; do
+        sbatch trees.sbatch ${i} ${j}
+        sleep 1
+    done
+done
 ```
 ## Robinson Foulds and clustering
 Calculate Robinson Foulds distances for the 62 trees with RAxML-ng. First make one file for all 62 trees. Concatenate by increasing order of number in the filename. 
