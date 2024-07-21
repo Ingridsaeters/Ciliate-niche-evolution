@@ -8,6 +8,7 @@
 # EDGE group, Natural history museum, University of Oslo
 # 26.05.2024
 # Version 1
+# R v. 4.2.2
 #=================#
 
 # Setup ----
