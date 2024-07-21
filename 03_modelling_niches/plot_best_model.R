@@ -7,6 +7,7 @@
 # Niche Evolution 
 # EDGE group, Natural history museum, University of Oslo
 # 26.05.2024
+# R v. 4.2.2
 # Version 1
 #=================#
 
