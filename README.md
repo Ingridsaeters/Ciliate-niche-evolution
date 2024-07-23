@@ -18,13 +18,13 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 
 ### To-do
 - Download new version of EukBank (https://zenodo.org/records/7804946). *Ingrid*
-- Download animal and plant phylogenies and metadata from Liu et al 2020. *Mahwash*
 - Test DBM on animal and plants. *Mahwash*
 - Test Evorates on animals and plants. *Mahwash*
 - Infer new ciliate phylogenies with EukBank (or metaPR2). *Ingrid*
+- How much of the ciliate niche conservatism is explained by biogeography? *Ingrid* (double check if okay)
 
-### In progress
-
+### In progress  
+- Download animal and plant phylogenies and metadata from Liu et al 2020. *Mahwash*
 
 ### Done
 - Check if terrestrial sampling biases inferred evolutionary rates. *Ingrid*
@@ -32,3 +32,5 @@ Each directory contains a README.md file with detailed pipelines and correspondi
   - Prune away all ASVs from Europe, North America, and South East Asia (one by one) and infer evolutionary rates for terrestrial ciliates (for any 5 variables including temp and precipitation). 
 - Check if metaPR2 has greater ciliate diversity. *Mahwash* (If yes, switch to metaPR2??).
 
+### Notes/Ideas/etc  
+- Maybe exclude climate measurements outside 2-3 standard deviations as they could be due to "windblown" ciliates. 
