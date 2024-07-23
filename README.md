@@ -33,4 +33,5 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 - Check if metaPR2 has greater ciliate diversity. *Mahwash* (If yes, switch to metaPR2??).
 
 ### Notes/Ideas/etc  
-- Maybe exclude climate measurements outside 2-3 standard deviations as they could be due to "windblown" ciliates. 
+- Maybe exclude climate measurements outside 2-3 standard deviations as they could be due to "windblown" ciliates.
+- A lot more animal and plant observations per species compared to us. Is it comparable???  
