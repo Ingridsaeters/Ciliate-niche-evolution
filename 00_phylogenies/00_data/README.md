@@ -1,6 +1,6 @@
 # Data
 ## Eukbank
-
+Download data from EukBank: https://zenodo.org/records/7804946Download data from EukBank: https://zenodo.org/records/7804946  
 
 ### Extract ciliate fasta sequences from EukBank
 
@@ -16,12 +16,12 @@ seqkit grep -r -f <(cut -f1 Ciliate_taxo) eukbank_18S_V4_asvs.fasta > eukbank_ci
 
 We have 22896 ciliate sequences. 
 
-Change the fasta header for the ciliate fasta file so that in addition to containing the amplicon-id and abundance, it also contains supergroup, taxogroup 1 and taxogroup 2 (this information is given in the taxonomy file). Use the script replace_fasta_header.pl that replaces fasta headers with ones provided in a tab delimited file. 
+Change the fasta header for the ciliate fasta file so that in addition to containing the amplicon-id, it also contains number of samples, number of reads (size), supergroup, taxogroup 1 and taxogroup 2 (this information is given in the taxonomy file). Use the script replace_fasta_header.pl that replaces fasta headers with ones provided in a tab delimited file. 
 
 Create a tab delimited file, with one column for the old headers, and one with the new:
 
 ```
-cat eukbank_18S_V4_asvs.tsv | grep "Ciliophora" | cut -f1-2,9-11 | sed -E 's/(.*)\t([0-9]+)\t(.*)\t(.*)\t(.*)/\1\t\1;size=\2;tax=\3_\4_\5/' > replace_fasta_headers.tsv
+cat eukbank_18S_V4_asvs.tsv | grep "Ciliophora" | cut -f1-2,4,9-11 | sed -E 's/(.*)\t([0-9]+)\t([0-9]+)\t(.*)\t(.*)\t(.*)/\1\t\1_samples=\2_size=\3_tax=\4_\5_\6/' > replace_fasta_headers.tsv
 ```
 
 Replace the headers with the replace_fasta_header.pl script.   
@@ -32,11 +32,26 @@ perl replace_fasta_header.pl eukbank_ciliate.fasta replace_fasta_headers.tsv euk
 
 Remove sequences with only NAs in the taxonomy string.  
 
+Make a list of sequences to keep: 
+
 ```
-grep "Ciliophora" eukbank_ciliate_replaced.fasta > eukbank_ciliate_clean.fasta
+grep "Ciliophora" eukbank_ciliate_replaced.fasta > eukbank_ciliate_clean.list
+cat eukbank_ciliate_clean.list | tr -d '>' > clean_list
 ```
 
+Make a fasta file with these sequences
+
+```
+seqkit grep -r -f clean_list eukbank_ciliate_replaced.fasta > eukbank_ciliate_clean.fasta
+```
+
+
 After removing sequences with only NAs we have 17705 sequences. 
+
+```
+file                         format  type  num_seqs    sum_len  min_len  avg_len  max_len
+eukbank_ciliate_clean.fasta  FASTA   DNA     17,705  6,367,340      152    359.6      453
+```
 
 ### Extract metadata
 

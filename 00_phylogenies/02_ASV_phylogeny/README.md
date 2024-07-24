@@ -34,6 +34,30 @@ file                      format  type  num_seqs    sum_len  min_len  avg_len  m
 eukbank_ciliate200.fasta  FASTA   DNA     17,687  6,364,238      200    359.8      453
 ```
 
+A preliminary tree gave two sequences that was misplaced in the phylogeny: 
+
+```
+Spirotrichea - Falls within Colpodea 4730a25dba6cb66ff5df6f2b4ee6bb0bf1e14023_size=5_tax=Alveolata_Ciliophora_Spirotrichea
+
+Litostomatea - Falls within Oligohymenophorea
+c8ef9ca34120e12bc409c21518379afc7c7da00d_size=16_tax=Alveolata_Ciliophora_Litostomatea
+
+```
+
+We decided to remove these sequences, as they are likely chimeras. 
+
+```
+seqkit grep -rvip "^4730a25dba6cb66ff5df6f2b4ee6bb0bf1e14023" eukbank_ciliate200.fasta > test
+seqkit grep -rvip "^c8ef9ca34120e12bc409c21518379afc7c7da00d" test > eukbank_ciliate200_chimerasremoved.fasta
+```
+
+New statistics: 
+
+```
+file                                      format  type  num_seqs    sum_len  min_len  avg_len  max_len
+eukbank_ciliate200_chimerasremoved.fasta  FASTA   DNA     17,685  6,363,663      200    359.8      453
+```
+
 Extract the alignment used to make the constraint trees, in phylip format:
 
 ```
