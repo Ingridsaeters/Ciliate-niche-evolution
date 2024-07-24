@@ -36,4 +36,5 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 
 ### Notes/Ideas/etc  
 - Maybe exclude climate measurements outside 2-3 standard deviations as they could be due to "windblown" ciliates.
-- A lot more animal and plant observations per species compared to us. Is it comparable???  
+- A lot more animal and plant observations per species compared to us. Is it comparable???
+- What strategy to use for plants and animals? Already existing, well-sampled phylogenies (like Liu et al 2020) with a minimum of 50% taxonomic coverage? Or just all the big phylogenies and get distributions from GBIF?
