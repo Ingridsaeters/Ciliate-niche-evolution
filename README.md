@@ -17,15 +17,14 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 ## To-do list
 
 ### To-do
-- Test DBM on animal and plants. *Mahwash*
-- Test Evorates on animals and plants. *Mahwash*
 - Infer new ciliate phylogenies with EukBank (or metaPR2). *Ingrid*
 - How much of the ciliate niche conservatism is explained by biogeography? *Ingrid* (double check if okay)
 - Get data from https://doi.org/10.1098/rspb.2022.0091. *Mahwash*
 - How many ciliate species are there (terrestrial and marine)? *Mahwash*
 
 ### In progress  
-- Download animal and plant phylogenies and metadata from Liu et al 2020. *Mahwash*
+- Test DBM on animal and plants. *Mahwash*
+- Test Evorates on animals and plants. *Mahwash*
 
 ### Done
 - Check if terrestrial sampling biases inferred evolutionary rates. *Ingrid*
@@ -33,6 +32,7 @@ Each directory contains a README.md file with detailed pipelines and correspondi
   - Prune away all ASVs from Europe, North America, and South East Asia (one by one) and infer evolutionary rates for terrestrial ciliates (for any 5 variables including temp and precipitation). 
 - Check if metaPR2 has greater ciliate diversity. *Mahwash* (If yes, switch to metaPR2??).
 - Download new version of EukBank (https://zenodo.org/records/7804946). *Ingrid*
+   Download animal and plant phylogenies and metadata from Liu et al 2020. *Mahwash*
 
 ### Notes/Ideas/etc  
 - Maybe exclude climate measurements outside 2-3 standard deviations as they could be due to "windblown" ciliates.
