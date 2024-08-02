@@ -1,0 +1,315 @@
+---
+title: "Comparison_results"
+output: html_document
+date: "2024-07-30"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r Packages, include=FALSE}
+library("evorates")
+library("dplyr")
+library("tidyverse")
+library("hrbrthemes")
+library("cowplot")
+```
+
+# Comparison of DBM and EvoRates
+
+I ran preliminary tests using [DBM](https://github.com/ignacioq/Tapestree.jl) and [EvoRates](https://doi.org/10.1093/sysbio/syac068) on the animal and plant phylogenies and corresponding temperature data from [Liu et al. 2020](https://doi.org/10.1038/s41559-020-1158-x).
+
+The aim of these preliminary tests are:
+
+1.  To compare DBM and EvoRates. Do they produce similar results?\
+2.  To estimate the rates of temp (and precipitation) niche evolution.\
+
+-   Do DBM and EvoRates produce similar results?\
+-   What rates do we get for plants and animals?\
+-   Are they similar to published rates?\
+
+3.  Figure out how to visualize results.\
+4.  Figure out how computationally feasible it is to run these complex models on our large phylogenies.
+
+## Content
+
+[**1. Summary of EvoRates run**](#heading--1)
+
+-   [1.1. General run stats](#heading--1-1)
+-   [1.2. Branchwise rates of terminal branches for each phylogeny](#heading--1-2)
+-   [1.3. Overall rates of plants and animals (EvoRates estimates)](#heading--1-3)
+-   [1.4. Correlation between age and rate (EvoRates)](#heading--1-4)
+
+[**2. Summary of DBM run**](#heading--2)
+
+-   [2.1 General run stats](#heading--2-1)
+
+<div id="heading--1"/>
+
+## 1. Summary of EvoRates run
+
+<div id="heading--1-1"/>
+
+### 1.1. General run stats
+
+| Phylogeny | Number of taxa | Good mixing | Reached convergence | Significant heterogeneity | Notes                                  |
+|------------|------------|------------|------------|------------|------------|
+| a01       | 91             | yes         | yes                 | yes                       | \-                                     |
+| a02       | 48             | yes         | yes                 | no                        | 1 divergent transitions after warmup   |
+| a03       | 250            | yes         | yes                 | yes                       | \-                                     |
+| a04       | 70             | yes         | yes                 | yes                       | \-                                     |
+| a05       | 36             | yes         | yes                 | no                        | 15 divergent transitions after warmup  |
+| a06       | 30             | yes         | yes                 | no                        | 1 divergent transitions after warmup   |
+| a07       | 113            | yes         | yes                 | yes                       | \-                                     |
+| a08       | 37             | yes         | yes                 | no                        | \-                                     |
+| a09       | 31             | yes         | yes                 | no                        | 68 divergent transitions after warmup  |
+| a10       | 23             | yes         | yes                 | yes                       | 65 divergent transitions after warmup  |
+| a11       | 12             | yes         | yes                 | no                        | \-                                     |
+| a12       | 41             | yes         | yes                 | yes                       | 2 divergent transitions after warmup   |
+| a13       | 297            | yes         | yes                 | yes                       | \-                                     |
+| a14       | 15             | yes         | yes                 | no                        | 51 divergent transitions after warmup  |
+| a15       | 19             | yes         | yes                 | no                        | 36 divergent transitions after warmup  |
+| a16       | 46             | yes         | yes                 | no                        | 15 divergent transitions after warmup  |
+| a17       | 20             | NO          | NO                  | NA                        | 538 divergent transitions after warmup |
+| p01       | 17             | \-          | \-                  | \-                        | \-                                     |
+| p02       | 12             | \-          | \-                  | \-                        | \-                                     |
+| p03       | 11             | yes         | yes                 | no                        | 47 divergent transitions after warmup  |
+| p04       | 18             | \-          | \-                  | \-                        | \-                                     |
+| p05       | 43             | yes         | yes                 | no                        | 3 divergent transitions after warmup   |
+| p06       | 8              | \-          | \-                  | \-                        | \-                                     |
+| p07       | 110            | yes         | yes                 | yes                       | \-                                     |
+| p08       | 27             | yes         | yes                 | yes                       | \-                                     |
+| p09       | 129            | yes         | yes                 | no                        | \-                                     |
+| p10       | 23             | yes         | yes                 | no                        | 2 divergent transitions after warmup   |
+| p11       | 18             | yes         | yes                 | yes                       | 4 divergent transitions after warmup   |
+| p12       | 15             | yes         | yes                 | no                        | 21 divergent transitions after warmup  |
+| p14       | 100            | \-          | \-                  | \-                        | \-                                     |
+| p16       | 23             | \-          | \-                  | \-                        | \-                                     |
+| p17       | 36             | yes         | yes                 | yes                       | \-                                     |
+| p18       | 209            | yes         | yes                 | yes                       | \-                                     |
+| p19       | 20             | \-          | \-                  | \-                        | \-                                     |
+
+<div id="heading--1-2"/>
+
+### 1.2. Branchwise rates of terminal branches for each phylogeny
+
+```{r echo=FALSE}
+## List rds files
+files <- list.files("20240725/evorates", pattern = ".rds", full.names = TRUE)
+
+## Make an empty tibble to store results
+results <- tibble()
+
+# Set up the plotting area for 1 row, 2 columns
+par(mfrow = c(1, 2))
+
+## Loop through rds files, extract branchwise rates and plot them
+for (file in files) {
+  fit <- readRDS(file)
+  tree_name <- gsub(pattern = ".rds$", replacement = "", x = basename(file))
+  
+  ## Get edge indices of terminal branches
+  ## inspired by http://blog.phytools.org/2016/02/extracting-terminal-edge-lengths-for.html
+  edges <- which((fit$call$tree$edge[,2] <= Ntip(fit$call$tree)), arr.ind = "TRUE")
+
+  ## Get quantiles of edge rates from posterior distribution
+  tip.Rs <- get.R(fit, select = edges, type = "quantiles")
+  chain_1 <- t(tip.Rs[, , "chain 1"])
+  chain_1 <- as.data.frame(chain_1)
+  chain_1 <- rownames_to_column(chain_1, "edge")
+  colnames(chain_1) <- c("edge","ln.sigma2.2.5","ln.sigma2.50","ln.sigma2.97.5")
+
+  ## Calculate median sigma^2
+  chain_1 <- chain_1 %>% mutate(sigma2.50 = (exp(ln.sigma2.50)))
+
+  ## Get rates in °C/Myr (remember that trees were scaled to 10 Myr)
+  chain_1 <- chain_1 %>% mutate(rate.50 = sqrt(sigma2.50)/sqrt(10))
+
+  ## Plot median rates
+  p1 <- chain_1 %>%
+      ggplot( aes(x=sigma2.50)) +
+      geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8) +
+      ggtitle(paste(tree_name, " sigma^2")) +
+      xlab("Sigma^2 (°C^2 / Myr)") +
+      theme_ipsum()
+
+  p2 <- chain_1 %>%
+      ggplot( aes(x=rate.50)) +
+      geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8) +
+      ggtitle(paste(tree_name, " rate")) +
+      xlab("rate (°C/Myr)") +
+      theme_ipsum()
+  
+  ## print plots!
+  print(p1)
+  print(p2)
+
+  ## Extract ages of terminal edges
+  ages <- (fit$call$tree$edge.length[edges])*10
+  chain_1 <- cbind(chain_1, ages)
+  
+  ## Add clade type (animal or plant?)
+  if (grepl("a", tree_name)) {
+    chain_1[, 'clade'] = "animal"
+  } else if (grepl("p", tree_name)) {
+    chain_1[, 'clade'] = "plant"
+  }
+  
+
+  ## Finally append the results to the results dataframe
+  chain_1[, 'tree'] = tree_name
+  results <- rbind(results, chain_1)
+  
+}
+
+par(mfrow = c(1, 1))
+
+write.table(results, file = "20240725/evorates/rates.tsv", quote = FALSE, sep = "\t", row.names = FALSE)
+```
+
+<div id="heading--1-3"/>
+
+### 1.3. Overall rates of plants and animals (EvoRates estimates)
+
+```{r echo=FALSE}
+## load file
+results <- read.csv("20240725/evorates/rates.tsv", header = TRUE, sep = "\t")
+
+## make boxplot
+ggplot(results, aes(x=clade, y=rate.50, fill=clade)) + 
+  geom_boxplot() +
+  xlab("") +
+  ylab("evolutionary rate of temperature (°C/Myr)") +
+  theme_ipsum()
+```
+
+The mean rate of temperature niche evolution seems to be about 1 °C/Myr for both plants and animals.
+
+Let's now compare the rates estimated by EvoRates with those estimated by [Liu et al. 2020](https://doi.org/10.1038/s41559-020-1158-x). I obtained the rates from `Dataset_S8` of Liu et al.
+
+```{r echo=FALSE}
+## load file with evorates results
+results <- read.csv("20240725/evorates/rates.tsv", header = TRUE, sep = "\t")
+results <- results[, c("rate.50", "clade")]
+results[, 'analysis'] = "evorates"
+
+## load file with rates from Liu et al
+liu <- read.csv("rates_Liu2020.txt", header = TRUE, sep = "\t")
+colnames(liu) <- c("rate.50", "clade")
+liu[, 'analysis'] = "published"
+
+## join the two dataframes
+total <- rbind(results, liu)
+
+## make boxplot
+p1 <- ggplot(total, aes(x=analysis, y=rate.50, fill=clade)) + 
+  geom_boxplot() +
+  xlab("") +
+  ylab("evolutionary rate of temperature (°C/Myr)") +
+  ggtitle("Data including outliers") +
+  theme_ipsum()
+
+print(p1)
+
+## Since the result was rather...weird (the rates we got were very different from the Liu et al paper),
+## let's plot results after removing outliers
+
+## remove outliers from liu dataset
+quartiles <- quantile(liu$rate.50, probs=c(.25, .75), na.rm = FALSE)
+IQR <- IQR(liu$rate.50)
+Lower <- quartiles[1] - 1.5*IQR
+Upper <- quartiles[2] + 1.5*IQR
+
+liu_no_outlier <- subset(liu, liu$rate.50 > Lower & liu$rate.50 < Upper)
+
+## remove outliers from evorates dataset
+quartiles <- quantile(results$rate.50, probs=c(.25, .75), na.rm = FALSE)
+IQR <- IQR(results$rate.50)
+Lower <- quartiles[1] - 1.5*IQR
+Upper <- quartiles[2] + 1.5*IQR
+
+results_no_outlier <- subset(results, results$rate.50 > Lower & results$rate.50 < Upper)
+
+## join the two dataframes
+total <- rbind(results_no_outlier, liu_no_outlier)
+
+p2 <- ggplot(total, aes(x=analysis, y=rate.50, fill=clade)) + 
+  geom_boxplot() +
+  xlab("") +
+  ylab("evolutionary rate of temperature (°C/Myr)") +
+  ggtitle("Data without outliers") +
+  theme_ipsum()
+
+print(p2)
+```
+
+The Liu et al. 2020 data seemed to have a lot of outliers (this is strange and I have emailed John Wiens about this). After excluding outliers, it seems that the rates estimated by evorates are higher in general.
+
+<div id="heading--1-4"/>
+
+### 1.4. Correlation between age and rate (EvoRates)
+
+Evolutionary rates tend to be higher among recently diverged species, and previous studies have found a negative correlation between species ages and rates. Do we find the same result?
+
+```{r echo=FALSE}
+## load file with evorates results
+results <- read.csv("20240725/evorates/rates.tsv", header = TRUE, sep = "\t")
+
+## Make a scatterplot of lineage age vs. evolutionary rate
+p1 <- ggplot(results, aes(x=ages, y=rate.50)) +
+  geom_point(color="#69b3a2") +
+  geom_smooth(method=lm , color="red", se=FALSE) +
+  xlab("age (Myr)") +
+  ylab("evolutionary rate of temperature (°C/Myr)") +
+  theme_ipsum()
+
+
+print(p1)
+```
+
+This is a quick and dirty result which shows that we do have a negative correlation between species age and rates. Of course the proper way to do this would be doing a PGLS, but that is for later :).
+
+<div id="heading--2"/>
+
+## 2. Summary of DBM runs
+
+<div id="heading--2-1"/>
+
+### 2.1. General run stats
+
+| Phylogeny    | Number of taxa | Age (Myr) | Iterations | ESS values     | Sig. heterogeneity | Ancestral value   |
+|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| a01.scaled   | 91             | 55.23     | 15,000,000 | okay (4)       | yes                | 19.3 (15.8-22.3)  |
+| a01.unscaled | 91             | 55.23     | 15,000,000 | good           | yes                | 19.2 (15.7-22.6)  |
+| a02.scaled   | 48             | 34.05     | 15,000,000 | good           | yes                | 15 (5.6-22.8)     |
+| a08.scaled   | 37             | 23.55     | 15,000,000 | poor (2)       | yes                | 18.5 (13.8-24)    |
+| a10.unscaled | 23             | 87.14     | 15,000,000 | invalid values | yes                | \-                |
+| a13.scaled   | 297            | 58.3      | 660,000    | poor           | \-                 | \-                |
+| a16.scaled   | 46             | 28.2      | 15,000,000 | okay (2)       | yes                | 16.4 (-33.6-48.4) |
+| p05.unscaled | 43             | 2.69      | 15,000,000 | okay (2)       | yes                | 9.1 (0.4-15.4)    |
+| p07.scaled   | 110            | 124.5     | 15,000,000 | good           | yes                | 14.8 (6.8-23.6)   |
+| p07.unscaled | 110            | 124.5     | 15,000,000 | good           | yes                | 13.9 (-20.1-49.1) |
+| p09.scaled   | 129            | 45.05     | 9,015,000  | okay (4)       | yes                | 14.8 (9.5-19.7)   |
+
+In general, I'd say that DBM takes longer to run than EvoRates and is more sensitive to branch lengths. What are some key takeaways?
+
+-   **Scaling matters.**\
+    -   Too long branches seem to "break" DBM. I suspect that is what is happened with phylogeny a10.unscaled.\
+    -   Another good example is phylogeny p07. Both the runs (using scaled and unscaled phylogeny) reached convergence. But the scaled phylogeny gave a tighter 95% HPD for the ancestral temperature value.\
+    -   I find it difficult to judge when and when not to scale phylogenies. For example, a01.scaled (height=5.5) had more difficulty reaching convergence than a01.unscaled.
+    
+
+Before setting up the rest of the analyses, I'd like to explore the branch lengths of the phylogenies that worked and didn't work.
+
+
+<div id="heading--2-2"/>
+
+### 2.2. Effect of branch lengths
+
+```{r echo=FALSE}
+tree <- 
+
+```
+
+
