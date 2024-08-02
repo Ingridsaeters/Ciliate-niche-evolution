@@ -6,6 +6,7 @@
 *.txt
 *.tre
 slurm*
+*.log
 
 # Ignore .DS_Store files
 .DS_Store

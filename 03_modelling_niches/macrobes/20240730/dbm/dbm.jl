@@ -35,18 +35,20 @@ out_file = ARGS[3]
 ### nflush = frequency of writing to file (more important)
 ### ofile = outfile
 ### δt = discretize time (shouldn't be too large or you will get weird results). 1e-3 works fine usually.
+### mxthf = can be a number from (0,1). It means the maximum edge length when cutting the tree as a proportion of tree height. So 0.05 will only allow branches less than treeheight*0.05.
 ### prints = update to screen after every few seconds. If running on cluster for several hours, set prints to every hour (3600) so that you dont get a huge file generated
 
 ### 
 r, tv = insane_dbm(tre, xav,
-          xs     = xst,
-          γ_prior= (0.05, 0.05),
-          nburn  = 3_000_000,
-          niter  = 10_000_000,
-          nthin  = 10_000,
-          nflush = 10_000,
-          ofile  = out_file,
-          δt     = 1e-3,
-          prints = 3600)
+          xs      = xst,
+          γ_prior = (0.05, 0.05),
+          nburn   = 5_000_000,
+          niter   = 12_000_000,
+          nthin   = 12_000,
+          nflush  = 12_000,
+          ofile   = out_file,
+          δt      = 1e-3,
+          mxthf   = 0.05,
+          prints  = 3600)
 
 
