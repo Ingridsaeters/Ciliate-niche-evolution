@@ -32,8 +32,8 @@ Each directory contains a README.md file with detailed pipelines and correspondi
   - Prune 10, 20, 30, 50, and 70% of ASVs and infer evolutionary rates for terrestrial ciliates (for any 5 variables including temp and precipitation).  
   - Prune away all ASVs from Europe, North America, and South East Asia (one by one) and infer evolutionary rates for terrestrial ciliates (for any 5 variables including temp and precipitation). 
 - Check if metaPR2 has greater ciliate diversity. *Mahwash* (If yes, switch to metaPR2??).
-- Download new version of EukBank (https://zenodo.org/records/7804946). *Ingrid*
-   Download animal and plant phylogenies and metadata from Liu et al 2020. *Mahwash*
+- Download new version of EukBank (https://zenodo.org/records/7804946). *Ingrid*  
+- Download animal and plant phylogenies and metadata from Liu et al 2020. *Mahwash*  
 
 ### Notes/Ideas/etc  
 - Maybe exclude climate measurements outside 2-3 standard deviations as they could be due to "windblown" ciliates.
