@@ -17,7 +17,6 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 ## To-do list
 
 ### To-do
-- Infer new ciliate phylogenies with EukBank (or metaPR2). *Ingrid*
 - How much of the ciliate niche conservatism is explained by biogeography? *Ingrid* (double check if okay)
 - Get data from https://doi.org/10.1098/rspb.2022.0091. *Mahwash*
 - How many ciliate species are there (terrestrial and marine)? *Mahwash*
@@ -25,6 +24,7 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 ### In progress  
 - Test DBM on animal and plants. *Mahwash*
 - Test Evorates on animals and plants. *Mahwash*
+- Infer new ciliate phylogenies with EukBank (or metaPR2). *Ingrid*
 
 ### Done
 - Check if terrestrial sampling biases inferred evolutionary rates. *Ingrid*
