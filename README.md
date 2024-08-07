@@ -20,6 +20,7 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 - How much of the ciliate niche conservatism is explained by biogeography? *Ingrid* (double check if okay)
 - Get data from https://doi.org/10.1098/rspb.2022.0091. *Mahwash*
 - How many ciliate species are there (terrestrial and marine)? *Mahwash*
+- Are marine results biased because of sinking particles? *Ingrid*
 
 ### In progress  
 - Test DBM on animal and plants. *Mahwash*
