@@ -98,22 +98,12 @@ done
 ```
 
 ## Rooting 
-Root the trees with the root_at_node.py script. 
-
-## Make 100 bootstrap replicates for each tree
-
-Make 100 bootstraped trees with branch lengths from the alignment using RAxML-ng. First, create 100 bootstrap replicates based on the alignment:
+Root the trees with the `root_at_node.py` script and `outgroup.list` file.
 
 ```
-raxml-ng --bsmsa --bs-trees 100 --msa all.18S28S.ciliate.final.edited.fasta --model GTR+G
+for i in *bestTree; do 
+    echo $i 
+    python root_at_node.py $i outgroup.list "$i".rooted 
+done
 ```
 
-This creates 100 bootstrap alignments. Then, create 100 bootstrap trees based on this alignment. Use the script bootstrap.sbatch and activate the script with this command:
-
-```
-for i in {1..100}; do echo $i; sbatch bootstrap.sbatch ${i}; sleep 1; done
-```
-
-This creates one sbatch job for each bootstrap tree.
-
-Do this for all 9 trees.
