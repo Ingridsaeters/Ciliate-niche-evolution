@@ -14,6 +14,7 @@ library("dplyr")
 library("tidyverse")
 library("hrbrthemes")
 library("cowplot")
+library("phytools")
 ```
 
 # Comparison of DBM and EvoRates
@@ -44,6 +45,9 @@ The aim of these preliminary tests are:
 [**2. Summary of DBM run**](#heading--2)
 
 -   [2.1 General run stats](#heading--2-1)
+-   [2.2 Branchwise rates of terminal branches for each phylogeny](#heading--2-2)
+-   [2.3. Overall rates of plants and animals (DBM estimates)](#heading--2-3)
+-   [2.4. Correlation between age and rate (DBM)](#heading--2-4)
 
 <div id="heading--1"/>
 
@@ -101,9 +105,6 @@ files <- list.files("20240725/evorates", pattern = ".rds", full.names = TRUE)
 ## Make an empty tibble to store results
 results <- tibble()
 
-# Set up the plotting area for 1 row, 2 columns
-par(mfrow = c(1, 2))
-
 ## Loop through rds files, extract branchwise rates and plot them
 for (file in files) {
   fit <- readRDS(file)
@@ -125,16 +126,9 @@ for (file in files) {
 
   ## Get rates in °C/Myr (remember that trees were scaled to 10 Myr)
   chain_1 <- chain_1 %>% mutate(rate.50 = sqrt(sigma2.50)/sqrt(10))
-
-  ## Plot median rates
+  
+  ## Plot rates!
   p1 <- chain_1 %>%
-      ggplot( aes(x=sigma2.50)) +
-      geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8) +
-      ggtitle(paste(tree_name, " sigma^2")) +
-      xlab("Sigma^2 (°C^2 / Myr)") +
-      theme_ipsum()
-
-  p2 <- chain_1 %>%
       ggplot( aes(x=rate.50)) +
       geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8) +
       ggtitle(paste(tree_name, " rate")) +
@@ -143,11 +137,14 @@ for (file in files) {
   
   ## print plots!
   print(p1)
-  print(p2)
 
   ## Extract ages of terminal edges
   ages <- (fit$call$tree$edge.length[edges])*10
   chain_1 <- cbind(chain_1, ages)
+  
+  ## Add tip labels
+  tips <- fit$call$tree$tip.label
+  chain_1 <- cbind(tips, chain_1)   
   
   ## Add clade type (animal or plant?)
   if (grepl("a", tree_name)) {
@@ -162,8 +159,6 @@ for (file in files) {
   results <- rbind(results, chain_1)
   
 }
-
-par(mfrow = c(1, 1))
 
 write.table(results, file = "20240725/evorates/rates.tsv", quote = FALSE, sep = "\t", row.names = FALSE)
 ```
@@ -182,6 +177,8 @@ ggplot(results, aes(x=clade, y=rate.50, fill=clade)) +
   xlab("") +
   ylab("evolutionary rate of temperature (°C/Myr)") +
   theme_ipsum()
+
+means <- aggregate(rate.50 ~  clade, results, mean)
 ```
 
 The mean rate of temperature niche evolution seems to be about 1 °C/Myr for both plants and animals.
@@ -278,38 +275,736 @@ This is a quick and dirty result which shows that we do have a negative correlat
 
 ### 2.1. General run stats
 
-| Phylogeny    | Number of taxa | Age (Myr) | Iterations | ESS values     | Sig. heterogeneity | Ancestral value   |
-|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| a01.scaled   | 91             | 55.23     | 15,000,000 | okay (4)       | yes                | 19.3 (15.8-22.3)  |
-| a01.unscaled | 91             | 55.23     | 15,000,000 | good           | yes                | 19.2 (15.7-22.6)  |
-| a02.scaled   | 48             | 34.05     | 15,000,000 | good           | yes                | 15 (5.6-22.8)     |
-| a08.scaled   | 37             | 23.55     | 15,000,000 | poor (2)       | yes                | 18.5 (13.8-24)    |
-| a10.unscaled | 23             | 87.14     | 15,000,000 | invalid values | yes                | \-                |
-| a13.scaled   | 297            | 58.3      | 660,000    | poor           | \-                 | \-                |
-| a16.scaled   | 46             | 28.2      | 15,000,000 | okay (2)       | yes                | 16.4 (-33.6-48.4) |
-| p05.unscaled | 43             | 2.69      | 15,000,000 | okay (2)       | yes                | 9.1 (0.4-15.4)    |
-| p07.scaled   | 110            | 124.5     | 15,000,000 | good           | yes                | 14.8 (6.8-23.6)   |
-| p07.unscaled | 110            | 124.5     | 15,000,000 | good           | yes                | 13.9 (-20.1-49.1) |
-| p09.scaled   | 129            | 45.05     | 9,015,000  | okay (4)       | yes                | 14.8 (9.5-19.7)   |
+| Phylogeny    | Number of taxa | Age (Myr) | Iterations | ESS values     | Ancestral value   |
+|------------|------------|------------|------------|------------|------------|
+| a01.scaled   | 91             | 55.23     | 15,000,000 | okay (4)       | 19.3 (15.8-22.3)  |
+| a01.unscaled | 91             | 55.23     | 15,000,000 | good           | 19.2 (15.7-22.6)  |
+| a02.scaled   | 48             | 34.05     | 15,000,000 | good           | 15 (5.6-22.8)     |
+| a04.scaled   | 70             | 91.2      | 12,000,000 | okay (1)       | 14.4 (9.9-18.4)   |
+| a05.scaled   | 36             | 38.7      | 12,000,000 | okay (1)       | 6.4 (0.3-17.2)    |
+| a06.scaled   | 30             | 71.8      | 12,000,000 | okay (4)       | 21.2 (15.7-26.6)  |
+| a07.scaled   | 113            | 54.7      | 10,905,000 | okay (2)       | 20.3 (17.7-23.0)  |
+| a08.scaled   | 37             | 23.55     | 15,000,000 | poor (2)       | 18.5 (13.8-24)    |
+| a08.unscaled | 37             | 23.55     | 12,000,000 | okay (2)       | 18.7 (12.8-25.5)  |
+| a09.scaled   | 31             | 22.9      | 12,000,000 | poor (2)       | 18.6 (11.7-25.5)  |
+| a10.unscaled | 23             | 87.14     | 15,000,000 | invalid values | \-                |
+| a10.scaled   | 23             | 87.14     | 12,000,000 | invalid values | \-                |
+| a11.unscaled | 12             | 5.9       | 12,000,000 | invalid values | \-                |
+| a12.scaled   | 41             | 23.1      | 12,000,000 | poor (1)       | 21.4 (13.4-28.7)  |
+| a13.scaled   | 297            | 58.3      | 660,000    | poor           | \-                |
+| a14.scaled   | 15             | 31.3      | 12,000,000 | invalid values | \-                |
+| a15.scaled   | 19             | 6         | 12,000,000 | poor (1)       | 25.5 (22.5-28.4)  |
+| a16.scaled   | 46             | 28.2      | 15,000,000 | okay (2)       | 16.4 (-33.6-48.4) |
+| a17.scaled   | 20             | 60.2      | 12,000,000 | invalid values | \-                |
+| p03.scaled   | 11             | 22.8      | 12,000,000 | poor (1)       | 21 (15.5-26)      |
+| p05.unscaled | 43             | 2.69      | 15,000,000 | okay (2)       | 9.1 (0.4-15.4)    |
+| p07.scaled   | 110            | 124.5     | 15,000,000 | good           | 14.8 (6.8-23.6)   |
+| p07.unscaled | 110            | 124.5     | 15,000,000 | good           | 13.9 (-20.1-49.1) |
+| p08.scaled   | 27             | 7.9       | 12,000,000 | poor (1)       | 23.4 (20.1-26.7)  |
+| p09.scaled   | 129            | 45.05     | 9,015,000  | okay (4)       | 14.8 (9.5-19.7)   |
+| p10.scaled   | 23             | 6.9       | 12,000,000 | poor (2)       | 21 (16.8-25.2)    |
+| p11.scaled   | 18             | 30.3      | 12,000,000 | poor (1)       | 17.6 (7.9-25.8)   |
+| p12.scaled   | 15             | 39.8      | 12,000,000 | invalid values | \-                |
+| p17.scaled   | 36             | 25.9      | 12,000,000 | okay (1)       | 24.7 (15.2-42.4)  |
 
 In general, I'd say that DBM takes longer to run than EvoRates and is more sensitive to branch lengths. What are some key takeaways?
 
--   **Scaling matters.**\
+-   **Scaling matters.**
     -   Too long branches seem to "break" DBM. I suspect that is what is happened with phylogeny a10.unscaled.\
     -   Another good example is phylogeny p07. Both the runs (using scaled and unscaled phylogeny) reached convergence. But the scaled phylogeny gave a tighter 95% HPD for the ancestral temperature value.\
-    -   I find it difficult to judge when and when not to scale phylogenies. For example, a01.scaled (height=5.5) had more difficulty reaching convergence than a01.unscaled.
-    
-
-Before setting up the rest of the analyses, I'd like to explore the branch lengths of the phylogenies that worked and didn't work.
-
+    -   I find it difficult to judge when and when not to scale phylogenies. For example, a01.scaled (height=5.5) had more difficulty reaching convergence than a01.unscaled. My guess is that a01.scaled had a few branches that were too small, but I am not sure. Though here, it does not seem like such a big deal.
+-   **Number of taxa.**
+    -   Too few taxa? Like say 20? DBM will likely not be happy. That should not be a problem for us of course (we likely face the opposite problem of having too many taxa).
 
 <div id="heading--2-2"/>
 
-### 2.2. Effect of branch lengths
+### 2.2. Branchwise rates of terminal branches for each phylogeny
 
 ```{r echo=FALSE}
-tree <- 
+## List txt files
+files <- list.files("20240730/dbm", pattern = "tiprates.txt", full.names = TRUE)
+
+## Make an empty tibble to store results
+results <- tibble()
+
+## Loop through rds files, extract branchwise rates and plot them
+for (file in files) {
+  log_sigma <- read.csv(file, header = FALSE)                     # read file
+  scale <- str_split_i(trimws(basename(file)), "\\.", i = 2)  # was analysis run on scaled or unscaled tree
+  tree_name <- trimws(basename(file), whitespace = "\\..*")   # get tree name
+  
+  ## Get tip labels, edge indices, and ages of terminal branches
+  ## inspired by http://blog.phytools.org/2016/02/extracting-terminal-edge-lengths-for.html
+  tree <- read.tree(paste("../../00_phylogenies/03_macrobes_phylogenies/", tree_name, ".tre", sep = ""))
+  tips <- tree$tip.label
+  edges <- which((tree$edge[,2] <= Ntip(tree)), arr.ind = "TRUE")
+  ages <- (tree$edge.length[edges])
+  
+
+  ## Get rates in °C/Myr
+  ## The conversion is based on supplementary material in Quintero et al 2022
+  ## σ^2 = r^2 . t
+  ## This works out to the following:
+  ## r = 10^log(σ) / sqrt(t)
+  ## t = 1 if unscaled tree and t = 10 if scaled tree
+  
+  if (grepl("unscaled", scale)) {
+    rates <- log_sigma %>% mutate(rates = (10 ^ V1)/sqrt(1))
+  } else {
+    rates <- log_sigma %>% mutate(rates = (10 ^ V1)/sqrt(10))
+  }
+  
+  
+  ## Put together the results file with all columns
+  rates <- cbind(tips, rates)       # Add tip labels
+  rates <- cbind(rates, ages)       # Add ages of all taxa
+  rates[, 'phylogeny'] = tree_name  # Add tree name
+  colnames(rates) <- c("tips", "log_sigma", "rates", "ages", "phylogeny")
+
+  
+  ## Plot mean rates
+  p1 <- rates %>%
+      ggplot( aes(x=rates)) +
+      geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8) +
+      ggtitle(paste(tree_name, " rate")) +
+      xlab("Rate (°C^2 / Myr)") +
+      theme_ipsum()
+  
+  ## print plots!
+  print(p1)
+
+  
+  ## Add clade type (animal or plant?)
+  if (grepl("a", tree_name)) {
+    rates[, 'clade'] = "animal"
+  } else if (grepl("p", tree_name)) {
+    rates[, 'clade'] = "plant"
+  }
+  
+
+  ## Finally append the results to the results dataframe
+  results <- rbind(results, rates)
+  
+}
+
+write.table(results, file = "20240730/dbm/rates.tsv", quote = FALSE, sep = "\t", row.names = FALSE)
+```
+
+<div id="heading--2-3"/>
+
+### 2.3. Overall rates of plants and animals (DBM estimates)
+
+```{r echo=FALSE}
+## load file
+results <- read.csv("20240730/dbm/rates.tsv", header = TRUE, sep = "\t")
+
+## make boxplot
+ggplot(results, aes(x=clade, y=rates, fill=clade)) + 
+  geom_boxplot() +
+  xlab("") +
+  ylab("evolutionary rate of temperature (°C/Myr)") +
+  theme_ipsum()
+
+means <- aggregate(rates ~  clade, results, mean)
 
 ```
 
+The means seem to be a lot higher with DBM! Around 9 °C/Myr for animals, and 4.9 °C/Myr for plants. Granted that we analysed only a subset of the phylogenies, but that is still a huge difference!
 
+Let us now compare with [Liu et al. 2020](https://doi.org/10.1038/s41559-020-1158-x), with and without outliers as before. I obtained the rates from `Dataset_S8` of Liu et al.
+
+```{r echo=FALSE}
+## load file with evorates results
+results <- read.csv("20240730/dbm/rates.tsv", header = TRUE, sep = "\t")
+results <- results[, c("rates", "clade")]
+results[, 'analysis'] = "dbm"
+
+## load file with rates from Liu et al
+liu <- read.csv("rates_Liu2020.txt", header = TRUE, sep = "\t")
+colnames(liu) <- c("rates", "clade")
+liu[, 'analysis'] = "published"
+
+## join the two dataframes
+total <- rbind(results, liu)
+
+## make boxplot
+p1 <- ggplot(total, aes(x=analysis, y=rates, fill=clade)) + 
+  geom_boxplot() +
+  xlab("") +
+  ylab("evolutionary rate of temperature (°C/Myr)") +
+  ggtitle("Data including outliers") +
+  theme_ipsum()
+
+print(p1)
+
+## Since the result was rather...weird (the rates we got were very different from the Liu et al paper),
+## let's plot results after removing outliers
+
+## remove outliers from liu dataset
+quartiles <- quantile(liu$rates, probs=c(.25, .75), na.rm = FALSE)
+IQR <- IQR(liu$rates)
+Lower <- quartiles[1] - 1.5*IQR
+Upper <- quartiles[2] + 1.5*IQR
+
+liu_no_outlier <- subset(liu, liu$rates > Lower & liu$rates < Upper)
+
+## remove outliers from dbm dataset
+quartiles <- quantile(results$rates, probs=c(.25, .75), na.rm = FALSE)
+IQR <- IQR(results$rates)
+Lower <- quartiles[1] - 1.5*IQR
+Upper <- quartiles[2] + 1.5*IQR
+
+results_no_outlier <- subset(results, results$rates > Lower & results$rates < Upper)
+
+## join the two dataframes
+total <- rbind(results_no_outlier, liu_no_outlier)
+
+p2 <- ggplot(total, aes(x=analysis, y=rates, fill=clade)) + 
+  geom_boxplot() +
+  xlab("") +
+  ylab("evolutionary rate of temperature (°C/Myr)") +
+  ggtitle("Data without outliers") +
+  theme_ipsum()
+
+print(p2)
+```
+
+DBM gives higher rate estimates than published ones or EvoRates estimates!
+
+<div id="heading--2-4"/>
+
+### 2.4. Correlation between age and rate (DBM)
+
+Evolutionary rates tend to be higher among recently diverged species, and previous studies have found a negative correlation between species ages and rates. Do we find the same result?
+
+```{r echo=FALSE}
+## load file with dbm results
+results <- read.csv("20240730/dbm/rates.tsv", header = TRUE, sep = "\t")
+
+## Make a scatterplot of lineage age vs. evolutionary rate
+p1 <- ggplot(results, aes(x=ages, y=rates)) +
+  geom_point(color="#69b3a2") +
+  geom_smooth(method=lm , color="red", se=FALSE) +
+  xlab("age (Myr)") +
+  ylab("evolutionary rate of temperature (°C/Myr)") +
+  theme_ipsum()
+
+
+print(p1)
+```
+
+This is a quick and dirty result which shows that we do have a negative correlation between species age and rates. Of course the proper way to do this would be doing a PGLS, but that is for later :).
+
+<div id="heading--3"/>
+
+## 3. EvoRates and DBM comparison
+
+Let's do a more comprehensive comparison of the two methods used here: EvoRates and DBM.
+
+### 3.1. Patterns of rate variation
+
+I first looked at the patterns of rate variation across phylogenies. I saw three broad types of results:
+
+**(i) Perfect match up**\
+This is where EvoRates and DBM tell a similar story. I found this pattern in 8/13 phylogenies examined. An example is shown below.
+
+![alt text](images/same.png)
+
+**(ii) Some differences**\
+This is where the patterns are quite similar but there are some subtle differences story may be quite similar but there are some marked differences in some subtrees (3/13 phylogenies). A couple of examples are shown below:
+
+![alt text](images/diff-1.png) ![alt text](images/diff-2.png) **(iii) Large differences**\
+This is where we see larger differences in patterns (2/13 phylogenies). Examples shown below:
+
+![alt text](images/diff-3.png) ![alt text](images/diff-4.png) So to summarize, while there are a few differences in the results, I think the results are rather encouraging.
+
+At least visually, I don't see any trend with number of taxa, age of tree, or tree shape.
+
+### 3.2. Reconstructed rates
+
+Let's take a closer look at the reconstructed rates at the tips.
+
+First, we can make a boxplot to look at the reconstructed rates, focusing only the 13 phylogenies that were compared with both methods.
+
+```{r echo=FALSE}
+## load file with evorates results
+evorates <- read.csv("20240725/evorates/rates.tsv", header = TRUE, sep = "\t")
+
+## Keep only the selected phylogenies and required columns
+evorates <- evorates %>% filter( tree == "a01" |
+                   tree == "a02" |
+                   tree == "a04" |
+                   tree == "a05" |
+                   tree == "a06" |
+                   tree == "a07" |
+                   tree == "a08" |
+                   tree == "a16" |
+                   tree == "p05" |
+                   tree == "p07" |
+                   tree == "p08" |
+                   tree == "p09" |
+                   tree == "p17") %>% select(tips, rate.50, ages, tree, clade)
+
+colnames(evorates) <- c("tips", "rates", "ages", "tree", "clade")
+
+## Add column for method
+evorates[, 'analysis'] = "evorates"
+
+## load file with dbm results
+dbm <- read.csv("20240730/dbm/rates.tsv", header = TRUE, sep = "\t")
+
+## select required columns only and relabel columns to be consistent
+dbm <- dbm %>% select(tips, rates, ages, phylogeny, clade)
+colnames(dbm) <- c("tips", "rates", "ages", "tree", "clade")
+
+## Add column for method
+dbm[, 'analysis'] = "dbm"
+
+## join the two dataframes
+total <- rbind(evorates, dbm)
+
+## make boxplot
+p1 <- ggplot(total, aes(x=analysis, y=rates, fill=clade)) + 
+  geom_boxplot() +
+  xlab("") +
+  ylab("evolutionary rate of temperature (°C/Myr)") +
+  ggtitle("Data including outliers") +
+  theme_ipsum()
+
+print(p1)
+
+## make a boxplot for each phylogeny now
+p2 <- ggplot(total, aes(x=tree, y=rates, fill=analysis)) + 
+  geom_boxplot() +
+  xlab("") +
+  ylab("evolutionary rate of temperature (°C/Myr)") +
+  ggtitle("Data including outliers") +
+  theme_ipsum()
+
+print(p2)
+
+```
+
+We see clearly that a16 gives weird results with DBM, and if we look at the ancestral temp value at the root, we see that it has very wide confidence intervals (-33 °C to 46 °C). I therefore decided to compare the results from the two methods after excluding a16.
+
+```{r echo=FALSE}
+## load file with evorates results
+evorates <- read.csv("20240725/evorates/rates.tsv", header = TRUE, sep = "\t")
+
+## Keep only the selected phylogenies and required columns
+evorates <- evorates %>% filter( tree == "a01" |
+                   tree == "a02" |
+                   tree == "a04" |
+                   tree == "a05" |
+                   tree == "a06" |
+                   tree == "a07" |
+                   tree == "a08" |
+                   tree == "p05" |
+                   tree == "p07" |
+                   tree == "p08" |
+                   tree == "p09" |
+                   tree == "p17") %>% select(tips, rate.50, ages, tree, clade)
+
+colnames(evorates) <- c("tips", "rates", "ages", "tree", "clade")
+
+## Add column for method
+evorates[, 'analysis'] = "evorates"
+
+## load file with dbm results
+dbm <- read.csv("20240730/dbm/rates.tsv", header = TRUE, sep = "\t")
+
+## select required columns only and relabel columns to be consistent
+dbm <- dbm %>% select(tips, rates, ages, phylogeny, clade)
+colnames(dbm) <- c("tips", "rates", "ages", "tree", "clade")
+
+## exclude a16
+dbm <- dbm %>% filter( tree == "a01" |
+                   tree == "a02" |
+                   tree == "a04" |
+                   tree == "a05" |
+                   tree == "a06" |
+                   tree == "a07" |
+                   tree == "a08" |
+                   tree == "p05" |
+                   tree == "p07" |
+                   tree == "p08" |
+                   tree == "p09" |
+                   tree == "p17")
+
+## Add column for method
+dbm[, 'analysis'] = "dbm"
+
+## join the two dataframes
+total <- rbind(evorates, dbm)
+
+## make boxplot
+p1 <- ggplot(total, aes(x=analysis, y=rates, fill=clade)) + 
+  geom_boxplot() +
+  xlab("") +
+  ylab("evolutionary rate of temperature (°C/Myr)") +
+  ggtitle("Data excluding a16") +
+  theme_ipsum()
+
+print(p1)
+
+## make a boxplot for each phylogeny now
+p2 <- ggplot(total, aes(x=tree, y=rates, fill=analysis)) + 
+  geom_boxplot() +
+  xlab("") +
+  ylab("evolutionary rate of temperature (°C/Myr)") +
+  ggtitle("Data excluding a16") +
+  theme_ipsum()
+
+print(p2)
+
+```
+
+The results look more reasonable, but we see that overall DBM estimates higher rates than EvoRates.
+
+Let us now do a scatterplot for each lineage.
+
+```{r echo=FALSE}
+## load file with evorates results
+evorates <- read.csv("20240725/evorates/rates.tsv", header = TRUE, sep = "\t")
+
+## Keep only the selected phylogenies and required columns
+evorates <- evorates %>% filter( tree == "a01" |
+                   tree == "a02" |
+                   tree == "a04" |
+                   tree == "a05" |
+                   tree == "a06" |
+                   tree == "a07" |
+                   tree == "a08" |
+                   tree == "p05" |
+                   tree == "p07" |
+                   tree == "p08" |
+                   tree == "p09" |
+                   tree == "p17") %>% select(tips, rate.50, ages, tree, clade)
+
+colnames(evorates) <- c("tips", "rates.evorates", "ages", "tree", "clade")
+
+## load file with dbm results
+dbm <- read.csv("20240730/dbm/rates.tsv", header = TRUE, sep = "\t")
+
+## select required columns only and relabel columns to be consistent
+dbm <- dbm %>% select(tips, rates, phylogeny)
+colnames(dbm) <- c("tips", "rates.dbm", "tree")
+
+## exclude a16
+dbm <- dbm %>% filter( tree == "a01" |
+                   tree == "a02" |
+                   tree == "a04" |
+                   tree == "a05" |
+                   tree == "a06" |
+                   tree == "a07" |
+                   tree == "a08" |
+                   tree == "p05" |
+                   tree == "p07" |
+                   tree == "p08" |
+                   tree == "p09" |
+                   tree == "p17")
+
+dbm <- dbm %>% select(rates.dbm)
+
+## join the two dataframes
+total <- cbind(evorates, dbm)
+
+## make scatterplot
+p1 <- ggplot(total, aes(x=rates.evorates, y=rates.dbm, color=clade)) + 
+  geom_point() +
+  xlab("rates estimed by evorates (°C/Myr)") +
+  ylab("rates estimed by dbm (°C/Myr)") +
+  ggtitle("Data excluding a16") +
+  theme_ipsum()
+
+print(p1)
+
+## make scatterplot
+p2 <- ggplot(total, aes(x=rates.evorates, y=rates.dbm, color=tree)) + 
+  geom_point() +
+  xlab("rates estimed by evorates (°C/Myr)") +
+  ylab("rates estimed by dbm (°C/Myr)") +
+  ggtitle("Data excluding a16") +
+  theme_ipsum()
+
+print(p2)
+
+```
+
+Let us also look at the spread of rates.
+
+```{r echo=FALSE}
+## load file with evorates results
+evorates <- read.csv("20240725/evorates/rates.tsv", header = TRUE, sep = "\t")
+
+## Keep only the selected phylogenies and required columns
+evorates <- evorates %>% filter( tree == "a01" |
+                   tree == "a02" |
+                   tree == "a04" |
+                   tree == "a05" |
+                   tree == "a06" |
+                   tree == "a07" |
+                   tree == "a08" |
+                   tree == "p05" |
+                   tree == "p07" |
+                   tree == "p08" |
+                   tree == "p09" |
+                   tree == "p17") %>% select(tips, rate.50, ages, tree, clade)
+
+colnames(evorates) <- c("tips", "rates.evorates", "ages", "tree", "clade")
+
+## load file with dbm results
+dbm <- read.csv("20240730/dbm/rates.tsv", header = TRUE, sep = "\t")
+
+## select required columns only and relabel columns to be consistent
+dbm <- dbm %>% select(tips, rates, phylogeny)
+colnames(dbm) <- c("tips", "rates.dbm", "tree")
+
+## exclude a16
+dbm <- dbm %>% filter( tree == "a01" |
+                   tree == "a02" |
+                   tree == "a04" |
+                   tree == "a05" |
+                   tree == "a06" |
+                   tree == "a07" |
+                   tree == "a08" |
+                   tree == "p05" |
+                   tree == "p07" |
+                   tree == "p08" |
+                   tree == "p09" |
+                   tree == "p17")
+
+dbm <- dbm %>% select(rates.dbm)
+
+## join the two dataframes
+total <- cbind(evorates, dbm)
+
+## compare spread
+total %>%
+   group_by(tree) %>%
+   summarise_at(vars(starts_with('rates')), sd)
+
+```
+
+Obviously this is not a great measure (as (i) the samples are not independent, and (ii) larger means result in larger st devs). Nevertheless, it looks like evorates allows less variation in rates than DBM.
+
+### 3.3. Comparison with independent contrasts and published results
+
+```{r include=FALSE}
+## Make an empty tibble to store results
+results <- tibble()
+
+## Loop over list of trees
+trees_list <- c("a01", "a02", "a04", "a05", "a06", "a07", "a08", "p05", "p07", "p08", "p09", "p17")
+
+for (t in trees_list) {
+  ## load tree file 
+  tree <- read.tree(paste("../../00_phylogenies/03_macrobes_phylogenies/", t, ".tre", sep = ""))
+  
+  ## Data
+  ### Data needs to be in format with Species as rows and traits as columns. 
+  data <- read_tsv(paste("../../02_trait_extraction/macrobes/", t, ".txt", sep = "")) %>% 
+    select(Species, Bio1.mean)
+  ### set species as rownames
+  data <- data.frame(data, row.names = 1)
+
+  ## PIC
+  ### get a named vector in order to do phylogenetic independent contrasts in ape 
+  Bio1 <- setNames(data[,"Bio1.mean"], rownames(data))
+  
+  ### run pic analysis
+  pic.bio1 <- as.data.frame(pic(Bio1, tree))
+  pic.bio1 <- as_tibble(pic.bio1, rownames = "node")
+  colnames(pic.bio1) <- c("node", "pic")
+  
+  
+  ## Connect the PIC results to each tip
+  ### Get number of tips
+  ntips <- length(tree$tip.label)
+  
+  ### Create an empty data frame with tip labels and parent column
+  tips <- data.frame(tip = tree$tip.label, parent = numeric(ntips))
+  
+  ### Loop over tips
+  for (i in 1:ntips) {
+    # Get the parent node using getParent and store it in the data frame
+    tips$parent[i] <- getParent(tree, i)
+  }
+
+  ### Get the contrast value for each tip
+  merged <- merge(tips, pic.bio1, by.x = "parent", by.y = "node", all.x = TRUE)
+  
+  ### Get squared value of contrast value
+  merged <- merged %>% mutate(pic.squared = (pic ^ 2))
+  
+  
+  ## for each tip, get the dbm and evorates rates
+  ### evorates
+  evorates <- read.csv("20240725/evorates/rates.tsv", header = TRUE, sep = "\t") %>% 
+    filter(tree == t) %>%
+    select(tips, ages, rate.50) %>%
+    rename(rates.evorates = rate.50)
+  
+  ### dbm
+  dbm <- read.csv("20240730/dbm/rates.tsv", header = TRUE, sep = "\t") %>% 
+    filter(phylogeny == t) %>%
+    select(tips, rates) %>%
+    rename(rates.dbm = rates)   
+  
+  ### merge data frames
+  merged <- merge(merged, evorates, by.x = "tip", by.y = "tips", all.x = TRUE)
+  merged <- merge(merged, dbm, by.x = "tip", by.y = "tips", all.x = TRUE)
+  
+  ### Add tree 
+  merged[, 'tree'] = t
+
+  
+  ## Finally append the results to the results dataframe
+  results <- rbind(results, merged)
+}
+
+
+write.table(results, file = "pic.tsv", quote = FALSE, sep = "\t", row.names = FALSE)
+```
+
+Let's plot the correlation between squared standardized contrast values and rates inferred by dbm and evorates.
+
+```{r echo=FALSE, warning = FALSE}
+## load file with dbm results
+results <- read.csv("pic.tsv", header = TRUE, sep = "\t")
+
+## Overall trends
+### Make a scatterplot of pic squared vs. rates.evorates
+p1 <- ggplot(results, aes(x=pic.squared, y=rates.evorates)) +
+  geom_point(color="#69b3a2") +
+  xlim(0, 25) +
+  geom_smooth(method=lm , color="red") +
+  xlab("PIC squared") +
+  ylab("rates estimated by evorates") +
+  ggtitle("Overall trends") +
+  theme_ipsum()
+
+print(p1)
+
+
+### Make a scatterplot of pic squared vs. rates.dbm
+p2 <- ggplot(results, aes(x=pic.squared, y=rates.dbm)) +
+  geom_point(color="#69b3a2") +
+  xlim(0, 25) +
+  geom_smooth(method=lm , color="red") +
+  xlab("PIC squared") +
+  ylab("rates estimated by dbm") +
+  ggtitle("Overall trends") +
+  theme_ipsum()
+
+print(p2)
+
+## Tree by tree
+trees_list <- c("a01", "a02", "a04", "a05", "a06", "a07", "a08", "p05", "p07", "p08", "p09", "p17")
+
+for (t in trees_list) {
+  ### extract data for tree
+  subset <- results %>% filter(tree == t)
+  
+  ### Make a scatterplot of pic squared vs. rates.evorates
+  p1 <- ggplot(results, aes(x=pic.squared, y=rates.evorates)) +
+    geom_point(color="#69b3a2") +
+    xlim(0, 25) +
+    geom_smooth(method=lm, color="red") +
+    xlab("PIC squared") +
+    ylab("rates estimated by evorates") +
+    ggtitle(t) + 
+    theme_ipsum()
+  
+  print(p1)
+
+
+  ### Make a scatterplot of pic squared vs. rates.dbm
+  p2 <- ggplot(results, aes(x=pic.squared, y=rates.dbm)) +
+    geom_point(color="#69b3a2") +
+    xlim(0, 25) +
+    geom_smooth(method=lm, color="red") +
+    xlab("PIC squared") +
+    ylab("rates estimated by dbm") +
+    ggtitle(t) +
+    theme_ipsum()
+  
+  print(p2)
+}
+
+```
+
+Overall, we can see a correlation between PIC squared values and rates inferred by DBM and EvoRates.
+
+I would like to look at a one trees in more detail, where subtrees showed conflicting patterns: a01
+
+#### 3.3.1. a01
+
+```{r echo=FALSE}
+## load file with dbm results
+results <- read.csv("pic.tsv", header = TRUE, sep = "\t")
+
+## a01
+tree <- read.tree("../../00_phylogenies/03_macrobes_phylogenies/a01.tre")
+
+### Descendants of node 133, and node 148 have conflicting results
+descendants <- c(getDescendants(tree, 133), getDescendants(tree, 148))
+### Get only the tips
+conflict <- descendants[descendants <= length(tree$tip.label)]
+tips <- tree$tip.label[conflict]
+
+### Subset to only get a01 results
+subset <- results %>% filter(tree == "a01")
+
+### Add extra column
+subset[, 'conflict'] = "no"
+
+### Label nodes with conflict
+subset$conflict[subset$tip %in% tips] <- "yes"
+
+### Make a scatterplot of pic squared vs. rates.evorates
+p1 <- ggplot(subset) +
+    geom_point(aes(x=pic.squared, y=rates.evorates, color=conflict, size=conflict)) +
+    geom_smooth(method=lm, aes(x=pic.squared, y=rates.evorates), color="magenta") +
+    xlim(0, 8) +
+    xlab("PIC squared") +
+    ylab("rates estimated by evorates") +
+    ggtitle("a01 - high in evorates - low in dbm") + 
+    scale_colour_manual(values = c("blue", "red")) +
+    scale_size_manual(values =c(1, 2)) +
+    theme_ipsum() +
+    theme(legend.position = "none") 
+  
+print(p1)
+
+
+### Make a scatterplot of pic squared vs. rates.dbm
+p2 <- ggplot(subset) +
+    geom_point(aes(x=pic.squared, y=rates.dbm, color=conflict, size=conflict)) +
+    geom_smooth(method=lm, aes(x=pic.squared, y=rates.dbm), color="magenta") +
+    xlim(0, 8) +
+    xlab("PIC squared") +
+    ylab("rates estimated by dbm") +
+    ggtitle("a01 - high in evorates - low in dbm") + 
+    scale_colour_manual(values = c("blue", "red")) +
+    scale_size_manual(values =c(1, 2)) +
+    theme_ipsum() +
+    theme(legend.position = "none") 
+  
+print(p2)
+
+
+### Make a scatterplot of rates.dbm vs. rates.evorates
+p3 <- ggplot(subset) +
+    geom_point(aes(x=rates.dbm, y=rates.evorates, color=conflict, size=conflict)) +
+    geom_smooth(method=lm, aes(x=rates.dbm, y=rates.evorates), color="magenta") +
+    xlab("rates estimated by dbm") +
+    ylab("rates estimated by evorates") +
+    ggtitle("a01 - high in evorates - low in dbm") + 
+    scale_colour_manual(values = c("blue", "red")) +
+    scale_size_manual(values =c(1, 2)) +
+    theme_ipsum() +
+    theme(legend.position = "none") 
+  
+print(p3)
+```

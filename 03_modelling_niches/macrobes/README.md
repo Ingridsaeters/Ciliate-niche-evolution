@@ -1,6 +1,6 @@
 # Running EvoRates and DBM on macrobes
 
-Here I am running preliminary analyses using both the (DBM)[https://github.com/ignacioq/Tapestree.jl] and (EvoRates)[https://doi.org/10.1093/sysbio/syac068] models. 
+Here I am running preliminary analyses using both the [DBM](https://github.com/ignacioq/Tapestree.jl) and [EvoRates](https://doi.org/10.1093/sysbio/syac068) models. 
 
 The aim of these preliminary tests are:  
 1. To compare DBM and EvoRates. Do they produce similar results?  

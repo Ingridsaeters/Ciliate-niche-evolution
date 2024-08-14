@@ -17,9 +17,8 @@ To start with, just running analyses on a subset of phylogenies until I figure o
 for i in *scaled.10.tre; do file=$(echo $i | cut -f1 -d '.'); sbatch dbm.sbatch $i "$file".dbm.txt "$file".scaled.10.dbm.out; sleep 1; done
 ``` 
 
-## Submitting the rest
-Alright, let's try the other trees now!
 
-
+## Post processing
+for i in *dbm.out.txt; do tree=$(echo $i | cut -f1 -d '.'); scale=$(echo $i | cut -f2 -d '.'); julia post_dbm.jl $i "$tree"."$scale".reconstructed.temp.pdf "$tree"."$scale".reconstructed.rates.pdf "$tree"."$scale".temp.time.pdf "$tree"."$scale".rates.time.pdf; done 
 
 
