@@ -16,6 +16,11 @@ NAMES=sys.argv[2]
 # read tree
 t = Tree( IN )
 
+# Set random tip as root to circumvent the "cannot set myself as outgroup" error, 
+# following https://groups.google.com/g/etetoolkit/c/ls1sa6BT3CQ
+
+t.set_outgroup("MK507765_Eukaryota|Diaphoretickes|Sar|Alveolata|Ciliophora|Postciliodesmatophora|Karyorelictea|core-Kary|Loxodida|Loxodidae|g_Loxodes|Loxodes+rex|strain=FL1")
+
 # Get the node/subtree that contains both the specified leaves
 with open(NAMES) as f:
     TIPS = f.read().splitlines()
