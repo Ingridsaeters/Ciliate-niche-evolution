@@ -9,3 +9,5 @@ slurm*
 
 # Ignore .DS_Store files
 .DS_Store
+
+03_modelling_niches/macrobes/*

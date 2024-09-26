@@ -1,28 +1,132 @@
 # Dating
 
-## Extract subtrees
+## Prune away outgroup and format trees
+For dating analyses, we opted to prune away the outgroups (in an effort to reduce excessive rate heterogeneity that may be introduced by groups like Apicomplexa and Dinoflagellata), leaving behind only the ciliates. 
 
-Extract trees of only the clades you have fossils from with the extract_clade.py script, to make it easier to select taxa for node calibrations. 
+First create some subfolders to work in.
 
 ```
-for file in all.*.tree.raxml.rooted.bestTree; do python extract_clade.py "$file" Colpodea Colpodea."$file"; done;
-for file in all.*.tree.raxml.rooted.bestTree; do python extract_clade.py "$file" Oligohymenophorea Oligohymenophorea."$file"; done;
-for file in all.*.tree.raxml.rooted.bestTree; do python extract_clade.py "$file" Dinoflagellata Dinoflagellata."$file"; done;
-for file in all.*.tree.raxml.rooted.bestTree; do python extract_clade.py "$file" Armophorea Armophorea."$file"; done;
-for file in all.*.tree.raxml.rooted.bestTree; do python extract_clade.py "$file" Litostomatea Litostomatea."$file"; done;
+for i in 11 13 17 18 21 33 37 46 48 49 4 50 51 62 64 65 70 72 75 79 82 90; do 
+    mkdir tree_"$i"
+done
+```
+
+Now we prune away the outgroup.
+```
+for i in ../00_phylogenies/02_ASV_phylogeny/trees/*.rooted; do 
+    tree=$(basename $i | cut -f3 -d '.')
+    file=$(basename $i)
+    python extract_clade.py $i Ciliophora tree_"$tree"/"$file" 
+done
+```
+
+Finally, the `=` sign in the tree causes a problem for treePL, since the config file uses `=` signs for assigning calibration nodes. Change the `=` sign to `_` in the trees.
+
+```
+for i in tree*/*rooted; do 
+    cat $i | sed -E 's/=/_/g' > Tree
+    mv Tree $i
+done
+```
+
+## Extract subtrees to help identify taxa for node calibrations
+
+Extract trees of only the clades we have fossils from with the `extract_clade.py` script, to make it easier to select taxa for node calibrations. We just need to do this for one tree (any tree) per backbone as taxa for definiing mrca for node calibrations are only selected from reference taxa, and not ASVs (as we are less confident of the taxonomic ID of ASVs). 
+
+```
+for file in tree*/all.*.10.tree.raxml.bestTree.rooted; do base=$(basename $file); python extract_clade.py "$file" Colpodea Colpodea."$base"; done
+for file in tree*/all.*.10.tree.raxml.bestTree.rooted; do base=$(basename $file); python extract_clade.py "$file" Oligohymenophorea Oligohymenophorea."$file"; done
+for file in tree*/all.*.10.tree.raxml.bestTree.rooted; do base=$(basename $file); python extract_clade.py "$file" Spirotrichea Spirotrichea."$file"; done;
+for file in tree*/all.*.10.tree.raxml.bestTree.rooted; do base=$(basename $file); python extract_clade.py "$file" Armophorea Armophorea."$file"; done;
+for file in tree*/all.*.10.tree.raxml.bestTree.rooted; do base=$(basename $file); python extract_clade.py "$file" Litostomatea Litostomatea."$file"; done;
 ```
 
 ## Select taxa for calibration
 
+We use two dating strategies:
+
+1. Eight primary calibrations, and two secondary calibrations (on the root, and age of Intramacronucleata) from Strassert et al 2021.  
+2. Eight primary calibrations, four calibrations based on obligate animal associations (Armophorea and Litostomatea), and two secondary calibrations (on the root, and age of Intramacronucleata) from Strassert et al 2021.  
+
+Fossil calibrations are described in `Fossil_calibrations.pdf`.
+
+The taxa for defining each fossil node are largely the same between different backbone trees, but there are some occasional differences. We created a `config_skeleton` file for each folder. 
+
+Once taxa for defining each node have been selected, we can delete the clade trees to keep the folders clean. 
+
+```
+rm tree_*/Litostomatea*
+rm tree_*/Armophorea*
+rm tree_*/Colpodea*
+rm tree_*/Oligohymenophorea*
+rm tree_*/Spirotrichea*
+```
+ 
+## Scale trees
+
+During preliminary analyses, we found that treePL replaces branch lengths that are too small with a standard value. This is undesirable as it would likely affect downstream results. Therefore, we followed the suggestion of Maurin 2020, and scaled the trees by a factor of 1000, which made the `tiny branch length` message go away. 
+
+```
+for i in tree_*/*rooted; do echo $i; Rscript scaleTrees.R $i "$i".scaled; done
+```
+
+We remove the unscaled trees to clean folders.
+
+```
+rm tree_*/*rooted
+```
+  
+## Prime
+This step will try to find the best optimisation parameters for the treePL run.
+
+```
+for i in tree_*/*.rooted.scaled; do 
+    folder=$(dirname $i) 
+    tree=$(basename $i) 
+    echo $tree 
+    config=$(basename $i | sed -E 's/(.*)raxml.bestTree.rooted.scaled/\1treepl.prime/') 
+    out=$(basename $i | sed -E 's/(.*)raxml.bestTree.rooted.scaled/\1treepl.prime.out/') 
+    sbatch treepl_prime.sh $folder $tree $config $out
+    sleep 1 
+done
+```
+
+## Cross validation (CV)
+This step will try to find the best rate smoothing value.
+
+```
+for i in tree_*/*.rooted.scaled; do 
+    folder=$(dirname $i) 
+    tree=$(basename $i) 
+    echo $tree 
+    config=$(basename $i | sed -E 's/(.*)raxml.bestTree.rooted.scaled/\1treepl.cv/') 
+    prime=$(basename $i | sed -E 's/(.*)raxml.bestTree.rooted.scaled/\1treepl.prime.out/') 
+    out=$(basename $i | sed -E 's/(.*)raxml.bestTree.rooted.scaled/\1treepl.cv.out/') 
+    sbatch treepl_cv.sh $folder $tree $config $prime $out 
+    sleep 1 
+done
+```
+
+## Date phylogenies
+We now date the phylogenies using the best optimisation parameters from the prime step, and the best smoothing value from the the CV step. 
+
+```
+for i in tree_*/*.rooted.scaled; do
+    folder=$(dirname $i)
+    tree=$(basename $i)
+    echo $tree
+    config=$(basename $i | sed -E 's/(.*)raxml.bestTree.rooted.scaled/\1treepl.date/')
+    prime=$(basename $i | sed -E 's/(.*)raxml.bestTree.rooted.scaled/\1treepl.prime.out/')
+    cv=$(basename $i | sed -E 's/(.*)raxml.bestTree.rooted.scaled/\1treepl.cv.out/')
+    out=$(basename $i | sed -E 's/(.*)raxml.bestTree.rooted.scaled/\1treepl.dated.tre/')
+    sbatch treepl_date.sh $folder $tree $config $prime $cv $out
+    sleep 1
+done 
+```
+ 
+
 For each taxon you have dating information for, select taxa so that your calibration will be for the node that separates the fossil taxon from its closest sister taxa. 
 
-## Date the trees with TreePL
-
-The = sign in the tree causes a problem for treePL, since the config file uses = signs for assigning calibration nodes. Change the = sign to _ in the tree, and for the calibration taxa given in the calibration file.
-
-```
-cat all.15.tree.raxml.rooted.bestTree | sed -E 's/=/_/g' > all.15.tree.raxml.rooted.formatted.bestTree
-```
 
 Follow this manual for treePL: https://doi.org/10.48550/arXiv.2008.07054.
 
