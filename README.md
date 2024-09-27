@@ -17,7 +17,12 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 ## To-do list
 
 ### To-do
+- Share dated phylogenies with Ingrid. *Mahwash*
+- Prune away the backbone. *Ingrid*
 - Remove ASVs present in multiple habitats. *Ingrid*
+- Figure 1. *Mahwash*
+- Share metadata (temp, precip etc). *Ingrid*
+- Figure 2. *Mahwash*
 - How much of the ciliate niche conservatism is explained by biogeography? *Ingrid* (double check if okay)
 - Get data from https://doi.org/10.1098/rspb.2022.0091. *Mahwash*
 - How many ciliate species are there (terrestrial and marine)? *Mahwash*
