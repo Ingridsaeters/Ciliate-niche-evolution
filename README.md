@@ -31,7 +31,6 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 ### In progress  
 - Test DBM on animal and plants. *Mahwash*
 - Test Evorates on animals and plants. *Mahwash*
-- Infer new ciliate phylogenies with EukBank (or metaPR2). *Ingrid*
 
 ### Done
 - Check if terrestrial sampling biases inferred evolutionary rates. *Ingrid*
@@ -40,6 +39,7 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 - Check if metaPR2 has greater ciliate diversity. *Mahwash* (If yes, switch to metaPR2??).
 - Download new version of EukBank (https://zenodo.org/records/7804946). *Ingrid*  
 - Download animal and plant phylogenies and metadata from Liu et al 2020. *Mahwash*
+- Infer new ciliate phylogenies with EukBank (or metaPR2). *Ingrid*
 - Date phylogenies. *Mahwash*
 
 ### Notes/Ideas/etc  
