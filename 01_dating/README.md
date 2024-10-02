@@ -173,3 +173,34 @@ for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../soil.formatted.
 ```
 Do the same proceedure for marine and freshwater ASVs.
 
+## Prune away backbone taxa for complete trees
+
+First make a fasta file with all marine, soil and freshwater sequences
+
+```
+cat eukbank_ciliate_marine.fasta eukbank_ciliate_soil.fasta eukbank_ciliate_freshwater.fasta > eukbank.fasta
+```
+
+Then follow the steps from above
+
+```
+grep ">" eukbank.fasta | tr ";" "_" | tr -d ">" > eukbank_ciliate.list
+sed -E 's/(.*)_size=(.*)_tax=(.*)/\1/g' eukbank_ciliate.list > eukbank_ciliate.reduced.list
+seqkit grep -r -f eukbank_ciliate.reduced.list all.18S28S.ciliate.final.fasta > all.eukbank.ciliate.final.fasta
+grep ">" all.eukbank.ciliate.final.fasta > eukbank.list
+cat eukbank.list | tr -d ">" > eukbank.formatted.list
+cat eukbank.formatted.list | sed -E 's/(.*)_samples=(.*)_size=(.*)_tax=(.*)/\1_samples_\2_size_\3_tax_\4/g' > eukbank.formatted.reduced.list
+```
+
+Prune away the backbone taxa
+
+```
+for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../eukbank.formatted.reduced.list ../eukbank_dated_trees/eukbank_"$i"; done
+```
+
+
+
+
+
+
+
