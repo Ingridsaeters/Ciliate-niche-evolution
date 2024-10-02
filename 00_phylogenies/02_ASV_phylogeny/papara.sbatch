@@ -7,5 +7,5 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=6G
 
-papara_static_x86_64 -t all.18S28S.constrained.70.tree.raxml.bestTree -s all.18S28S.replaced.phy -q eukbank_ciliate200.fasta -r
+papara_static_x86_64 -t all.18S28S.constrained.70.tree.raxml.bestTree -s all.18S28S.replaced.phy -q eukbank_ciliate200_chimerasremoved.fasta -r
 
