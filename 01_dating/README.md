@@ -164,7 +164,7 @@ Make a pattern file of these sequences to prune the trees.
 ```
 grep ">" all.18S28S.ciliate.soil.final.fasta > soil.list
 cat soil.list | tr -d ">" > soil.formatted.list
-cat soil.formatted.list | sed -E 's/(.*)_size=(.*)_tax=(.*)/\1_size_\2_tax_\3/g' > soil.formatted.reduced.list
+soil.formatted.list | sed -E 's/(.*)_samples=(.*)_size=(.*)_tax=(.*)/\1_samples_\2_size_\3_tax_\4/g' > soil.formatted.reduced.list
 ```
 
 Prune the trees, to create a tree with only soil ciliate ASVs. 
