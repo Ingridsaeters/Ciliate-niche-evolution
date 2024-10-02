@@ -169,7 +169,7 @@ cat soil.formatted.list | sed -E 's/(.*)_samples=(.*)_size=(.*)_tax=(.*)/\1_samp
 
 Prune the trees, to create a tree with only soil ciliate ASVs. 
 ```
-python prune.py 99.dated.mahendrarajah_root.nwk soil.formatted.reduced.list 99.dated.mahendrarajah_root_soil.nwk
+for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../soil.formatted.reduced.list ../soil_dated_trees/soil_"$i"; done
 ```
 Do the same proceedure for marine and freshwater ASVs.
 
