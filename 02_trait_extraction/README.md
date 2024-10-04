@@ -42,7 +42,7 @@ Make a visualization of the number of shared ASVs with the R script shared_ASVs.
 
 ## Soil
 
-We have extracted trait information for 977 unique soil samples.  
+We have extracted trait information for 727 unique soil samples.  
 
 ### SoilGrids
 
@@ -80,7 +80,7 @@ Combine the extracted values in a complete table using the traits_soil.R script.
 
 ## Marine
 
-We have extracted trait information for 5493 unique marine samples.  
+We have extracted trait information for 1346 unique marine samples.  
 
 ### World Ocean Atlas (WOA)
  
