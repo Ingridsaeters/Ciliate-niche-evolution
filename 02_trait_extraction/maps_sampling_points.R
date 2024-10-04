@@ -49,7 +49,7 @@ metadata_soil_geo <- metadata_soil %>%
   summarise(sum_abundance = sum(abundance))
 
 ## Number of samples
-n_distinct(metadata_soil$sample)### We have 977 distinct samples
+n_distinct(metadata_soil$sample)### We have 727 distinct samples
 
 ## Make a data frame with sample id, latitude and longitude
 coords_soil <- metadata_soil_geo %>%
