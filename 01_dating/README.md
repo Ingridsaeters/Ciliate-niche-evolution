@@ -215,10 +215,18 @@ cat eukbank.list | tr -d ">" > eukbank.formatted.list
 cat eukbank.formatted.list | sed -E 's/(.*)_samples=(.*)_size=(.*)_tax=(.*)/\1_samples_\2_size_\3_tax_\4/g' > eukbank.formatted.reduced.list
 ```
 
+Remove ASVs from multiple environments: 
+
+```
+grep -vf overlapping_all.list eukbank.formatted.reduced.list > eukbank_ASVs_removed.list
+```
+
+The full eukbank data is 8772 ASVs. 
+
 Prune away the backbone taxa
 
 ```
-for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../eukbank.formatted.reduced.list ../eukbank_dated_trees/eukbank_"$i"; done
+for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../eukbank_ASVs_removed.list ../eukbank_dated_trees/eukbank_"$i"; done
 ```
 
 
