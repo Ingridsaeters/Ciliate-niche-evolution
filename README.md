@@ -17,7 +17,6 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 ## To-do list
 
 ### To-do
-- Share dated phylogenies with Ingrid. *Mahwash*
 - Remove ASVs present in multiple habitats. *Ingrid*
 - Figure 1. *Mahwash*
 - Share metadata (temp, precip etc). *Ingrid*
@@ -40,6 +39,7 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 - Download animal and plant phylogenies and metadata from Liu et al 2020. *Mahwash*
 - Infer new ciliate phylogenies with EukBank (or metaPR2). *Ingrid*
 - Date phylogenies. *Mahwash*
+- Share dated phylogenies with Ingrid. *Mahwash*
 - Prune away the backbone. *Ingrid*
 
 ### Notes/Ideas/etc  
