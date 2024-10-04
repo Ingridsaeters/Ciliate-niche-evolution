@@ -49,7 +49,7 @@ metadata_geo <- metadata %>%
   summarise(sum_abundance = sum(abundance))
 
 ## Number of samples
-n_distinct(metadata$sample) ### We have 5493 distinct samples
+n_distinct(metadata$sample) 
 
 ## Make a file with coordinate values
 points<-cbind(metadata_geo$longitude, metadata_geo$latitude)
