@@ -17,7 +17,6 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 ## To-do list
 
 ### To-do
-- Trait extraction *Ingrid*
 - Figure 1. *Mahwash*
 - Share metadata (temp, precip etc). *Ingrid*
 - Figure 2. *Mahwash*
@@ -29,6 +28,7 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 ### In progress  
 - Test DBM on animal and plants. *Mahwash*
 - Test Evorates on animals and plants. *Mahwash*
+- Trait extraction *Ingrid*
 
 ### Done
 - Check if terrestrial sampling biases inferred evolutionary rates. *Ingrid*
