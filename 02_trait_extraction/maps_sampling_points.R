@@ -31,16 +31,20 @@ metadata_soil <- read.csv('soil/asv_long_metadata_soil_reduced', sep="\t", heade
 
 ## Rename columns
 metadata_soil <- metadata_soil %>% 
-  rename("sample" = "V1",
-         "ASV" = "V2",
+  rename("ASV" = "V1",
+         "sample" = "V2",
          "abundance" = "V3",
          "latitude" = "V4",
          "longitude" = "V5",
          "depth" = "V6",
          "altitude" = "V7",
-         "biome" = "V8",
-         "material" = "V9",
-         "collection_date" = "V10")
+         "collection_date" = "V8",
+         "biome" = "V9",
+         "feature" = "V10",
+         "material" = "V11",
+         "raw_env" = "V12",
+         "temperature" = "V13",
+         "salinity" = "V14")
 
 ## Get data for unique samples
 metadata_soil_geo <- metadata_soil %>% 
@@ -66,16 +70,20 @@ metadata_marine <- read.csv('marine/asv_long_metadata_marine_reduced', sep="\t",
 
 ## Rename columns
 metadata_marine <- metadata_marine %>% 
-  rename("sample" = "V1",
-         "ASV" = "V2",
+  rename("ASV" = "V1",
+         "sample" = "V2",
          "abundance" = "V3",
          "latitude" = "V4",
          "longitude" = "V5",
          "depth" = "V6",
          "altitude" = "V7",
-         "biome" = "V8",
-         "material" = "V9",
-         "collection_date" = "V10")
+         "collection_date" = "V8",
+         "biome" = "V9",
+         "feature" = "V10",
+         "material" = "V11",
+         "raw_env" = "V12",
+         "temperature" = "V13",
+         "salinity" = "V14")
 
 ## Get data for unique samples
 metadata_marine_geo <- metadata_marine %>% 
@@ -84,7 +92,7 @@ metadata_marine_geo <- metadata_marine %>%
   summarise(sum_abundance = sum(abundance))
 
 ## Number of samples
-n_distinct(metadata_marine$sample)### We have 5493 distinct samples
+n_distinct(metadata_marine$sample)### We have 1346 distinct samples
 
 ## Make a data frame with sample id, latitude and longitude
 coords_marine <- metadata_marine_geo %>%
@@ -101,16 +109,20 @@ metadata_freshwater <- read.csv('freshwater/asv_long_metadata_freshwater_reduced
 
 ## Rename columns
 metadata_freshwater <- metadata_freshwater %>% 
-  rename("sample" = "V1",
-         "ASV" = "V2",
+  rename("ASV" = "V1",
+         "sample" = "V2",
          "abundance" = "V3",
          "latitude" = "V4",
          "longitude" = "V5",
          "depth" = "V6",
          "altitude" = "V7",
-         "biome" = "V8",
-         "material" = "V9",
-         "collection_date" = "V10")
+         "collection_date" = "V8",
+         "biome" = "V9",
+         "feature" = "V10",
+         "material" = "V11",
+         "raw_env" = "V12",
+         "temperature" = "V13",
+         "salinity" = "V14")
 
 ## Get data for unique samples
 metadata_freshwater_geo <- metadata_freshwater %>% 
@@ -119,7 +131,7 @@ metadata_freshwater_geo <- metadata_freshwater %>%
   summarise(sum_abundance = sum(abundance))
 
 ## Number of samples
-n_distinct(metadata_freshwater$sample)### We have 351 distinct samples
+n_distinct(metadata_freshwater$sample)### We have 264 distinct samples
 
 ## Make a data frame with sample id, latitude and longitude
 coords_freshwater <- metadata_freshwater_geo %>%
