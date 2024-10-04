@@ -17,7 +17,7 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 ## To-do list
 
 ### To-do
-- Remove ASVs present in multiple habitats. *Ingrid*
+- Trait extraction *Ingrid*
 - Figure 1. *Mahwash*
 - Share metadata (temp, precip etc). *Ingrid*
 - Figure 2. *Mahwash*
@@ -41,6 +41,7 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 - Date phylogenies. *Mahwash*
 - Share dated phylogenies with Ingrid. *Mahwash*
 - Prune away the backbone. *Ingrid*
+- Remove ASVs present in multiple habitats. *Ingrid*
 
 ### Notes/Ideas/etc  
 - Maybe exclude climate measurements outside 2-3 standard deviations as they could be due to "windblown" ciliates.
