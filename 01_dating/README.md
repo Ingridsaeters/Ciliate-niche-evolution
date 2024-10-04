@@ -167,9 +167,32 @@ cat soil.list | tr -d ">" > soil.formatted.list
 cat soil.formatted.list | sed -E 's/(.*)_samples=(.*)_size=(.*)_tax=(.*)/\1_samples_\2_size_\3_tax_\4/g' > soil.formatted.reduced.list
 ```
 
-Prune the trees, to create a tree with only soil ciliate ASVs. 
+Repeat for marine and freshwater. There are 5964 marine, 2440 soil and 2106 freshwater ASVs. 
+
+## Find the ASVs present in multiple habitats
+
 ```
-for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../soil.formatted.reduced.list ../soil_dated_trees/soil_"$i"; done
+grep -Ff soil.formatted.reduced.list marine.formatted.reduced.list > overlapping_soil_marine
+grep -Ff soil.formatted.reduced.list freshwater.formatted.reduced.list > overlapping_soil_freshwater
+grep -Ff freshwater.formatted.reduced.list marine.formatted.reduced.list > overlapping_freshwater_marine
+cat overlapping_soil_marine overlapping_soil_freshwater overlapping_freshwater_marine > overlapping_all.list
+```
+
+There are 869 ASVs that are present in multiple habitats. Remove these from the files: 
+
+```
+grep -vf overlapping_all.list soil.formatted.reduced.list > soil_ASVs_removed.list
+grep -vf overlapping_all.list freshwater.formatted.reduced.list > freshwater_ASVs_removed.list
+grep -vf overlapping_all.list marine.formatted.reduced.list > marine_ASVs_removed.list
+```
+
+After removing the ASVs there are 5789 marine, 1746 soil, and 1237 freshwater ASVs. 
+
+Prune the trees: 
+```
+for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../soil_ASVs_removed.list ../soil_dated_trees/soil_"$i"; done
+for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../marine_ASVs_removed.list ../marine_dated_trees/marine_"$i"; done
+for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../freshwater_ASVs_removed.list ../freshwater_dated_trees/freshwater_"$i"; done
 ```
 Do the same proceedure for marine and freshwater ASVs.
 
