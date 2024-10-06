@@ -2,13 +2,23 @@
 #               Rscript Remove ASVs in multiple envoronments              #
 ###########################################################################
 
+#=================#
+# Ingrid Sætersdal
+# Niche Evolution 
+# EDGE group, Natural history museum, University of Oslo
+# 06.10.2024
+# Version 1
+# R v. 4.4.1
+#=================#
+
+
 ## Set working directory
-setwd("~/Documents/ciliate_niche/trait_extraction")
+setwd("~/path/to/directory")
 
 # Soil ----
 #__________
 ## Read metadata file
-metadata <- read.csv("~/Documents/ciliate_niche/trait_extraction/raw_data/metadata_soil_reduced", sep="\t", header=FALSE)                     
+metadata <- read.csv("~/path/to/metadata_soil_reduced", sep="\t", header=FALSE)                     
 
 ## Rename columns
 metadata <- metadata %>% 
@@ -28,7 +38,7 @@ metadata <- metadata %>%
          "salinity" = "V14")
 
 # Read the list of ASVs found in multiple environments
-overlapping_ASVs <- read.csv("~/Documents/ciliate_niche/trait_extraction/overlapping_all.list", sep = "\t", header = FALSE)
+overlapping_ASVs <- read.csv("~/path/to/overlapping_all.list", sep = "\t", header = FALSE)
 
 # Create new column for only the amplicon
 overlapping_ASVs[c('Amplicon', 'ASV')] <- str_split_fixed(overlapping_ASVs$V1, '_', 2)
@@ -46,7 +56,7 @@ write_tsv(metadata_trimmed, "metadata_soil.tsv")
 # Marine ----
 #____________
 ## Read metadata file
-metadata <- read.csv("~/Documents/ciliate_niche/trait_extraction/raw_data/metadata_marine_reduced", sep="\t", header=FALSE)                     
+metadata <- read.csv("~/path/to/metadata_marine_reduced", sep="\t", header=FALSE)                     
 
 ## Rename columns
 metadata <- metadata %>% 
@@ -66,7 +76,7 @@ metadata <- metadata %>%
          "salinity" = "V14")
 
 # Read the list of ASVs found in multiple environments
-overlapping_ASVs <- read.csv("~/Documents/ciliate_niche/trait_extraction/raw_data/overlapping_all.list", sep = "\t", header = FALSE)
+overlapping_ASVs <- read.csv("~/path/to/overlapping_all.list", sep = "\t", header = FALSE)
 
 # Create new column for only the amplicon
 overlapping_ASVs[c('Amplicon', 'ASV')] <- str_split_fixed(overlapping_ASVs$V1, '_', 2)
@@ -84,7 +94,7 @@ write_tsv(metadata_trimmed, "metadata_marine.tsv")
 # Freshwater ----
 #________________
 ## Read metadata file
-metadata <- read.csv("~/Documents/ciliate_niche/trait_extraction/raw_data/metadata_freshwater_reduced", sep="\t", header=FALSE)                     
+metadata <- read.csv("~/path/to/metadata_freshwater_reduced", sep="\t", header=FALSE)                     
 
 ## Rename columns
 metadata <- metadata %>% 
@@ -104,7 +114,7 @@ metadata <- metadata %>%
          "salinity" = "V14")
 
 # Read the list of ASVs found in multiple environments
-overlapping_ASVs <- read.csv("~/Documents/ciliate_niche/trait_extraction/raw_data/overlapping_all.list", sep = "\t", header = FALSE)
+overlapping_ASVs <- read.csv("~/path/to/overlapping_all.list", sep = "\t", header = FALSE)
 
 # Create new column for only the amplicon
 overlapping_ASVs[c('Amplicon', 'ASV')] <- str_split_fixed(overlapping_ASVs$V1, '_', 2)
