@@ -34,6 +34,9 @@
 |Particulate Organic Carbon  (POC, mol.m-3) | GMED | 4km |
 |Total Suspended Matter (TSM, g m-3)  | GMED | 4km |
 
+## Remove ASVs found in multiple environments
+
+Remove the ASVs found in multiple environments from the metadata files using the script remove_ASVs_in_multiple_environments.R. 
 
 ## Visualize sampling locations
 
