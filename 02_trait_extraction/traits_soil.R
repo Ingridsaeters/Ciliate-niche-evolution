@@ -15,6 +15,7 @@
 #___________
 library(dplyr)
 library(plyr)
+library(tidyverse)
 
 
 ## set working directory
@@ -25,18 +26,6 @@ setwd("C:/Users/path/to/directory")
 ## Read metadata
 metadata <- read.csv('asv_long_metadata_soil_reduced', sep="\t", header=FALSE)
 
-## Rename columns
-metadata <- metadata %>% 
-  rename("sample" = "V1",
-         "ASV" = "V2",
-         "abundance" = "V3",
-         "latitude" = "V4",
-         "longitude" = "V5",
-         "depth" = "V6",
-         "altitude" = "V7",
-         "biome" = "V8",
-         "material" = "V9",
-         "collection_date" = "V10")
 
 # Create a dataframe to add values 
 traits_soil<- metadata %>%
