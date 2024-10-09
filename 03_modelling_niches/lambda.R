@@ -20,6 +20,8 @@ library(tidyverse)
 library(picante)
 library(vegan)
 library(motmot)
+library(phytools)
+library(geiger)
 
 ## Set working directory
 setwd()
