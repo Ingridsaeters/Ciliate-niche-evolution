@@ -86,15 +86,13 @@ The eukbank_18S_V4_counts.tsv file contains information about sample and amplico
 grep -f ciliate_asvs.list eukbank_18S_V4_counts.tsv > sample_amplicon
 ```
 
-Make a metadata file for ciliates with amplicon using the R script metadata_ciliates.R
-
-We have metadata for 10881 ciliate sequences.  
-
-Remove the " symbol from the file:
+Make a file to add the ASV with extra information, so it matches the fasta file and trees: 
 
 ```
-cat metadata_ciliates | tr -d '"' > metadata_ciliates_formatted
+cat clean_list | sed -E 's/(.*)_samples(.*)/\1 \1_samples\2/g' > substitute.list
 ```
+
+Make a metadata file for ciliates using the R script metadata_ciliates.R. 
 
 ### Extract soil ciliate ASVs
 
