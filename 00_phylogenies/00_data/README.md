@@ -16,7 +16,7 @@ seqkit grep -r -f <(cut -f1 Ciliate_taxo) eukbank_18S_V4_asvs.fasta > eukbank_ci
 
 We have 22896 ciliate sequences. 
 
-Change the fasta header for the ciliate fasta file so that in addition to containing the amplicon-id, it also contains number of samples, number of reads (size), supergroup, taxogroup 1 and taxogroup 2 (this information is given in the taxonomy file). Use the script replace_fasta_header.pl that replaces fasta headers with ones provided in a tab delimited file. 
+Change the fasta header for the ciliate fasta file so that in addition to containing the amplicon-id, it also contains number of samples, number of reads (size), supergroup, taxogroup 1 and taxogroup 2 (this information is given in the taxonomy file). Use the script [replace_fasta_header.pl](./eukbank/replace_fasta_header.pl) that replaces fasta headers with ones provided in a tab delimited file. 
 
 Create a tab delimited file, with one column for the old headers, and one with the new:
 
