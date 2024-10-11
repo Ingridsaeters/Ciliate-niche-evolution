@@ -1,0 +1,82 @@
+Biome	Env	Comments
+aquatic biome (ENVO_00002030),NA,biofilm material (ENVO_01000156)	Freshwater	From drinking water distribution network.
+aquatic biome (ENVO_00002030),NA,industrial waste material (ENVO_00002267)	Freshwater	Industrial waste water
+aquatic biome (ENVO_00002030),NA,sediment (ENVO_00002007)	Freshwater	Freshwater sediment
+aquatic biome (ENVO_00002030),lake (ENVO_00000020),sediment (ENVO_00002007)	Freshwater	Freshwater
+aquatic biome (ENVO_00002030),saline lake (ENVO_00000019),saline water (ENVO_00002010)	Inland saline-hypersaline	-
+aquatic biome (ENVO_00002030),saline lake (ENVO_00000019),sediment (ENVO_00002007)	Inland saline-hypersaline	-
+cropland biome (ENVO_01000245),agricultural field (ENVO_00000114),soil (ENVO_00001998)	Soil	-
+estuarine biome (ENVO_01000020),NA,estuarine water (ENVO_01000301)	Marine pelagic	Could be classified as brackish water
+estuarine biome (ENVO_01000020),microbial feature (ENVO_01000007),estuarine water (ENVO_01000301)	Marine pelagic	Could be classified as brackish water
+estuarine biome (ENVO_01000020),surface water layer (ENVO_00010504),estuarine water (ENVO_01000301)	Marine pelagic	Could be classified as brackish water
+forest biome (ENVO_01000174),NA,fecal material (ENVO_00002003)	Soil	-
+forest biome (ENVO_01000174),NA,forest soil (ENVO_00002261)	Soil	-
+forest biome (ENVO_01000174),NA,plant litter (ENVO_01000628)	Soil	-
+forest biome (ENVO_01000174),NA,sediment (ENVO_00002007),Tropical	Freshwater	Tropical/Bromeliads/Sediment of the water tanks
+forest biome (ENVO_01000174),NA,sediment (ENVO_00002007),boreal	Inland saline-hypersaline	boreal forest/saline spring/sediment
+forest biome (ENVO_01000174),NA,soil (ENVO_00001998)	Soil	-
+forest biome (ENVO_01000174),tropical broadleaf forest biome (ENVO_01000200),forest soil (ENVO_00002261)	Soil	-
+freshwater lake biome (ENVO_01000252),NA,fresh water (ENVO_00002011)	Freshwater	-
+freshwater lake biome (ENVO_01000252),NA,industrial waste material (ENVO_00002267)	Freshwater	-
+freshwater lake biome (ENVO_01000252),NA,part of plant (FOODON_03420174)	Freshwater	-
+freshwater lake biome (ENVO_01000252),NA,sediment (ENVO_00002007)	Freshwater	-
+freshwater lake biome (ENVO_01000252),glacial lake (ENVO_00000488),fresh water (ENVO_00002011)	Freshwater	-
+freshwater lake biome (ENVO_01000252),lake (ENVO_00000020),fresh water (ENVO_00002011)	Freshwater	-
+freshwater lake biome (ENVO_01000252),microbial feature (ENVO_01000007),fresh water (ENVO_00002011)	Freshwater	-
+freshwater lake biome (ENVO_01000252),small freshwater lake biome (ENVO_00000892),lake water (ENVO_04000007)	Freshwater	-
+freshwater river biome (ENVO_01000253),NA,fresh water (ENVO_00002011)	Freshwater	
+freshwater river biome (ENVO_01000253),microbial feature (ENVO_01000007),fresh water (ENVO_00002011)	Freshwater	
+grassland biome (ENVO_01000177),NA,brackish water (ENVO_00002019)	Inland saline-hypersaline	-
+grassland biome (ENVO_01000177),NA,fresh water (ENVO_00002011)	Freshwater	-
+grassland biome (ENVO_01000177),NA,hypersaline water (ENVO_00002012)	Inland saline-hypersaline	-
+grassland biome (ENVO_01000177),NA,sediment (ENVO_00002007)	Inland saline-hypersaline	-
+grassland biome (ENVO_01000177),animal-associated environment (ENVO_01001002),organismal entity (PCO_0000031)	Animal-associated	-
+marine abyssal zone biome (ENVO_01000027),NA,algal material (ENVO_01001189)	Marine benthic	-
+marine abyssal zone biome (ENVO_01000027),NA,holothurian digestive tract contents (ENVO_01001188)	Animal-associated	-
+marine abyssal zone biome (ENVO_01000027),abyssal plain (ENVO_00000244),deep marine sediment (ENVO_00002113)	Marine benthic	-
+marine benthic biome (ENVO_01000024),NA,beach sand (ENVO_00002138)	Marine benthic	-
+marine benthic biome (ENVO_01000024),NA,biofilm material (ENVO_01000156)	Marine benthic	
+marine benthic biome (ENVO_01000024),NA,marine sediment (ENVO_03000033)	Marine benthic	
+marine benthic biome (ENVO_01000024),NA,multi-species collection of organisms (PCO_0000029)	Marine benthic	
+marine benthic biome (ENVO_01000024),NA,part of animal (FOODON_03420164)	Marine benthic	
+marine benthic biome (ENVO_01000024),NA,sea water (ENVO_00002149)	Marine benthic	
+marine benthic biome (ENVO_01000024),NA,sediment (ENVO_00002007)	Marine benthic	
+marine benthic biome (ENVO_01000024),low tide zone (ENVO_00000319),beach sand (ENVO_00002138)	Marine benthic	
+marine benthic biome (ENVO_01000024),marine sub-littoral zone (ENVO_01000126),multi-species collection of organisms (PCO_0000029)	Marine benthic	
+marine biome (ENVO_00000447),NA,NA,Deep benthic microbial mat	Marine benthic	
+marine biome (ENVO_00000447),NA,NA,Littoral microbial mat	Marine pelagic	
+marine biome (ENVO_00000447),NA,NA,Shallow benthic microbial mat	Marine pelagic	
+marine biome (ENVO_00000447),NA,NA,lake epilimnion	Freshwater	Mistakenly labelled as marine. Looks at Arctic freshwater lakes
+marine biome (ENVO_00000447),NA,NA,lake hypolimnion	Freshwater	Mistakenly labelled as marine. Looks at Arctic freshwater lakes
+marine biome (ENVO_00000447),NA,NA,lake outlet	Freshwater	Mistakenly labelled as marine. Looks at Arctic freshwater lakes
+marine biome (ENVO_00000447),NA,NA,mixing zone Arctic Ocean	Marine pelagic	-
+marine biome (ENVO_00000447),NA,NA,snow pack	Freshwater	Mistakenly labelled as marine. Looks at Arctic freshwater lakes
+marine biome (ENVO_00000447),NA,NA,water track	Freshwater	Mistakenly labelled as marine. Looks at Arctic freshwater lakes
+marine biome (ENVO_00000447),NA,algal material (ENVO_01001189)	Marine pelagic	-
+marine biome (ENVO_00000447),NA,microbial mat (ENVO_01000008)	Marine benthic	-
+marine biome (ENVO_00000447),NA,organismal entity (PCO_0000031)	Marine pelagic	-
+marine biome (ENVO_00000447),NA,sea ice (ENVO_00002200)	Marine pelagic	-
+marine biome (ENVO_00000447),NA,sea water (ENVO_00002149)	Marine pelagic	-
+marine biome (ENVO_00000447),NA,sediment (ENVO_00002007)	Marine benthic	-
+marine biome (ENVO_00000447),marine sub-littoral zone (ENVO_01000126),sea water (ENVO_00002149)	Marine pelagic	-
+marine biome (ENVO_00000447),surface water layer (ENVO_00010504),sea water (ENVO_00002149)	Marine pelagic	-
+marine coral reef biome (ENVO_01000049)	Marine pelagic	-
+marine hydrothermal vent biome (ENVO_01000030)	Marine benthic	-
+marine neritic benthic zone biome (ENVO_01000025),intertidal zone (ENVO_00000316),algal material (ENVO_01001189)	Marine benthic	-
+marine neritic benthic zone biome (ENVO_01000025),intertidal zone (ENVO_00000316),rock (ENVO_00001995)	Marine benthic	-
+marine neritic benthic zone biome (ENVO_01000025),intertidal zone (ENVO_00000316),sea water (ENVO_00002149)	Marine pelagic	-
+marine neritic benthic zone biome (ENVO_01000025),marine sub-littoral zone (ENVO_01000126),sediment (ENVO_00002007)	Marine benthic	-
+marine neritic benthic zone biome (ENVO_01000025),shallow marine sediment (ENVO_01000043),marine sediment (ENVO_03000033)	Marine benthic	-
+marine neritic benthic zone biome (ENVO_01000025),shallow marine sediment (ENVO_01000043),sediment	Marine benthic	-
+marine pelagic biome (ENVO_01000023)	Marine pelagic	-
+neritic epipelagic zone biome (ENVO_01000042)	Marine pelagic	-
+neritic mesopelagic zone biome (ENVO_01000043),marine anoxic zone (ENVO_01000066),anoxic water	Marine pelagic	-
+neritic mesopelagic zone biome (ENVO_01000043),marine anoxic zone (ENVO_01000066),sea water (ENVO_00002149)	Marine pelagic	-
+oceanic bathypelagic zone biome (ENVO_01000037)	Marine pelagic	-
+oceanic epipelagic zone biome (ENVO_01000035)	Marine pelagic	-
+small river biome (ENVO_00000890)	Freshwater	-
+temperate broadleaf forest biome (ENVO_01000202)	Soil	-
+temperate coniferous forest biome (ENVO_01000211)	Soil	-
+terrestrial biome (ENVO_00000446)	Soil	-
+woodland biome (ENVO_01000208),NA,soil (ENVO_00001998)	Soil	-
+woodland biome (ENVO_01000208),NA,sediment (ENVO_00002007)	Freshwater	-
