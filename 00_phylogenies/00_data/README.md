@@ -96,7 +96,7 @@ Make a metadata file for ciliates using the R script `metadata_ciliates.R`.
 
 ### Assign ASVs to environments
 
-We used the biome, feature_material, and raw_env information to assign ASVs to six different environments: (1) Marine pelagic, (2) Marine benthic, (3) Soil, (4) Freshwater, (5) Inland saline/hypersaline, and (6) animal-associated environment. This information is in the file `[biomes_to_envs.txt](./eukbank/biomes_to_envs.txt)`.
+We used the biome, feature_material, and raw_env information to assign ASVs to six different environments: (1) Marine pelagic, (2) Marine benthic, (3) Soil, (4) Freshwater, (5) Inland saline/hypersaline, and (6) animal-associated environment. This information is in the file [biomes_to_envs.txt](./eukbank/biomes_to_envs.txt).
 
 Add the environment information to the metadata file.
 
