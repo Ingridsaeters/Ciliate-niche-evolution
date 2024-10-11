@@ -92,7 +92,17 @@ Make a file to add the ASV with extra information, so it matches the fasta file 
 cat clean_list | sed -E 's/(.*)_samples(.*)/\1 \1_samples\2/g' > substitute.list
 ```
 
-Make a metadata file for ciliates using the R script metadata_ciliates.R. 
+Make a metadata file for ciliates using the R script `metadata_ciliates.R`. 
+
+### Assign ASVs to environments
+
+We used the biome, feature_material, and raw_env information to assign ASVs to six different environments: (1) Marine pelagic, (2) Marine benthic, (3) Soil, (4) Freshwater, (5) Inland saline/hypersaline, and (6) animal-associated environment. This information is in the file `biomes_to_envs.txt`.
+
+Add the environment information to the metadata file.
+
+```
+cat biomes_to_envs.txt| grep -v "Comments" | while read line; do biome=$(echo $line | cut -f 1); env=$(echo $line | cut -f 2); grep "$biome" metadata_ciliates.csv | sed -E 's/(.*)/\1,'$env'/' >> metadata_ciliates_env.csv; done
+```
 
 ### Extract soil ciliate ASVs
 
