@@ -229,8 +229,7 @@ Prune away the backbone taxa
 for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../eukbank_ASVs_removed.list ../eukbank_dated_trees/eukbank_"$i"; done
 ```
 
-
-
+We pruned away ASVs based on abundance, and created pruned trees for marine pelagic and soil. We have 2676 soil ASVs and 6355 marine pelagic. 
 
 
 
