@@ -8,9 +8,7 @@ The EukBank fasta file does not contain information about taxonomy, it only has 
 
 ```
 grep "Ciliophora" eukbank_18S_V4_asvs.tsv > Ciliate_taxo
-```
 
-```
 seqkit grep -r -f <(cut -f1 Ciliate_taxo) eukbank_18S_V4_asvs.fasta > eukbank_ciliate.fasta
 ```
 
