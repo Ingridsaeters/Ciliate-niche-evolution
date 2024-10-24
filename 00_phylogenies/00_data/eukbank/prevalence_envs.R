@@ -18,6 +18,7 @@ setwd("Ciliate-niche-evolution/00_phylogenies/00_data/eukbank/")
 ## Load packages
 library("dplyr")
 library("tidyr")
+library("stringr")
 
 
 ## 1. Add read counts (nreads) information to ciliate metadata file.
@@ -78,30 +79,45 @@ df <- df %>%
 
 
 ## 7. Add taxonomy
-taxo <- read.csv("asvs_group.tsv", header = TRUE, sep = "\t")
+### Create new column called Group which uses the string after the last underscore in each ASV name
+df$Group <- sub(".*_", "", df$ASV)
 
-df <- df %>% inner_join(taxo, by="ASV")
+### Replace empty cells with NA
+df[df==""] <- NA
+
+### We follow Rajter et al 2021 and assign several groups to other groups
+df$Group[df$Group == 'Cariacotrichea'] <- 'Armophorea'
+df$Group[df$Group == 'Licnophora'] <- 'Spirotrichea'
+df$Group[df$Group == 'Mesodiniidae'] <- 'Litostomatea'
+df$Group[df$Group == 'Microthoracida'] <- 'Nassophorea'
+df$Group[df$Group == 'Nassulida'] <- 'Nassophorea'
+df$Group[df$Group == 'Odontostomatea'] <- 'Armophorea'
+df$Group[df$Group == 'Paraspathidium'] <- 'Prostomatea'
 
 
-## 8. Write metadata file with quantitative prevalence in envs
+## 8. Add total number of samples for each ASV
+df$Num_Samples <- as.numeric(sub(".*_samples_(\\d+)_size_.*", "\\1", df$ASV))
+
+
+## 9. Write metadata file with quantitative prevalence in envs
 ## Write metadata file for ciliates (quantitative)
-df <- df %>% select(1, 9:15)
+df <- df %>% select(1, 9:16)
 
 write.table(df, file = "ciliate_env_prevalence.tsv", quote = FALSE, sep = "\t", row.names = FALSE)
 
 
-## 9. Generate metadata file with qualitative metadata on habitat
-df_qual <- df %>%
-  mutate(across(where(is.numeric), ~ ifelse(. == 0, "absent", "present")))
+## 10. Generate metadata file with qualitative metadata on habitat
+df_qual <- df 
+df_qual[, 2:7] <- lapply(df_qual[, 2:7], function(x) ifelse(x > 0, "present", "absent"))
 
 colnames(df_qual)
 
-colnames(df_qual)=c("ASV","marine_pelagic","marine_benthic","soil","freshwater","animal-associated","saline-hypersaline", "Group")
+colnames(df_qual)=c("ASV","marine_pelagic","marine_benthic","soil","freshwater","animal-associated","saline-hypersaline", "Group", "Num_Samples")
 
 write.table(df_qual, file = "ciliate_env_presence.tsv", quote = FALSE, sep = "\t", row.names = FALSE)
 
 
-## 9. Get list of soil and marine-pelagic ciliates
+## 11. Get list of soil and marine-pelagic ciliates
 ## ASVs are assumed to be belong to a habitat if 75% of the signal comes from that habitat
 
 marine <- df %>%
