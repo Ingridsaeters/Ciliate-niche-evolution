@@ -96,7 +96,7 @@ cat clean_list | sed -E 's/(.*)_samples(.*)/\1 \1_samples\2/g' > substitute.list
 
 Make a preliminary metadata file for ciliates using the R script `metadata_ciliates.R`. This file will be updated in the steps below to create the final metadata table for our ASVs. 
 
-### 1.4. Assign ASVs to environments
+### 1.3. Assign ASVs to environments
 
 We used the biome, feature_material, and raw_env information to assign ASVs to six different environments: (1) Marine pelagic, (2) Marine benthic, (3) Soil, (4) Freshwater, (5) Inland saline/hypersaline, and (6) animal-associated environment. This information is in the file [biomes_to_envs.txt](./eukbank/biomes_to_envs.txt).
 
@@ -106,9 +106,14 @@ Add the environment information to the metadata file.
 cat biomes_to_envs.txt| grep -v "Comments" | while read line; do biome=$(echo $line | cut -f 1); env=$(echo $line | cut -f 2); grep "$biome" metadata_ciliates.csv | sed -E 's/(.*)/\1,'$env'/' >> metadata_ciliates_env.csv; done
 ```
 
-We now have a file listing ASVs found in each sample, teh corresponding metdata.
+We now have a file listing ASVs found in each sample, the corresponding metadata, and the environment to which we assign the sample to (marine pelagic, marine benthic, soil, freshwater, inland saline/hypersaline, animal-associated). However, many ASVs can be found in multiple environments. We used a custom R script [prevalence_envs.R](./eukbank/prevalence_envs.R) to: 
 
-### Extract soil ciliate ASVs
+(1) Generate a presence-absence table indicating which ASVs are found in which environment. This table `ciliate_env_prevalence.tsv` is used in later steps to decorate the dated ciliate tree in anvio.
+
+(2) Generate lists of marine pelagic, and soil ASVs. An ASV is considered to belong to an enviornment if at least 75% of the signal stems from that environment.
+
+
+### Extract soil ciliate ASVs (FOR INGRID TO UPDATE - ALSO ADD MARINE PELAGIC ASVs HERE)
 
 Extract soil ciliate ASVs: 
 
@@ -131,11 +136,11 @@ seqkit grep -f <(cat metadata_soil_reduced | cut -f1 | sort | uniq) eukbank_cili
 Repeat for marine and feshwater. 
 
 
-## EukRibo 
+## 2. EukRibo 
 
 EukRibo is a database of reference small-subunit ribosomal RNA gene (18S rDNA) sequences of eukaryotes. It's aim is to represent a subset of highly trustable sequences covering the whole known diversity of eukaryotes, with a special focus on protists, manually veryfied taxonomic identifications, and relatively low level of redundancy. The dataset is composed of the V4 hypervariable region of the nuclear small submit rRNA gene, along with the associated metadata. The V4 region is widely-used to uncover the diversity and distributions of most of the major protistan taxa.
 
-### Extract data
+### 2.1. Extract ciliate sequences
 
 The EukRibo_ciliate.fasta file is derived from the 46346_EukRibo-02_full_seqs_2022-07-22.fas file in "EukRibo: a manually curated eukaryotic 18S rDNA reference database" (https://zenodo.org/record/6896896).
 
@@ -145,15 +150,15 @@ Extract ciliate sequences:
 seqkit grep -rp "Ciliophora" 46346_EukRibo-02_full_seqs_2022-07-22_nospace.fas > EukRibo_ciliate.fasta
 ```
 
-### Reduce redundancy - Construct a new EukRibo dataset with only unique ASVs
+### 2.2. Reduce redundancy - Construct a new EukRibo dataset with only unique sequences
 
-Reduce redundancy by constructing a new EukRibo dataset with unique ASVs. Check how many duplicate ASVs the dataset contains:
+Reduce redundancy by constructing a new EukRibo dataset with unique sequences. Check how many duplicate sequences the dataset contains:
 
 ```
 cat EukRibo_ciliate.formatted.fasta | grep ">" | sed -E 's/>.*_(Eukaryota.*)/\1/' | awk 'l[$0]++{d++}END{print d, "(lines are duplicates)"}'
 ```
 
-129 ASVs were duplicates.
+129 sequences were duplicates.
 
 Make a pattern file with headers for the unique ASVs:
 
@@ -181,13 +186,13 @@ Replace : with _ so that the file can be processed by RAxML.
 cat EukRibo_unique.fasta | tr ':' '_' > EukRibo_unique.formatted.fasta
 ```
 
-## PacBio
+## 3. Long-read metabarcoding data
 
-This dataset consists of more than 1,000 taxonomically annotated ciliate OTUs from marine, terrestrial, and freshwater habitats. The long-read data have increased phylogenetic signal, which can be used to infer robust backbone phylogenies onto which the V4 metabarcoding data can be placed.
+This dataset (derived from [Jamy et al 2022](https://doi.org/10.1038/s41559-022-01838-4) consists of more than 1,000 taxonomically annotated ciliate OTUs from marine, terrestrial, and freshwater habitats. The long-read data have increased phylogenetic signal, which can be used to infer robust backbone phylogenies onto which the V4 metabarcoding data can be placed.
 
-### long_read.18S
+### 3.1. long_read.18S
 
-The long_read.18S.ciliate.fasta file is derived from the long_read.18S.otus.fasta file which can be found in Data for "Global patterns and rates of habitat transitions across the eukaryotic tree of life" (https://figshare.com/articles/dataset/Global_patterns_and_rates_of_habotat_transitions_across_the_eukaryotic_tree_of_life/15164772).
+The `long_read.18S.ciliate.fasta` file is derived from the `long_read.18S.otus.fasta` file downloaded from  [Data for "Global patterns and rates of habitat transitions across the eukaryotic tree of life"](https://figshare.com/articles/dataset/Global_patterns_and_rates_of_habotat_transitions_across_the_eukaryotic_tree_of_life/15164772).
 
 Extract ciliate sequences: 
 
@@ -195,9 +200,9 @@ Extract ciliate sequences:
 seqkit grep -rp "Ciliophora" long_read.18S.otus.fasta > long_read.18S.ciliate.fasta
 ```
 
-### long_read.28S
+### 3.2. long_read.28S
 
-The long_read.28S.ciliate.fasta file is derived from the long_read.28S.otus.fasta file which can be found in Data for "Global patterns and rates of habitat transitions across the eukaryotic tree of life" (https://figshare.com/articles/dataset/Global_patterns_and_rates_of_habotat_transitions_across_the_eukaryotic_tree_of_life/15164772).
+The `long_read.28S.ciliate.fasta` file is derived from the `long_read.28S.otus.fasta` file downloaded from  [Data for "Global patterns and rates of habitat transitions across the eukaryotic tree of life"](https://figshare.com/articles/dataset/Global_patterns_and_rates_of_habotat_transitions_across_the_eukaryotic_tree_of_life/15164772).
 
 Extract ciliate sequences: 
 
@@ -205,11 +210,11 @@ Extract ciliate sequences:
 seqkit grep -rp "Ciliophora" long_read.28S.otus.fasta > long_read.28S.ciliate.fasta
 ```
 
-## Outgroup
+## 4. Outgroup
 
-My outgroup includes Dinoflagellates, Apicomplexa, Colpodellidea and Colponemids.
+The outgroup includes Dinoflagellates, Apicomplexa, Colpodellidea and Colponemids.
 
-### EukRibo
+### 4.1. EukRibo
 
 Make a list with all EukRibo sequences for the outgroup called outgroup.EukRibo.list. Extract corresponding fasta sequences: 
 
@@ -228,32 +233,26 @@ Replace : with _ so that the file can be processed by RAxML:
 cat outgroup.EukRibo.fasta | tr ':' '_' > outgroup.EukRibo.formatted.fasta
 ```
 
-### PacBio
+### 4.2. PacBio
 
 Make a list with all PacBio sequences for the outgroup called outgroup.LongRead.list. Extract corresponding fasta sequences: 
 
 ```
 grep -f outgroup.LongRead.list long_read.28S.otus.fasta | tr -d ">" > outgroup.LongRead28S.list
-```
-```
 seqkit grep -f outgroup.LongRead28S.list long_read.28S.otus.fasta > outgroup.long_read.28S.fasta
-```
-```
+
 grep -f outgroup.LongRead.list long_read.18S.otus.fasta | tr -d ">" > outgroup.LongRead18S.list
-```
-```
 seqkit grep -f outgroup.LongRead18S.list long_read.18S.otus.fasta > outgroup.long_read.18S.fasta
 ```
 
-## Concatenation
+## 5. Concatenation
 
 Concatenate all 18S files and all 28S files:
 
 ```
 cat EukRibo_unique.formatted.fasta long_read.18S.ciliate.fasta outgroup.EukRibo.formatted.fasta outgroup.long_
 read.18S.fasta > all.18S.fasta
-```
-```
+
 cat long_read.28S.ciliate.fasta outgroup.28S.fasta > all.28S.fasta
 ```
 
@@ -265,15 +264,12 @@ all.18S.fasta  FASTA   DNA      2,824  4,276,063      616  1,514.2   10,315
 all.28S.fasta  FASTA   DNA      1,181  3,013,144    1,500  2,551.3    4,449
 ```
 
-## Cluster sequences
+## 6. Cluster sequences
 
 To further reduce redundancy, cluster the concatenated 18S sequences with vsearch.     
 
-We chose a treshold of 100% to be conservative.
+We chose a threshold of 100% to be conservative.
 
-```
-conda install -c bioconda vsearch
-```
 ```
 vsearch --cluster_fast all.18S.fasta --threads 4 --id 1 --uc 18S.cluster100.uc --centroids 18S.cluster100.fasta
 ```
