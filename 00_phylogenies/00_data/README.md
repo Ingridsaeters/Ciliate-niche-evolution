@@ -1,8 +1,8 @@
 # Data
-## Eukbank
-Download data from EukBank: https://zenodo.org/records/7804946Download data from EukBank: https://zenodo.org/records/7804946  
+## 1. Eukbank (ASVs)
+Download data from EukBank: https://zenodo.org/records/7804946
 
-### Extract ciliate fasta sequences from EukBank
+### 1.1. Extract ciliate fasta sequences from EukBank
 
 The EukBank fasta file does not contain information about taxonomy, it only has information about amplicon-id and abundance. Extract ciliate headers from the taxonomy file to make a pattern file to extract ciliate fasta sequences.  
 
@@ -53,7 +53,7 @@ file                         format  type  num_seqs    sum_len  min_len  avg_len
 eukbank_ciliate_clean.fasta  FASTA   DNA     17,705  6,367,340      152    359.6      453
 ```
 
-### Extract metadata
+### 1.2. Extract corresponding metadata 
 
 Extract the following metadata:
 - sample
@@ -72,7 +72,7 @@ Extract the following metadata:
 cat eukbank_18S_V4_samples.tsv | cut -f1,6-14,16-17 > eukbank_18SV4_asv.subset.metadata
 ```
 
-### Extract ciliate ASVs
+### 1.3. Subset ASV table to retain only ciliate ASVs 
 
 Make a pattern file with ciliate fasta headers, to extract only the rows for ciliates from the ASV table.
 
