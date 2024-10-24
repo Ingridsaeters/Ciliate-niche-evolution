@@ -149,7 +149,7 @@ seqkit grep -f <(cat metadata_soil_reduced | cut -f1 | sort | uniq) eukbank_cili
 Repeat for marine and feshwater. 
 
 
-## 2. EukRibo 
+## 2. EukRibo (QUESTION FOR INGRID - DIDNT WE SPEND TIME RELABELLING SOME EUKRIBO SEQUENCES BASED ON TAXONOMY??)
 
 EukRibo is a database of reference small-subunit ribosomal RNA gene (18S rDNA) sequences of eukaryotes. It's aim is to represent a subset of highly trustable sequences covering the whole known diversity of eukaryotes, with a special focus on protists, manually veryfied taxonomic identifications, and relatively low level of redundancy. The dataset is composed of the V4 hypervariable region of the nuclear small submit rRNA gene, along with the associated metadata. The V4 region is widely-used to uncover the diversity and distributions of most of the major protistan taxa.
 
