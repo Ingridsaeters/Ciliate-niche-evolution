@@ -55,7 +55,7 @@ eukbank_ciliate_clean.fasta  FASTA   DNA     17,705  6,367,340      152    359.6
 
 ### 1.2. Extract corresponding metadata 
 
-Extract the following metadata:
+We are interested in the following metadata provided in the eukabnk file `eukbank_18S_V4_samples.tsv`:
 - sample
 - latitude
 - longitude
@@ -67,6 +67,8 @@ Extract the following metadata:
 - raw_env
 - temperature
 - salinity
+
+We keep only the columns containing this information.
 
 ```
 cat eukbank_18S_V4_samples.tsv | cut -f1,6-14,16-17 > eukbank_18SV4_asv.subset.metadata
