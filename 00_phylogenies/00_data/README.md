@@ -80,7 +80,7 @@ Make a pattern file with ciliate fasta headers, to extract only the rows for cil
 cat eukbank_ciliate_clean.fasta | grep ">" | cut -f1 -d ";" | tr -d ">" > ciliate_asvs.list
 ```
 
-The eukbank_18S_V4_counts.tsv file contains information about sample and amplicon. Make a list with only ciliate ampicons. 
+The eukbank_18S_V4_counts.tsv file contains information about sample and amplicon. Make a list with only ciliate amplicons. 
 
 ```
 grep -f ciliate_asvs.list eukbank_18S_V4_counts.tsv > sample_amplicon
@@ -92,9 +92,9 @@ Make a file to add the ASV with extra information, so it matches the fasta file 
 cat clean_list | sed -E 's/(.*)_samples(.*)/\1 \1_samples\2/g' > substitute.list
 ```
 
-Make a metadata file for ciliates using the R script `metadata_ciliates.R`. 
+Make a preliminary metadata file for ciliates using the R script `metadata_ciliates.R`. This file will be updated in the steps below to create the final metadata table for our ASVs. 
 
-### Assign ASVs to environments
+### 1.4. Assign ASVs to environments
 
 We used the biome, feature_material, and raw_env information to assign ASVs to six different environments: (1) Marine pelagic, (2) Marine benthic, (3) Soil, (4) Freshwater, (5) Inland saline/hypersaline, and (6) animal-associated environment. This information is in the file [biomes_to_envs.txt](./eukbank/biomes_to_envs.txt).
 
