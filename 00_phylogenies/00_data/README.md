@@ -74,7 +74,7 @@ We keep only the columns containing this information.
 cat eukbank_18S_V4_samples.tsv | cut -f1,6-14,16-17 > eukbank_18SV4_asv.subset.metadata
 ```
 
-### 1.3. Subset ASV table to retain only ciliate ASVs 
+### 1.3. FOR INGRID TO UPDATE (perhaps merge with previous section??)
 
 Make a pattern file with ciliate fasta headers, to extract only the rows for ciliates from the ASV table.
 
@@ -105,6 +105,8 @@ Add the environment information to the metadata file.
 ```
 cat biomes_to_envs.txt| grep -v "Comments" | while read line; do biome=$(echo $line | cut -f 1); env=$(echo $line | cut -f 2); grep "$biome" metadata_ciliates.csv | sed -E 's/(.*)/\1,'$env'/' >> metadata_ciliates_env.csv; done
 ```
+
+We now have a file listing ASVs found in each sample, teh corresponding metdata.
 
 ### Extract soil ciliate ASVs
 
