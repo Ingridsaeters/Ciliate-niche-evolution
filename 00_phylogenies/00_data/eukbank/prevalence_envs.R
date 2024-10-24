@@ -13,7 +13,7 @@
 # This information will be used to plot a stacked barplot around the ciliate ASV phylogeny.
 
 ## set working directory
-setwd("~/Documents/OneDrive/Postdoc/Projects/Ciliate-niche-evolution/00_phylogenies/00_data/eukbank/")
+setwd("Ciliate-niche-evolution/00_phylogenies/00_data/eukbank/")
 
 ## Load packages
 library("dplyr")
