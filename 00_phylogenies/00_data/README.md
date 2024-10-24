@@ -110,6 +110,21 @@ We now have a file listing ASVs found in each sample, the corresponding metadata
 
 (2) Generate lists of marine pelagic, and soil ASVs. An ASV is considered to belong to an enviornment if at least 75% of the signal stems from that environment.
 
+In order to do this, we also need the abundance of each ASV in every sample. We generate this file `ciliate_asvs_V4_counts.tsv` as follows:
+
+Download the file `eukbank_18S_V4_counts.tsv` from the eukbank Zenodo repository. 
+
+```
+## Subset counts file to get only ciliate ASVs
+
+awk 'NR==FNR{a[$1]} NR!=FNR{if ($1 in a){print $0}}' ciliate_asvs.list eukbank_18S_V4_counts.tsv > ciliate_asvs_V4_counts.tsv
+
+### Add amplicon column to metadata file. This will help in the next step to join the metadata file with the counts file.
+cat metadata_ciliates_env.csv| sed -E 's/(.*)(_samples.*)/\1,\1\2/' > csv
+mv csv > metadata_ciliates_env.csv 
+```
+
+Run `prevalence_envs.R` with the input files `ciliate_asvs_V4_counts.tsv` and `metadata_ciliates_env.csv`!
 
 ### Extract soil ciliate ASVs (FOR INGRID TO UPDATE - ALSO ADD MARINE PELAGIC ASVs HERE)
 
