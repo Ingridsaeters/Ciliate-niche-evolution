@@ -124,27 +124,9 @@ mv csv > metadata_ciliates_env.csv
 
 Run `prevalence_envs.R` with the input files `ciliate_asvs_V4_counts.tsv` and `metadata_ciliates_env.csv`!
 
-### Extract soil ciliate ASVs (FOR INGRID TO UPDATE - ALSO ADD MARINE PELAGIC ASVs HERE)
+### Make metadata files for soil and marine pelagic ASVs
 
-Extract soil ciliate ASVs: 
-
-```
-grep "soil" metadata_ciliates_formatted > metadata_soil
-```
-
-Exclude ASVs that does not have coordinates by removing rows if they contain "NA" in the columns for latitude and longitude: 
-
-```
-awk -F '\t' '$4$5~!/NA/' metadata_soil > metadata_soil_reduced
-```
-
-Extract unique soil fasta sequences:
-
-```
-seqkit grep -f <(cat metadata_soil_reduced | cut -f1 | sort | uniq) eukbank_ciliate_clean.fasta > soil/eukbank_ciliate_soil.fasta
-```
-
-Repeat for marine and feshwater. 
+Use the script subset_metadata.R to create separate metadata files for soil and marine pelagic ASVs. 
 
 
 ## 2. EukRibo (QUESTION FOR INGRID - DIDNT WE SPEND TIME RELABELLING SOME EUKRIBO SEQUENCES BASED ON TAXONOMY??)
