@@ -72,8 +72,6 @@ We keep only the columns containing this information.
 cat eukbank_18S_V4_samples.tsv | cut -f1,6-14,16-17 > eukbank_18SV4_asv.subset.metadata
 ```
 
-### 1.3. FOR INGRID TO UPDATE (perhaps merge with previous section??)
-
 Make a pattern file with ciliate fasta headers, to extract only the rows for ciliates from the ASV table.
 
 ```
