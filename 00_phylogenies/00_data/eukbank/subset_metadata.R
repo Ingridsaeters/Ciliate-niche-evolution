@@ -44,7 +44,7 @@ marine_list <- read_tsv("marine_pelagic_ASVs.list")
 metadata_marine <- merge(metadata, marine_list, by.x = "ASV", by.y = "ASV")
 
 ## Filter away ASVs that don't have the env "Marine_pelagic"
-metadata_marine_filtered <- metadata_marine[grep("Marine_pelagic", metadata_marine$env), ]
+metadata_marine_filtered <- metadata_marine[grep("Marine pelagic", metadata_marine$env), ]
 
 ## Write the file
 write_tsv(metadata_marine_filtered, "../data/metadata_marine_pelagic_filtered.tsv")
