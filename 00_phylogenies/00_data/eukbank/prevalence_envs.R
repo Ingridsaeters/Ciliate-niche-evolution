@@ -132,3 +132,32 @@ soil <- df %>%
   select(1)
 
 write.table(soil, file = "soil_ASVs.list", quote = FALSE, sep = "\t", row.names = FALSE)
+
+
+## 12. Create an UpSet plot to visualise how many ASVs are shared between environments
+
+upset_data <- df_qual
+
+# Convert presence/absence into binary format (1 = present, 0 = absent)
+upset_data$marine_pelagic <- ifelse(upset_data$marine_pelagic == "present", 1, 0)
+upset_data$marine_benthic <- ifelse(upset_data$marine_benthic == "present", 1, 0)
+upset_data$soil <- ifelse(upset_data$soil == "present", 1, 0)
+upset_data$freshwater <- ifelse(upset_data$freshwater == "present", 1, 0)
+upset_data$`animal-associated` <- ifelse(upset_data$`animal-associated` == "present", 1, 0)
+upset_data$`saline-hypersaline` <- ifelse(upset_data$`saline-hypersaline` == "present", 1, 0)
+
+# Select only the binary habitat columns for the UpSet plot
+upset_data <- upset_data[, c("marine_pelagic", "marine_benthic", "soil", "freshwater", "animal-associated", "saline-hypersaline")]
+
+colnames(upset_data)=c("marine_pelagic","marine_benthic","soil","freshwater","animal_associated","saline_hypersaline")
+
+## convert to dataframe as using a tibble gives an error
+upset_data <- as.data.frame(upset_data)
+
+# Generate the UpSet plot
+upset(upset_data, 
+      sets = c("marine_pelagic", "marine_benthic", "soil", "freshwater", "animal_associated", "saline_hypersaline"),
+      nsets = 6,
+      order.by = "freq", # Orders intersections by frequency
+      empty.intersections = "on") # Show all combinations, even those with zero counts
+
