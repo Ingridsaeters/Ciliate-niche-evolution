@@ -17,7 +17,6 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 ## To-do list
 
 ### To-do
-- Figure 1. *Mahwash*
 - Share metadata (temp, precip etc). *Ingrid*
 - Figure 2. *Mahwash*
 - Repeat all evolutionary analyses *Ingrid*
@@ -43,6 +42,7 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 - Share dated phylogenies with Ingrid. *Mahwash*
 - Prune away the backbone. *Ingrid*
 - Remove ASVs present in multiple habitats. *Ingrid*
+- Figure 1. *Mahwash*
 
 ### Notes/Ideas/etc  
 - Maybe exclude climate measurements outside 2-3 standard deviations as they could be due to "windblown" ciliates.
