@@ -17,7 +17,7 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 ## To-do list
 
 ### To-do
-- Share metadata (temp, precip etc). *Ingrid*
+
 - Figure 2. *Mahwash*
 - Repeat all evolutionary analyses *Ingrid*
 - How much of the ciliate niche conservatism is explained by biogeography? *Ingrid* (double check if okay)
@@ -43,6 +43,7 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 - Prune away the backbone. *Ingrid*
 - Remove ASVs present in multiple habitats. *Ingrid*
 - Figure 1. *Mahwash*
+- Share metadata (temp, precip etc). *Ingrid*
 
 ### Notes/Ideas/etc  
 - Maybe exclude climate measurements outside 2-3 standard deviations as they could be due to "windblown" ciliates.
