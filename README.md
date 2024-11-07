@@ -22,7 +22,6 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 - Repeat all evolutionary analyses *Ingrid*
 - How much of the ciliate niche conservatism is explained by biogeography? *Ingrid* (double check if okay)
 - Get data from https://doi.org/10.1098/rspb.2022.0091. *Mahwash*
-- How many ciliate species are there (terrestrial and marine)? *Mahwash*
 - Are marine results biased because of sinking particles? *Ingrid*
 
 ### In progress  
@@ -44,6 +43,7 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 - Remove ASVs present in multiple habitats. *Ingrid*
 - Figure 1. *Mahwash*
 - Share metadata (temp, precip etc). *Ingrid*
+- How many ciliate species are there (terrestrial and marine)? *Mahwash*
 
 ### Notes/Ideas/etc  
 - Maybe exclude climate measurements outside 2-3 standard deviations as they could be due to "windblown" ciliates.
