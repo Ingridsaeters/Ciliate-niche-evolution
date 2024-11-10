@@ -140,93 +140,13 @@ To comment out several lines at once in vim:
 2. Press :s/^/# / and hit enter
 3. To remove the yellow search line that comes up, press :nohl and hit enter
 
-## Extract soil, marine and frehwater trees
+## Extract soil and marine pelagic trees
 
-Make a list of all the soil ciliate ASVs in the tree. First, make a pattern file from the eukbank file. 
-
-```
-grep ">" eukbank_ciliate_soil.fasta | tr ";" "_" | tr -d ">" > eukbank_ciliate_soil.list
-```
-
-Format the pattern file, since "=" has been changed to _ in the trees. 
+Use the list of soil and marine pelagic ASVs to extract subtrees. 
 
 ```
-sed -E 's/(.*)_size=(.*)_tax=(.*)/\1/g' eukbank_ciliate_soil.list > eukbank_ciliate_soil.reduced.list
-```
-
-Extract ASV soil ciliate fasta sequences from the final alignment. 
-
-```
-seqkit grep -r -f eukbank_ciliate_soil.reduced.list all.18S28S.ciliate.final.fasta > all.18S28S.ciliate.soil.final.fasta
-```
-
-Make a pattern file of these sequences to prune the trees. 
-```
-grep ">" all.18S28S.ciliate.soil.final.fasta > soil.list
-cat soil.list | tr -d ">" > soil.formatted.list
-cat soil.formatted.list | sed -E 's/(.*)_samples=(.*)_size=(.*)_tax=(.*)/\1_samples_\2_size_\3_tax_\4/g' > soil.formatted.reduced.list
-```
-
-Repeat for marine and freshwater. There are 5964 marine, 2440 soil and 2106 freshwater ASVs. 
-
-## Find the ASVs present in multiple habitats
-
-```
-grep -Ff soil.formatted.reduced.list marine.formatted.reduced.list > overlapping_soil_marine
-grep -Ff soil.formatted.reduced.list freshwater.formatted.reduced.list > overlapping_soil_freshwater
-grep -Ff freshwater.formatted.reduced.list marine.formatted.reduced.list > overlapping_freshwater_marine
-cat overlapping_soil_marine overlapping_soil_freshwater overlapping_freshwater_marine > overlapping_all.list
-```
-
-There are 869 ASVs that are present in multiple habitats. Remove these from the files: 
-
-```
-grep -vf overlapping_all.list soil.formatted.reduced.list > soil_ASVs_removed.list
-grep -vf overlapping_all.list freshwater.formatted.reduced.list > freshwater_ASVs_removed.list
-grep -vf overlapping_all.list marine.formatted.reduced.list > marine_ASVs_removed.list
-```
-
-After removing the ASVs there are 5789 marine, 1746 soil, and 1237 freshwater ASVs. 
-
-Prune the trees: 
-```
-for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../soil_ASVs_removed.list ../soil_dated_trees/soil_"$i"; done
-for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../marine_ASVs_removed.list ../marine_dated_trees/marine_"$i"; done
-for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../freshwater_ASVs_removed.list ../freshwater_dated_trees/freshwater_"$i"; done
-```
-Do the same proceedure for marine and freshwater ASVs.
-
-## Prune away backbone taxa for complete trees
-
-First make a fasta file with all marine, soil and freshwater sequences
-
-```
-cat eukbank_ciliate_marine.fasta eukbank_ciliate_soil.fasta eukbank_ciliate_freshwater.fasta > eukbank.fasta
-```
-
-Then follow the steps from above
-
-```
-grep ">" eukbank.fasta | tr ";" "_" | tr -d ">" > eukbank_ciliate.list
-sed -E 's/(.*)_size=(.*)_tax=(.*)/\1/g' eukbank_ciliate.list > eukbank_ciliate.reduced.list
-seqkit grep -r -f eukbank_ciliate.reduced.list all.18S28S.ciliate.final.fasta > all.eukbank.ciliate.final.fasta
-grep ">" all.eukbank.ciliate.final.fasta > eukbank.list
-cat eukbank.list | tr -d ">" > eukbank.formatted.list
-cat eukbank.formatted.list | sed -E 's/(.*)_samples=(.*)_size=(.*)_tax=(.*)/\1_samples_\2_size_\3_tax_\4/g' > eukbank.formatted.reduced.list
-```
-
-Remove ASVs from multiple environments: 
-
-```
-grep -vf overlapping_all.list eukbank.formatted.reduced.list > eukbank_ASVs_removed.list
-```
-
-The full eukbank data is 8772 ASVs. 
-
-Prune away the backbone taxa
-
-```
-for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../eukbank_ASVs_removed.list ../eukbank_dated_trees/eukbank_"$i"; done
+for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../soil_ASVs.list ../soil_dated_trees/soil_"$i"; done
+for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../marine_pelagic_ASVs.list ../marine_dated_trees/marine_pelagic_"$i"; done
 ```
 
 We pruned away ASVs based on abundance, and created pruned trees for marine pelagic and soil. We have 2676 soil ASVs and 6355 marine pelagic. 
