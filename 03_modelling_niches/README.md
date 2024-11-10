@@ -1,4 +1,18 @@
 # Statistical analyses
+## Subtrees for clades
+Prune the trees to make subtrees for clades
+
+```
+for file in soil_all*; do python ../extract_clade.py "$file" Phyllopharyngea ../soil_clades/Phyllopharyngea."$file"; done;
+for file in soil_all*; do python ../extract_clade.py "$file" Colpodea ../soil_clades/Colpodea."$file"; done;
+for file in soil_all*; do python ../extract_clade.py "$file" Litostomatea ../soil_clades/Litostomatea."$file"; done;
+for file in soil_all*; do python ../extract_clade.py "$file" Oligohymenophorea ../soil_clades/Oligohymenophorea."$file"; done;
+for file in soil_all*; do python ../extract_clade.py "$file" Spirotrichea ../soil_clades/Spirotrichea."$file"; done;
+```
+
+For some variables (nitrogen, ph, carbon and soil temperature) there isnt any trait information. Make pruned trees to run analyses for these variables. 
+
+
 ## Phylogenetic signal
 Phylogenetic signal is the tendency of closely related species to have more similar traits than expected by chance. Test this using Pagels lambda and mantel test. 
 ### Pagels lambda
