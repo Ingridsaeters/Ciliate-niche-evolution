@@ -12,6 +12,8 @@ for file in soil_all*; do python ../extract_clade.py "$file" Spirotrichea ../soi
 
 For some variables (nitrogen, ph, carbon and soil temperature) there isnt any trait information. Make pruned trees to run analyses for these variables. 
 
+We have trait information for 4086 marine pelagic ASVs. Prune the trees to cover these ASVs. 
+
 
 ## Phylogenetic signal
 Phylogenetic signal is the tendency of closely related species to have more similar traits than expected by chance. Test this using Pagels lambda and mantel test. 
