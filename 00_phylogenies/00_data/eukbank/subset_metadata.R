@@ -48,3 +48,9 @@ metadata_marine_filtered <- metadata_marine[grep("Marine pelagic", metadata_mari
 
 ## Write the file
 write_tsv(metadata_marine_filtered, "../data/metadata_marine_pelagic_filtered.tsv")
+
+# Make a metadata file with only surface samples (0-8m depth)
+metadata_surface <- subset(metadata_marine_filtered, metadata_marine_filtered$depth <8)
+
+## Write the file
+write_tsv(metadata_surface, "../data/metadata_marine_pelagic_surface.tsv")
