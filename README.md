@@ -19,8 +19,18 @@ Each directory contains a README.md file with detailed pipelines and correspondi
 ### To-do
 
 - Figure 2. *Mahwash*
+- How much of the ciliate niche conservatism is explained by biogeography? *Mahwash*
+  - Globally marine (global scale)
+    - Tintinnids vs the rest?
+  - Globally terrestrial (global scale)
+  - Marine basins (regional scale)
+  - Terrestrial realms (regional scale)
+- Mode of niche evolution with single regime models *Ingrid*
+  - Marine euphotic/surface (globally) - large groups
+  - Soil (globally) - large groups
+  - Marine aphotic (globally) - large groups
+  - 
 - Repeat all evolutionary analyses *Ingrid*
-- How much of the ciliate niche conservatism is explained by biogeography? *Ingrid* (double check if okay)
 - Get data from https://doi.org/10.1098/rspb.2022.0091. *Mahwash*
 - Are marine results biased because of sinking particles? *Ingrid*
 
