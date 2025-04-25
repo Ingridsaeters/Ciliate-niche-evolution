@@ -29,8 +29,8 @@ The mantel test is a model-free test that examines the correlation between two d
 ### Standard models of evolution: 
 - Brownian motion: This is a "random walk" model, because the trait value changes randomly, in both direction and distance, over any time interval.
 - Ornstein Uhlenbeck: This model assues that a character is evolving towards an optimal value. The character evolves stochastically according to a drift parameter, and is pulled towards the optimum by the rate of adaption, alpha. Since alpha determines how strongly the character is pulled towards the optimum value, it is often called the "rubber band" parameter.
-- Early Burst: This model assumes an initial rapid evolution of the trait value, followed by a reduction of diversification rates.
-- Late burst: This model assumes rapid evolution after relative stasis/low diversification rates. 
+- Early Burst: This model assumes an initial rapid evolution of the trait value, followed by a reduction of evolutionary rates.
+- Late burst: This model assumes rapid evolution after relative stasis/low evolutionary rates. 
 
 ### Mode of evolution 
 Test the standard models of evolution (Brownian motion, Ornstein Uhlenbeck, Early burst and Late Burst) for each combination of trait and tree, to see which model fits the data best. Use the R scripts model_comparison_BM_OU_EB.R and model_comparison_PC_BM_OU_EB.R to test Brownian Motion, Ornstein Uhlenbeck and Early Burst. Use the R scripts model_comparison_ddexp.R and model_comparison_PC_ddexp.R to test for a Late Burst. ddEXP is an exponential diversity dependant model where evolutionary rates either increase or decrease exponentially with accumulation of species diversity in the clade. Exponential increase can be characterized as "Late Burst", and exponential decrease as "Early Burst". Use the script plot_best_model.R to make a visualization with best model. 
