@@ -126,7 +126,7 @@ Run `prevalence_envs.R` with the input files `ciliate_asvs_V4_counts.tsv` and `m
 
 ### Make metadata files for soil and marine pelagic ASVs
 
-After constructing phylogenies, use the script subset_metadata.R to create separate metadata files for soil and marine pelagic ASVs. The list files are based on the marine pelagic and soil ASVs that are in the final phylogenies. 
+After constructing phylogenies, use the script `subset_metadata.R` to create separate metadata files for soil and marine pelagic ASVs. The list files are based on the marine pelagic and soil ASVs that are in the final phylogenies. 
 
 
 ## 2. EukRibo (QUESTION FOR INGRID - DIDNT WE SPEND TIME RELABELLING SOME EUKRIBO SEQUENCES BASED ON TAXONOMY??)
