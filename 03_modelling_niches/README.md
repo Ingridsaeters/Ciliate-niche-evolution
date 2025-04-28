@@ -1,4 +1,4 @@
-# Statistical analyses
+# Modelling niche evolution
 ## Subtrees for clades
 Prune the trees to make subtrees for clades
 
