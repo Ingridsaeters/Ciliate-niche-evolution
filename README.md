@@ -1,5 +1,7 @@
 # Ciliate-niche-evolution
 
+This repository contains the pipelines and scripts used for investigating patterns and rates of ecological niche evolution in ciliates. 
+
 ## Directories
 
 ```
@@ -12,7 +14,8 @@
 
 Each directory contains a README.md file with detailed pipelines and corresponding scripts. 
 
-<put link to google doc>
+## 00_phylogenies
+Here we inferred reference backbone phylogenies and ASV phylogenies. 
 
 ## To-do list
 
