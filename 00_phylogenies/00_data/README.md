@@ -99,7 +99,7 @@ We used the biome, feature_material, and raw_env information to assign ASVs to s
 Add the environment information to the metadata file.
 
 ```
-cat biomes_to_envs.txt| grep -v "Comments" | while read line; do biome=$(echo $line | cut -f 1); env=$(echo $line | cut -f 2); grep "$biome" metadata_ciliates.csv | sed -E 's/(.*)/\1,'$env'/' >> metadata_ciliates_env.csv; done
+cat biomes_to_envs.txt| grep -v "Comments" | while read line; do biome=$(echo $line | cut -f 1); env=$(echo $line | cut -f 2); grep "$biome" metadata_ciliates.csv | sed -E 's/(.*)/\1, $env/' >> metadata_ciliates_env.csv; done
 ```
 
 We now have a file listing ASVs found in each sample, the corresponding metadata, and the environment to which we assign the sample to (marine pelagic, marine benthic, soil, freshwater, inland saline/hypersaline, animal-associated). However, many ASVs can be found in multiple environments. We used a custom R script [prevalence_envs.R](./eukbank/prevalence_envs.R) to: 
