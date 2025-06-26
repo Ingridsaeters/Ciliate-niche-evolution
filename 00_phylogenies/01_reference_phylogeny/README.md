@@ -142,7 +142,7 @@ To check that the correct number of headers had been changed, the following comm
 diff <(cat all.18S28S.headers.tsv3 | grep ">" | sort)  <(cat all.18S28S.headers.tsv4 | grep ">" | sort) | grep "^>" | awk -F\> '{print $3}' | wc -l
 ```
 
-The > character was removed from the tsv file, and the replace_fasta_header.pl script was run. 
+The > character was removed from the tsv file, and the replace_fasta_header.pl script was run, creating the file all.18S28S.replaced.fasta.
 
 We also noted the following:
 1. Odontostomatida - In the EukRibo dataset, the group is in SAL (no further group specified). But in Adl et al, we see that Odontostomatida are placed within Armophorea. In our phylogenies, the group falls within Litostomatea.
