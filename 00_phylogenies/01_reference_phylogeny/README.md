@@ -70,7 +70,7 @@ Check if the 18S file and 28S file have the same number of sequences. Some might
 
 ```
 diff <(cat all.18S.aligned.trimal99.5.formatted.fasta | grep ">" | sort)  <(cat all.28S.aligned.trimal99.5.formatted.fasta | grep ">" | sort) | grep "^>" | awk -F\> '{print $3}' > difference.list
-wc -l differece.list
+wc -l difference.list
 ```
 
 Remove these sequences from the 28S file, using the filter_fasta_by_list_of_headers.py python script (this requires that biopython is installed):
