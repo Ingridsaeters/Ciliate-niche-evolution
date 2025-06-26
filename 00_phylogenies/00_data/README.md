@@ -148,7 +148,7 @@ seqkit grep -rp "Ciliophora" 46346_EukRibo-02_full_seqs_2022-07-22_nospace.fas >
 Reduce redundancy by constructing a new EukRibo dataset with unique sequences. Check how many duplicate sequences the dataset contains:
 
 ```
-cat EukRibo_ciliate.formatted.fasta | grep ">" | sed -E 's/>.*_(Eukaryota.*)/\1/' | awk 'l[$0]++{d++}END{print d, "(lines are duplicates)"}'
+cat EukRibo_ciliate.fasta | grep ">" | sed -E 's/>.*_(Eukaryota.*)/\1/' | awk 'l[$0]++{d++}END{print d, "(lines are duplicates)"}'
 ```
 
 129 sequences were duplicates.
@@ -156,19 +156,19 @@ cat EukRibo_ciliate.formatted.fasta | grep ">" | sed -E 's/>.*_(Eukaryota.*)/\1/
 Make a pattern file with headers for the unique ASVs:
 
 ```
-cat EukRibo_ciliate.formatted.fasta | grep ">" | sed -E 's/>.*_(Eukaryota.*)/\1/' | sort -u > EukRibo_unique
+cat EukRibo_ciliate.fasta | grep ">" | sed -E 's/>.*_(Eukaryota.*)/\1/' | sort -u > EukRibo_unique
 ```
 
 Add accession numbers to the pattern file: 
 
 ```
-cat EukRibo_unique | while read line; do grep -m1 "$line" EukRibo_ciliate.formatted.fasta; done | tr -d ">" > EukRibo_unique_headers
+cat EukRibo_unique | while read line; do grep -m1 "$line" EukRibo_ciliate.fasta; done | tr -d ">" > EukRibo_unique_headers
 ```
 
 Use pattern file to extract unique ASVs: 
 
 ```
-seqkit grep -f EukRibo_unique_headers EukRibo_ciliate.formatted.fasta > EukRibo_unique.fasta
+seqkit grep -f EukRibo_unique_headers EukRibo_ciliate.fasta > EukRibo_unique.fasta
 ```
 
 ### Format fasta headers
