@@ -34,6 +34,8 @@
 |Particulate Organic Carbon  (POC, mol.m-3) | GMED | 4km |
 |Total Suspended Matter (TSM, g m-3)  | GMED | 4km |
 
+Iron is not part of any of these datasets, and we were unable to find a good source for global iron values. 
+
 ## Remove ASVs found in multiple environments
 
 Remove the ASVs found in multiple environments from the metadata files using the script remove_ASVs_in_multiple_environments.R. 
