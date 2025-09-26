@@ -149,7 +149,7 @@ for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../soil_ASVs.list 
 for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../marine_pelagic_ASVs.list ../marine_dated_trees/marine_pelagic_"$i"; done
 ```
 
-We pruned away ASVs based on abundance, and created pruned trees for marine pelagic and soil. We have 2676 soil ASVs and 6355 marine pelagic (these were pruned down to 4041, as there was not trait information for all of them). We also extracted only the surface marine ASVs (0-8m depth), giving 3090 ASVs (see 00_phylogenies/00_data step/subset_metadata.R). 
+We pruned away ASVs based on abundance, and created pruned trees for marine pelagic and soil. We have 2676 soil ASVs and 6355 marine pelagic (these were pruned down to 4041, as there was not trait information for all of them). We also extracted only the surface marine ASVs (0-8m depth), giving 3090 ASVs (see 00_phylogenies/00_data/subset_metadata.R). 
 
 We made seperate trees for each clade. 
 
