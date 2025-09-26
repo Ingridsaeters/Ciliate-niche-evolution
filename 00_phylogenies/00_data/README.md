@@ -124,7 +124,7 @@ mv csv > metadata_ciliates_env.csv
 
 Run `prevalence_envs.R` with the input files `ciliate_asvs_V4_counts.tsv` and `metadata_ciliates_env.csv`!
 
-### Make metadata files for soil and marine pelagic ASVs
+### Make metadata files for soil, marine pelagic and marine surface ASVs
 
 After constructing phylogenies, use the script `subset_metadata.R` to create separate metadata files for soil, marine pelagic ASVs and marine surface ASVs (0-8m). The list files are based on the marine pelagic and soil ASVs that are in the final phylogenies. 
 
