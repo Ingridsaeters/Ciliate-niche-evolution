@@ -12,6 +12,7 @@
 #=================#
 
 ### Download WOA data from: https://www.ncei.noaa.gov/access/world-ocean-atlas-2018/
+### Repeat analysis for marine surface only
 
 # Setup ----
 #___________
@@ -312,4 +313,5 @@ WOA_clean[columns_to_process] <- lapply(WOA_clean[columns_to_process], function(
 # Write the file ----
 #____________________
 write_tsv(WOA_clean, "WOA.tsv")
+
 
