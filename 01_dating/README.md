@@ -142,7 +142,7 @@ To comment out several lines at once in vim:
 
 ## Extract soil and marine pelagic trees
 
-Use the list of soil and marine pelagic ASVs to extract subtrees (these were generated in 00_phylogenies/00_data step/prevelance_envs.R). 
+Use the list of soil and marine pelagic ASVs to extract subtrees (these were generated in 00_phylogenies/00_data/prevelance_envs.R). 
 
 ```
 for i in *.tree.treepl.dated.tre; do python ../prune.py $i ../../soil_ASVs.list ../soil_dated_trees/soil_"$i"; done
