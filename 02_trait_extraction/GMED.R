@@ -12,6 +12,7 @@
 #=================#
 
 ### Download GMED data from: https://gmed.auckland.ac.nz/download.html 
+### Repeat analysis for marine surface only
 
 # Setup ----
 #___________
@@ -117,3 +118,4 @@ GMED$tsm<-raster::extract(r_tsm, points)
 # Write the file ----
 #____________________
 write_tsv(GMED, "GMED.tsv")
+
